@@ -1,0 +1,6 @@
+results/runs/
+__pycache__/
+*.pyc
+*.log
+.DS_Store
+results/FINDINGS.rejected.md

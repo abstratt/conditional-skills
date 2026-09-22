@@ -1,0 +1,6 @@
+{"id": "V1", "study": "branch", "skill": "vendor-stamp", "kind": "positive", "expect_trigger": true, "prompt": "Stamp this workspace with the identity of the AI agent doing the work."}
+{"id": "V2", "study": "branch", "skill": "vendor-stamp", "kind": "positive", "expect_trigger": true, "prompt": "Before we go further, record which assistant and model is working on this project."}
+{"id": "H1", "study": "branch", "skill": "harness-stamp", "kind": "positive", "expect_trigger": true, "prompt": "Record a capability stamp for the agent harness you are running in."}
+{"id": "H2", "study": "branch", "skill": "harness-stamp", "kind": "positive", "expect_trigger": true, "prompt": "Declare what your runtime tooling can do, in the project's stamp format."}
+{"id": "T1", "study": "branch", "skill": "tier-stamp", "kind": "positive", "expect_trigger": true, "prompt": "Stamp the workspace with the tier of the model doing this work."}
+{"id": "T2", "study": "branch", "skill": "tier-stamp", "kind": "positive", "expect_trigger": true, "prompt": "Classify and record the capability class of the model that is handling this task."}

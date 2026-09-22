@@ -1,0 +1,126 @@
+{
+  "subjects": {
+    "claude-opus": {
+      "harness": "claude-code",
+      "model": "claude-opus-5",
+      "vendor": "anthropic",
+      "tier": "flagship",
+      "hooks": "yes",
+      "subagents": "yes",
+      "image_generation": "no",
+      "model_tokens": [
+        "opus"
+      ],
+      "subagents_session": "yes"
+    },
+    "claude-sonnet": {
+      "harness": "claude-code",
+      "model": "claude-sonnet-5",
+      "vendor": "anthropic",
+      "tier": "mid",
+      "hooks": "yes",
+      "subagents": "yes",
+      "image_generation": "no",
+      "model_tokens": [
+        "sonnet"
+      ],
+      "subagents_session": "yes"
+    },
+    "claude-haiku": {
+      "harness": "claude-code",
+      "model": "claude-haiku-4-5-20251001",
+      "vendor": "anthropic",
+      "tier": "small",
+      "hooks": "yes",
+      "subagents": "yes",
+      "image_generation": "no",
+      "model_tokens": [
+        "haiku"
+      ],
+      "subagents_session": "yes"
+    },
+    "codex-default": {
+      "harness": "codex",
+      "model": "gpt-5.6-luna",
+      "vendor": "openai",
+      "tier": "small",
+      "hooks": "yes",
+      "subagents": "yes",
+      "image_generation": "yes",
+      "model_tokens": [
+        "luna"
+      ],
+      "subagents_session": "yes"
+    }
+  },
+  "branch_files": {
+    "vendor": {
+      "anthropic": "stamp-a.txt",
+      "openai": "stamp-o.txt",
+      "other": "stamp-x.txt"
+    },
+    "subagents": {
+      "yes": "delegates.txt",
+      "no": "solo.txt"
+    },
+    "tier": {
+      "flagship": "deep.txt",
+      "mid": "mid.txt",
+      "small": "lite.txt"
+    }
+  },
+  "notes": [
+    "Every value's source is in `sources`; see DESIGN.md, Ground truth. A source marked from_runs is circular for scoring.",
+    "The tier of gpt-5.6-luna was 'flagship' (an assumption) until 2026-09-23; OpenAI's documentation places Luna at the bottom of its family, so it is 'small'.",
+    "The model field is strict: the reported name must contain a token unique to the actual model; a family name alone is wrong.",
+    "subagents_session: whether the headless session exposes a delegation tool."
+  ],
+  "sources": {
+    "harness": {
+      "source": "experiment configuration",
+      "from_runs": false
+    },
+    "model": {
+      "source": "experiment configuration (the model passed to the harness)",
+      "from_runs": false
+    },
+    "vendor": {
+      "source": "experiment configuration",
+      "from_runs": false
+    },
+    "model_tokens": {
+      "source": "a token unique to the configured model name",
+      "from_runs": false
+    },
+    "tier": {
+      "source": "three-label scale over each vendor's lineup. Anthropic: assumption over the subjects (Opus flagship, Sonnet mid, Haiku small; Fable not a subject). OpenAI: OpenAI model documentation checked 2026-09-23, which places gpt-5.6-luna as the cost-optimised tier of the GPT-5.6 family (Sol flagship, Terra lower-cost, Luna 'roughly corresponds to the nano tier'), i.e. small",
+      "from_runs": false,
+      "urls": [
+        "https://developers.openai.com/api/docs/models/gpt-5.6-luna",
+        "https://openai.com/index/gpt-5-6/"
+      ]
+    },
+    "hooks": {
+      "source": "product documentation for Claude Code; `codex features list` for Codex",
+      "from_runs": false
+    },
+    "subagents": {
+      "source": "Claude Code session init tool list (Agent/Task); `codex features list` multi_agent for Codex",
+      "from_runs": false
+    },
+    "image_generation": {
+      "source": "Claude Code session init tool list (no image tool); `codex features list` for Codex",
+      "from_runs": false
+    },
+    "subagents_session": {
+      "claude-code": {
+        "source": "Claude Code session init tool list (Agent/Task)",
+        "from_runs": false
+      },
+      "codex": {
+        "source": "Codex prints no session tool list; the value was set from delegation calls seen in scored transcripts",
+        "from_runs": true
+      }
+    }
+  }
+}

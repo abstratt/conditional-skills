@@ -1,0 +1,481 @@
+{
+  "baseline-default-is-flagship-branch": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "k": 24,
+      "n": 24
+    }
+  },
+  "capability-from-knowledge-claude": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "k": 36,
+      "n": 36
+    }
+  },
+  "capability-from-knowledge-codex": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "n": 12,
+      "patterns": 4
+    }
+  },
+  "capability-from-tools-claude": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "k": 54,
+      "n": 54
+    }
+  },
+  "capability-from-tools-codex-partial": {
+    "holds": true,
+    "kind": "inferred",
+    "question": "branching",
+    "values": {
+      "consistent": 18,
+      "k": 7,
+      "n": 18
+    }
+  },
+  "codex-overclaims-under-both-incentives": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "feat": "18 of 18",
+      "guid": "18 of 18",
+      "n": 48,
+      "over": 48
+    }
+  },
+  "delegation-costs-more": {
+    "holds": true,
+    "kind": "observed",
+    "question": "efficiency",
+    "values": {
+      "rows": [
+        [
+          "subject",
+          "delegated",
+          "not delegated"
+        ],
+        [
+          "claude-opus",
+          "81k",
+          "60k"
+        ],
+        [
+          "claude-sonnet",
+          "140k",
+          "75k"
+        ],
+        [
+          "claude-haiku",
+          "123k",
+          "57k"
+        ],
+        [
+          "codex-default",
+          "199k",
+          "79k"
+        ]
+      ],
+      "table": "claude-opus 81k vs 60k; claude-sonnet 140k vs 75k; claude-haiku 123k vs 57k; codex-default 199k vs 79k"
+    }
+  },
+  "delegation-no-quality-gain": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "b": 18,
+      "bn": 18,
+      "s": 53,
+      "sn": 54
+    }
+  },
+  "delivery-no-whole-cell-difference-once-loaded": {
+    "holds": true,
+    "kind": "observed",
+    "question": "portability",
+    "values": {
+      "cell": 6,
+      "maxdiff": 2
+    }
+  },
+  "guidance-skipped-by-codex": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "k": 18,
+      "n": 18
+    }
+  },
+  "haiku-label-contradicts-transcript": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "k": 2,
+      "n": 18
+    }
+  },
+  "haiku-skips-feature-skills-natively": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "n": 12,
+      "others": 180,
+      "othersn": 180,
+      "p": 10,
+      "pn": 12
+    }
+  },
+  "inline-cheapest-delivery": {
+    "holds": true,
+    "kind": "observed",
+    "question": "efficiency",
+    "values": {
+      "rows": [
+        [
+          "subject",
+          "inline",
+          "native",
+          "pointer"
+        ],
+        [
+          "claude-opus",
+          "40k",
+          "52k",
+          "53k"
+        ],
+        [
+          "claude-sonnet",
+          "89k",
+          "128k",
+          "139k"
+        ],
+        [
+          "claude-haiku",
+          "66k",
+          "84k",
+          "92k"
+        ],
+        [
+          "codex-default",
+          "60k",
+          "72k",
+          "63k"
+        ]
+      ],
+      "table": "claude-opus inline 40k, native 52k, pointer 53k; claude-sonnet inline 89k, native 128k, pointer 139k; claude-haiku inline 66k, native 84k, pointer 92k; codex-default inline 60k, native 72k, pointer 63k"
+    }
+  },
+  "inline-removes-haiku-loading-failure": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "k": 12,
+      "n": 12
+    }
+  },
+  "lighter-branch-cheaper": {
+    "holds": true,
+    "kind": "observed",
+    "question": "efficiency",
+    "values": {
+      "rows": [
+        [
+          "subject",
+          "light branch",
+          "heavy branch"
+        ],
+        [
+          "claude-opus",
+          "69k (tiered-guidance)",
+          "125k (tiered-feature)"
+        ],
+        [
+          "codex-default",
+          "82k (tiered-guidance)",
+          "130k (tiered-feature)"
+        ],
+        [
+          "claude-haiku",
+          "133k (tiered-feature)",
+          "255k (tiered-guidance)"
+        ]
+      ],
+      "table": "claude-opus light 69k vs heavy 125k; codex-default light 82k vs heavy 130k; claude-haiku light 133k vs heavy 255k"
+    }
+  },
+  "model-version-claude": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "correct": 36,
+      "n": 36
+    }
+  },
+  "model-version-codex": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "answers": "gpt-5: 12",
+      "n": 12
+    }
+  },
+  "not-portable-capability-from-knowledge": {
+    "holds": true,
+    "kind": "observed",
+    "question": "portability",
+    "values": {
+      "ck": 36,
+      "cn": 36,
+      "on": 12
+    }
+  },
+  "not-portable-tier": {
+    "holds": true,
+    "kind": "observed",
+    "question": "portability",
+    "values": {
+      "ck": 130,
+      "cn": 130,
+      "on": 48
+    }
+  },
+  "not-portable-version": {
+    "holds": true,
+    "kind": "observed",
+    "question": "portability",
+    "values": {
+      "ck": 36,
+      "cn": 36,
+      "on": 12
+    }
+  },
+  "partially-portable-capability-from-tools": {
+    "holds": true,
+    "kind": "inferred",
+    "question": "portability",
+    "values": {
+      "ck": 54,
+      "cn": 54,
+      "ok": 7,
+      "on": 18
+    }
+  },
+  "pointer-delivery-portable": {
+    "holds": true,
+    "kind": "observed",
+    "question": "portability",
+    "values": {
+      "k": 118,
+      "n": 120,
+      "nk": 108,
+      "nn": 120
+    }
+  },
+  "pointer-vs-native-cost": {
+    "holds": true,
+    "kind": "observed",
+    "question": "efficiency",
+    "values": {
+      "claude": "claude-opus 53k vs 52k; claude-sonnet 139k vs 128k; claude-haiku 92k vs 84k",
+      "codex": "63k vs 72k"
+    }
+  },
+  "portable-identity": {
+    "holds": true,
+    "kind": "observed",
+    "question": "portability",
+    "values": {
+      "ck": 36,
+      "cn": 36,
+      "ok": 12,
+      "on": 12
+    }
+  },
+  "review-baseline-no-delegation": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "n": 24
+    }
+  },
+  "skill-overhead-tokens": {
+    "holds": true,
+    "kind": "observed",
+    "question": "efficiency",
+    "values": {
+      "rows": [
+        [
+          "subject",
+          "with skill (native)",
+          "no skill",
+          "ratio",
+          "runs"
+        ],
+        [
+          "claude-opus",
+          "92k",
+          "59k",
+          "1.6x",
+          "18 vs 12"
+        ],
+        [
+          "claude-sonnet",
+          "215k",
+          "85k",
+          "2.5x",
+          "18 vs 12"
+        ],
+        [
+          "claude-haiku",
+          "127k",
+          "57k",
+          "2.2x",
+          "6 vs 6"
+        ],
+        [
+          "codex-default",
+          "129k",
+          "60k",
+          "2.2x",
+          "18 vs 12"
+        ]
+      ],
+      "table": "claude-opus 92k vs 59k (1.6x, n=18 vs 12); claude-sonnet 215k vs 85k (2.5x, n=18 vs 12); claude-haiku 127k vs 57k (2.2x, n=6 vs 6); codex-default 129k vs 60k (2.2x, n=18 vs 12)"
+    }
+  },
+  "skill-overhead-tool-invocations": {
+    "holds": true,
+    "kind": "observed",
+    "question": "efficiency",
+    "values": {
+      "rows": [
+        [
+          "subject",
+          "with skill (native)",
+          "no skill",
+          "runs"
+        ],
+        [
+          "claude-opus",
+          "5.4",
+          "2.4",
+          "18 vs 12"
+        ],
+        [
+          "claude-sonnet",
+          "7.9",
+          "2.0",
+          "18 vs 12"
+        ],
+        [
+          "claude-haiku",
+          "6.7",
+          "3.8",
+          "6 vs 6"
+        ],
+        [
+          "codex-default",
+          "9.2",
+          "4.1",
+          "18 vs 12"
+        ]
+      ],
+      "table": "claude-opus 5.4 vs 2.4 (n=18 vs 12); claude-sonnet 7.9 vs 2.0 (n=18 vs 12); claude-haiku 6.7 vs 3.8 (n=6 vs 6); codex-default 9.2 vs 4.1 (n=18 vs 12)"
+    }
+  },
+  "tier-claude-correct": {
+    "holds": true,
+    "kind": "assumed",
+    "question": "branching",
+    "values": {
+      "correct": 130,
+      "n": 130
+    }
+  },
+  "tier-codex-incorrect": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "answers": "flagship: 46, mid: 2",
+      "n": 48
+    }
+  },
+  "tier-codex-varies": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "answers": "flagship: 46, mid: 2",
+      "distinct": 2,
+      "searched": 3
+    }
+  },
+  "tier-no-inflation-claude": {
+    "holds": true,
+    "kind": "assumed",
+    "question": "branching",
+    "values": {
+      "n": 30,
+      "same": 30
+    }
+  },
+  "tier-stable-claude": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "n": 130,
+      "subjects": 3
+    }
+  },
+  "vendor-harness-correct": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "correct": 48,
+      "n": 48,
+      "subjects": 4
+    }
+  },
+  "work-adding-branches-changed-behaviour": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "b": 24,
+      "k": 84,
+      "n": 84
+    }
+  },
+  "work-matches-report": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "k": 130,
+      "n": 130
+    }
+  }
+}
