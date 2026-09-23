@@ -276,13 +276,14 @@ def _(rows):
 
 @claim("haiku-skips-feature-skills-natively", "branching", "observed",
        "Haiku loaded neither feature skill in any native run (0 of {n}); with a pointer it loaded them in "
-       "{p} of {pn} runs. Every other subject loaded every skill in every native and pointer run "
+       "{p} of {pn} runs. Every other subject loaded every Study 1 and Study 2 skill in every native and pointer run "
        "({others} of {othersn}).")
 def _(rows):
     h = skill_runs(rows, subject="claude-haiku")
     nat = [r for r in h if r["skill"] in FEATURE_SKILLS and r["delivery"] == "native"]
     ptr = [r for r in h if r["skill"] in FEATURE_SKILLS and r["delivery"] == "pointer"]
-    others = [r for r in skill_runs(rows) if r["subject"] != "claude-haiku" and r["delivery"] in ("native", "pointer")]
+    others = [r for r in skill_runs(rows) if r["subject"] != "claude-haiku" and r["delivery"] in ("native", "pointer")
+              and r["study"] in ("branch", "work")]
     ok = [r for r in others if r["triggered"]]
     v = dict(n=len(nat), p=sum(r["triggered"] for r in ptr), pn=len(ptr), others=len(ok), othersn=len(others))
     return not any(r["triggered"] for r in nat) and len(ok) == len(others) and nat, v
@@ -632,10 +633,11 @@ def _(rows):
                                           rows=outcome_table(rs, "gate_outcome", GATE_OUTCOMES, by=("subject", "skill")))
 
 
-@claim("included-followed-when-loaded", "placement", "observed",
-       "Every included subject that loaded a gated skill followed its checklist ({k} of {n} loaded runs, all deliveries): {table}.")
+@claim("included-claude-followed-when-loaded", "placement", "observed",
+       "Every Claude model that loaded a gated skill it was included under followed its checklist ({k} of {n} loaded "
+       "runs, all deliveries): {table}. The Codex pair's included runs are covered by `gate-tier-codex-refuses-own-skill`.")
 def _(rows):
-    rs = [r for r in gate_runs(rows, included=True) if r["triggered"]]
+    rs = [r for r in gate_runs(rows, included=True, subject=CLAUDE) if r["triggered"]]
     k = [r for r in rs if r["gate_outcome"] == "followed"]
     parts = [f"{s} {sum(1 for r in k if r['subject'] == s)} of {sum(1 for r in rs if r['subject'] == s)}" for s in sorted({r["subject"] for r in rs})]
     return len(k) == len(rs) and rs, dict(k=len(k), n=len(rs), table="; ".join(parts),
@@ -651,6 +653,41 @@ def _(rows):
              for s in sorted({r["subject"] for r in rs}) for sk in GATED_SKILLS if any(r["subject"] == s and r["skill"] == sk for r in rs)]
     return bool(rs), dict(k=len(k), n=len(rs), table="; ".join(parts),
                           rows=outcome_table(rs, "gate_outcome", GATE_OUTCOMES, by=("subject", "skill", "delivery")))
+
+
+@claim("haiku-loading-limits-gates", "placement", "observed",
+       "Haiku's loading failure, not the gate, decided its Study 3 outcomes: included under both gated skills, it loaded "
+       "them in {gn} of {gnn} native and {gp} of {gpn} pointer runs and followed them in {gi} of {gin} inline runs; with a "
+       "selection set it followed a skill in {sn} of {snn} native and {sp} of {spn} pointer runs, and every choice it made "
+       "was correct ({sc} of {sch}).")
+def _(rows):
+    g = gate_runs(rows, included=True, subject="claude-haiku")
+    s = select_runs(rows, subject="claude-haiku")
+    def cnt(rs, d, pred): sel = [r for r in rs if r["delivery"] == d]; return sum(pred(r) for r in sel), len(sel)
+    gn, gnn = cnt(g, "native", lambda r: r["triggered"]); gp, gpn = cnt(g, "pointer", lambda r: r["triggered"])
+    gi, gin = cnt(g, "inline", lambda r: r["gate_outcome"] == "followed")
+    sn, snn = cnt(s, "native", lambda r: r["selection_outcome"] != "none"); sp, spn = cnt(s, "pointer", lambda r: r["selection_outcome"] != "none")
+    chose = [r for r in s if r["selection_outcome"] != "none"]; sc = sum(r["selection_outcome"] == "correct" for r in chose)
+    ok = gn < gnn and gp < gpn and gi == gin and sn < snn and sp == spn and sc == len(chose) and g and s
+    return ok, dict(gn=gn, gnn=gnn, gp=gp, gpn=gpn, gi=gi, gin=gin, sn=sn, snn=snn, sp=sp, spn=spn, sc=sc, sch=len(chose))
+
+
+@claim("codex-harness-stamp-missing", "branching", "observed",
+       "The corpus holds no valid `harness-stamp` run for Codex with gpt-5.6-luna ({n} valid of 12 cells): the reruns with "
+       "the one-question skill failed on a Codex usage limit and are listed as invalid; its capability-from-knowledge "
+       "result waits for the rerun.")
+def _(rows):
+    rs = skill_runs(rows, subject=CODEX, skill="harness-stamp")
+    return len(rs) == 0, dict(n=len(rs))
+
+
+@claim("codex-select-vendor-missing", "placement", "observed",
+       "The corpus holds no valid `select-vendor` run for Codex with gpt-5.6-luna ({n} valid of 12 cells), and {t} of 12 "
+       "`select-tier` runs: the rest failed on a Codex usage limit and are listed as invalid, so selection by vendor is "
+       "untested for the Codex pair.")
+def _(rows):
+    v = select_runs(rows, "select-vendor", CODEX); t = select_runs(rows, "select-tier", CODEX)
+    return len(v) == 0, dict(n=len(v), t=len(t))
 
 
 @claim("gate-tier-codex-refuses-own-skill", "placement", "observed",

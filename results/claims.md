@@ -4,13 +4,13 @@ Checkable statements about the runs, re-evaluated on every refresh (see DESIGN.m
 
 ## Corpus
 
-- valid runs: 408 (skill runs 360, baseline runs 48)
-- batches by start date: 2026-09-22: 225, 2026-09-23: 183
-- reruns recorded in meta.json: none
-- invalid runs (excluded): none
+- valid runs: 616 (skill runs 568, baseline runs 48)
+- batches by start date: 2026-09-22: 193, 2026-09-23: 423
+- reruns recorded in meta.json: `claude-haiku__inline__H1__r1` (forced), `claude-haiku__inline__H1__r2` (forced), `claude-haiku__inline__H2__r1` (forced), `claude-haiku__inline__H2__r2` (forced), `claude-haiku__native__H1__r1` (forced), `claude-haiku__native__H1__r2` (forced), `claude-haiku__native__H2__r1` (forced), `claude-haiku__native__H2__r2` (forced), `claude-haiku__pointer__H1__r1` (forced), `claude-haiku__pointer__H1__r2` (forced), `claude-haiku__pointer__H2__r1` (forced), `claude-haiku__pointer__H2__r2` (forced), `claude-opus__inline__H1__r1` (forced), `claude-opus__inline__H1__r2` (forced), `claude-opus__inline__H2__r1` (forced), `claude-opus__inline__H2__r2` (forced), `claude-opus__native__H1__r1` (forced), `claude-opus__native__H1__r2` (forced), `claude-opus__native__H2__r1` (forced), `claude-opus__native__H2__r2` (forced), `claude-opus__pointer__H1__r1` (forced), `claude-opus__pointer__H1__r2` (forced), `claude-opus__pointer__H2__r1` (forced), `claude-opus__pointer__H2__r2` (forced), `claude-sonnet__inline__H1__r1` (forced), `claude-sonnet__inline__H1__r2` (forced), `claude-sonnet__inline__H2__r1` (forced), `claude-sonnet__inline__H2__r2` (forced), `claude-sonnet__native__H1__r1` (forced), `claude-sonnet__native__H1__r2` (forced), `claude-sonnet__native__H2__r1` (forced), `claude-sonnet__native__H2__r2` (forced), `claude-sonnet__pointer__H1__r1` (forced), `claude-sonnet__pointer__H1__r2` (forced), `claude-sonnet__pointer__H2__r1` (forced), `claude-sonnet__pointer__H2__r2` (forced)
+- invalid runs (excluded): `codex-default__inline__H1__r1`, `codex-default__inline__H1__r2`, `codex-default__inline__H2__r1`, `codex-default__inline__H2__r2`, `codex-default__native__H1__r1`, `codex-default__native__H1__r2`, `codex-default__native__H2__r1`, `codex-default__native__H2__r2`, `codex-default__native__ST2__r1`, `codex-default__native__ST2__r2`, `codex-default__native__ST3__r1`, `codex-default__native__ST3__r2`, `codex-default__native__SV1__r1`, `codex-default__native__SV1__r2`, `codex-default__native__SV2__r1`, `codex-default__native__SV2__r2`, `codex-default__native__SV3__r1`, `codex-default__native__SV3__r2`, `codex-default__pointer__H1__r1`, `codex-default__pointer__H1__r2`, `codex-default__pointer__H2__r1`, `codex-default__pointer__H2__r2`, `codex-default__pointer__ST2__r1`, `codex-default__pointer__ST2__r2`, `codex-default__pointer__ST3__r1`, `codex-default__pointer__ST3__r2`, `codex-default__pointer__SV1__r1`, `codex-default__pointer__SV1__r2`, `codex-default__pointer__SV2__r1`, `codex-default__pointer__SV2__r2`, `codex-default__pointer__SV3__r1`, `codex-default__pointer__SV3__r2`
 - incomplete run directories: none
 - timing-invalid runs (kept, excluded from wall-time means): `claude-haiku__native__G3__r2`, `claude-sonnet__pointer__G2__r2`, `claude-sonnet__pointer__G3__r1`, `codex-default__native__G1__r1`, `codex-default__native__G1__r2`, `codex-default__native__G2__r1`
-- fingerprint: `237f5539c092f0e6`
+- fingerprint: `0a2d7fa5e4151e28`
 
 ## Question 1: can a skill branch on model identity or capability?
 
@@ -89,7 +89,7 @@ Every branch that prescribes tests changed behaviour: in loaded runs of those br
 <a id="haiku-skips-feature-skills-natively"></a>
 ### `haiku-skips-feature-skills-natively` — holds, observed
 
-Haiku loaded neither feature skill in any native run (0 of 12); with a pointer it loaded them in 10 of 12 runs. Every other subject loaded every skill in every native and pointer run (180 of 180).
+Haiku loaded neither feature skill in any native run (0 of 12); with a pointer it loaded them in 10 of 12 runs. Every other subject loaded every Study 1 and Study 2 skill in every native and pointer run (172 of 172).
 
 <a id="inline-removes-haiku-loading-failure"></a>
 ### `inline-removes-haiku-loading-failure` — holds, observed
@@ -102,9 +102,9 @@ With the same instructions in the prompt (`inline`), Haiku followed both feature
 The Claude models answered the `harness-stamp` subagents question correctly in every run (36 of 36).
 
 <a id="capability-from-knowledge-codex"></a>
-### `capability-from-knowledge-codex` — holds, observed
+### `capability-from-knowledge-codex` — FAILS, observed
 
-Codex with gpt-5.6-luna answered the `harness-stamp` subagents question correctly in 4 of 12 runs (answers: no: 8, yes: 4); its product knowledge of its own harness is not reliable enough to branch on.
+Codex with gpt-5.6-luna answered the `harness-stamp` subagents question correctly in 0 of 0 runs (answers: ); its product knowledge of its own harness is not reliable enough to branch on.
 
 <a id="capability-from-tools-claude"></a>
 ### `capability-from-tools-claude` — holds, observed
@@ -131,6 +131,11 @@ With no skill, no subject delegated a review in any baseline run (0 of 24), so e
 
 Delegating did not improve the review on this task: Opus, Sonnet and Codex named both planted bugs in 18 of 18 baseline reviews without delegating, and in 53 of 54 skill runs.
 
+<a id="codex-harness-stamp-missing"></a>
+### `codex-harness-stamp-missing` — holds, observed
+
+The corpus holds no valid `harness-stamp` run for Codex with gpt-5.6-luna (0 valid of 12 cells): the reruns with the one-question skill failed on a Codex usage limit and are listed as invalid; its capability-from-knowledge result waits for the rerun.
+
 ## Question 2: is a single skill file portable?
 
 <a id="portable-identity"></a>
@@ -149,9 +154,9 @@ Branching on an exact model version worked only for the Claude pair (36 of 36 co
 Branching on tier worked for the Claude pair (130 of 130 loaded tier answers correct) and failed for the Codex pair (0 of 48); the difference tracks whether the harness hands the model its exact model ID, which is inferred, not observed.
 
 <a id="not-portable-capability-from-knowledge"></a>
-### `not-portable-capability-from-knowledge` — holds, observed
+### `not-portable-capability-from-knowledge` — FAILS, observed
 
-A capability branch answered from product knowledge worked for the Claude pair (36 of 36) and only sometimes for the Codex pair (4 of 12), whose answer to the same question varied from run to run.
+A capability branch answered from product knowledge worked for the Claude pair (36 of 36) and only sometimes for the Codex pair (0 of 0), whose answer to the same question varied from run to run.
 
 <a id="partially-portable-capability-from-tools"></a>
 ### `partially-portable-capability-from-tools` — holds, inferred
@@ -161,32 +166,32 @@ A capability branch that checks the session's tools produced a delegation for th
 <a id="delivery-no-whole-cell-difference-once-loaded"></a>
 ### `delivery-no-whole-cell-difference-once-loaded` — holds, observed
 
-Among runs where the skill loaded, no subject-and-skill cell had a whole-cell outcome difference between deliveries (largest difference 2 runs in a cell of 6); delivery did not change branch outcomes once the skill was loaded.
+Among runs where the skill loaded, no subject-and-skill cell had a whole-cell outcome difference between deliveries (largest difference 3 runs in a cell of 6); delivery did not change branch outcomes once the skill was loaded.
 
 <a id="pointer-delivery-portable"></a>
 ### `pointer-delivery-portable` — holds, observed
 
-Pointer delivery (a `CLAUDE.md` / `AGENTS.md` entry) loaded the skill in 118 of 120 pointer runs across both pairs, against 108 of 120 native runs.
+Pointer delivery (a `CLAUDE.md` / `AGENTS.md` entry) loaded the skill in 171 of 202 pointer runs across both pairs, against 144 of 202 native runs.
 
 <a id="portable-gate-vendor"></a>
-### `portable-gate-vendor` — FAILS, observed
+### `portable-gate-vendor` — holds, observed
 
-A gate on vendor behaved correctly for both pairs in native and pointer runs: the Claude pair, included, followed the skill whenever it loaded (0 of 0 loaded runs) and the Codex pair, excluded, stayed out (0 of 0).
+A gate on vendor behaved correctly for both pairs in native and pointer runs: the Claude pair, included, followed the skill whenever it loaded (28 of 28 loaded runs) and the Codex pair, excluded, stayed out (12 of 12).
 
 <a id="not-portable-gate-tier"></a>
-### `not-portable-gate-tier` — FAILS, observed
+### `not-portable-gate-tier` — holds, observed
 
-A gate on tier behaved correctly for the Claude pair (0 of 0 native and pointer runs) and not for the Codex pair (0 of 0), which refused the skill written for its documented tier.
+A gate on tier behaved correctly for the Claude pair (36 of 36 native and pointer runs) and not for the Codex pair (0 of 12), which refused the skill written for its documented tier.
 
 <a id="portable-selection-vendor"></a>
 ### `portable-selection-vendor` — FAILS, observed
 
-Selection by vendor worked for both pairs among runs that chose: the Claude pair 0 of 0, the Codex pair 0 of 0.
+Selection by vendor worked for both pairs among runs that chose: the Claude pair 30 of 30, the Codex pair 0 of 0.
 
 <a id="not-portable-selection-tier"></a>
-### `not-portable-selection-tier` — FAILS, observed
+### `not-portable-selection-tier` — holds, observed
 
-Selection by tier worked for the Claude pair (0 of 0 runs that chose) and not for the Codex pair (0 of 0).
+Selection by tier worked for the Claude pair (31 of 31 runs that chose) and not for the Codex pair (0 of 4).
 
 ## Question 3: what does a model-conditional skill cost?
 
@@ -217,19 +222,19 @@ On the same prompts, every subject made more tool invocations with a native skil
 <a id="inline-cheapest-delivery"></a>
 ### `inline-cheapest-delivery` — holds (numbers changed), observed
 
-In Study 1, where every subject loaded every skill, `inline` used fewer input tokens than both `native` and `pointer` for every subject: claude-opus inline 40k, native 52k, pointer 53k; claude-sonnet inline 89k, native 128k, pointer 139k; claude-haiku inline 66k, native 84k, pointer 92k; codex-default inline 60k, native 72k, pointer 63k.
+In Study 1, where every subject loaded every skill, `inline` used fewer input tokens than both `native` and `pointer` for every subject: claude-opus inline 40k, native 52k, pointer 53k; claude-sonnet inline 76k, native 101k, pointer 112k; claude-haiku inline 66k, native 82k, pointer 90k; codex-default inline 57k, native 61k, pointer 58k.
 
 | subject | inline | native | pointer |
 |---|---|---|---|
 | claude-opus | 40k | 52k | 53k |
-| claude-sonnet | 89k | 128k | 139k |
-| claude-haiku | 66k | 84k | 92k |
-| codex-default | 60k | 72k | 63k |
+| claude-sonnet | 76k | 101k | 112k |
+| claude-haiku | 66k | 82k | 90k |
+| codex-default | 57k | 61k | 58k |
 
 <a id="pointer-vs-native-cost"></a>
 ### `pointer-vs-native-cost` — holds, observed
 
-In Study 1, pointer delivery cost more input tokens than native for the Claude models (claude-opus 53k vs 52k; claude-sonnet 139k vs 128k; claude-haiku 92k vs 84k) and less for Codex with gpt-5.6-luna (63k vs 72k); the pointer's extra file read is not the whole story.
+In Study 1, pointer delivery cost more input tokens than native for the Claude models (claude-opus 53k vs 52k; claude-sonnet 112k vs 101k; claude-haiku 90k vs 82k) and less for Codex with gpt-5.6-luna (58k vs 61k); the pointer's extra file read is not the whole story.
 
 <a id="lighter-branch-cheaper"></a>
 ### `lighter-branch-cheaper` — holds (numbers changed), observed
@@ -255,110 +260,174 @@ Delegating a review cost more input tokens than reviewing without delegating, wi
 | codex-default | 199k | 79k |
 
 <a id="staying-out-costs-baseline"></a>
-### `staying-out-costs-baseline` — FAILS (numbers changed), observed
+### `staying-out-costs-baseline` — holds (numbers changed), observed
 
-A run in which the gate held at the description cost about what the no-skill baseline of the same prompt cost, and one that loaded the skill and then declined cost more: . (Input tokens, per subject; excluded subjects only.)
+A run in which the gate held at the description cost about what the no-skill baseline of the same prompt cost, and one that loaded the skill and then declined cost more: claude-opus not loaded 55k, declined 78k, no skill 58k; claude-sonnet not loaded 49k, declined 63k, no skill 94k; codex-default not loaded 68k, declined 94k, no skill 60k. (Input tokens, per subject; excluded subjects only.)
 
 | subject | not loaded | declined | no skill |
 |---|---|---|---|
+| claude-opus | 55k | 78k | 58k |
+| claude-sonnet | 49k | 63k | 94k |
+| codex-default | 68k | 94k | 60k |
 
 ## Question 4: where can the condition sit?
 
 <a id="gate-vendor-keeps-codex-out"></a>
-### `gate-vendor-keeps-codex-out` — FAILS (numbers changed), observed
+### `gate-vendor-keeps-codex-out` — holds (numbers changed), observed
 
-Under `vendor-gated-guidance` (for Anthropic models only), Codex with gpt-5.6-luna stayed out of the skill in every native and pointer run (0 of 0: not loaded 0, declined 0); it never followed the checklist.
+Under `vendor-gated-guidance` (for Anthropic models only), Codex with gpt-5.6-luna stayed out of the skill in every native and pointer run (12 of 12: not loaded 12, declined 0); it never followed the checklist.
 
 | subject | delivery | not-loaded | declined | followed | ignored | mixed |
 |---|---|---|---|---|---|---|
+| codex-default | native | 6 | 0 | 0 | 0 | 0 |
+| codex-default | pointer | 6 | 0 | 0 | 0 | 0 |
 
 <a id="gate-tier-keeps-opus-sonnet-out"></a>
-### `gate-tier-keeps-opus-sonnet-out` — FAILS (numbers changed), assumed
+### `gate-tier-keeps-opus-sonnet-out` — holds (numbers changed), assumed
 
-Under `tier-gated-guidance` (for small models only), Opus and Sonnet stayed out of the skill in every native and pointer run (0 of 0: not loaded 0, declined 0); the Anthropic tiers are an assumed scale.
+Under `tier-gated-guidance` (for small models only), Opus and Sonnet stayed out of the skill in every native and pointer run (24 of 24: not loaded 24, declined 0); the Anthropic tiers are an assumed scale.
 
 | subject | delivery | not-loaded | declined | followed | ignored | mixed |
 |---|---|---|---|---|---|---|
+| claude-opus | native | 6 | 0 | 0 | 0 | 0 |
+| claude-opus | pointer | 6 | 0 | 0 | 0 | 0 |
+| claude-sonnet | native | 6 | 0 | 0 | 0 | 0 |
+| claude-sonnet | pointer | 6 | 0 | 0 | 0 | 0 |
 
 <a id="gate-where-it-held"></a>
-### `gate-where-it-held` — FAILS (numbers changed), observed
+### `gate-where-it-held` — holds (numbers changed), observed
 
-Among the 0 native and pointer runs in which an excluded subject stayed out of a gated skill, the gate held at the description (skill never loaded) in 0 and in the body (loaded, then declined) in 0: .
+Among the 36 native and pointer runs in which an excluded subject stayed out of a gated skill, the gate held at the description (skill never loaded) in 36 and in the body (loaded, then declined) in 0: claude-opus not loaded 12, declined 0; claude-sonnet not loaded 12, declined 0; codex-default not loaded 12, declined 0.
 
 | subject | skill | delivery | not-loaded | declined |
 |---|---|---|---|---|
+| claude-opus | tier-gated-guidance | native | 6 | 0 |
+| claude-opus | tier-gated-guidance | pointer | 6 | 0 |
+| claude-sonnet | tier-gated-guidance | native | 6 | 0 |
+| claude-sonnet | tier-gated-guidance | pointer | 6 | 0 |
+| codex-default | vendor-gated-guidance | native | 6 | 0 |
+| codex-default | vendor-gated-guidance | pointer | 6 | 0 |
 
 <a id="excluded-never-followed"></a>
-### `excluded-never-followed` — FAILS, observed
+### `excluded-never-followed` — holds, observed
 
-No excluded subject followed a gated skill's checklist in any run, in any delivery (0 followed or mixed of 0 runs).
+No excluded subject followed a gated skill's checklist in any run, in any delivery (0 followed or mixed of 54 runs).
 
 <a id="bailout-inline"></a>
-### `bailout-inline` — FAILS (numbers changed), observed
+### `bailout-inline` — holds (numbers changed), observed
 
-With a gated skill's body in the prompt (`inline`), where it cannot be left unloaded, excluded subjects declined it in 0 of 0 runs: .
+With a gated skill's body in the prompt (`inline`), where it cannot be left unloaded, excluded subjects declined it in 18 of 18 runs: claude-opus 6 of 6; claude-sonnet 6 of 6; codex-default 6 of 6.
 
 | subject | skill | not-loaded | declined | followed | ignored | mixed |
 |---|---|---|---|---|---|---|
+| claude-opus | tier-gated-guidance | 0 | 6 | 0 | 0 | 0 |
+| claude-sonnet | tier-gated-guidance | 0 | 6 | 0 | 0 | 0 |
+| codex-default | vendor-gated-guidance | 0 | 6 | 0 | 0 | 0 |
 
-<a id="included-followed-when-loaded"></a>
-### `included-followed-when-loaded` — FAILS (numbers changed), observed
+<a id="included-claude-followed-when-loaded"></a>
+### `included-claude-followed-when-loaded` — holds (numbers changed), observed
 
-Every included subject that loaded a gated skill followed its checklist (0 of 0 loaded runs, all deliveries): .
+Every Claude model that loaded a gated skill it was included under followed its checklist (56 of 56 loaded runs, all deliveries): claude-haiku 20 of 20; claude-opus 18 of 18; claude-sonnet 18 of 18. The Codex pair's included runs are covered by `gate-tier-codex-refuses-own-skill`.
 
 | subject | skill | delivery | not-loaded | declined | followed | ignored | mixed |
 |---|---|---|---|---|---|---|---|
+| claude-haiku | tier-gated-guidance | inline | 0 | 0 | 6 | 0 | 0 |
+| claude-haiku | tier-gated-guidance | pointer | 0 | 0 | 4 | 0 | 0 |
+| claude-haiku | vendor-gated-guidance | inline | 0 | 0 | 6 | 0 | 0 |
+| claude-haiku | vendor-gated-guidance | native | 0 | 0 | 1 | 0 | 0 |
+| claude-haiku | vendor-gated-guidance | pointer | 0 | 0 | 3 | 0 | 0 |
+| claude-opus | vendor-gated-guidance | inline | 0 | 0 | 6 | 0 | 0 |
+| claude-opus | vendor-gated-guidance | native | 0 | 0 | 6 | 0 | 0 |
+| claude-opus | vendor-gated-guidance | pointer | 0 | 0 | 6 | 0 | 0 |
+| claude-sonnet | vendor-gated-guidance | inline | 0 | 0 | 6 | 0 | 0 |
+| claude-sonnet | vendor-gated-guidance | native | 0 | 0 | 6 | 0 | 0 |
+| claude-sonnet | vendor-gated-guidance | pointer | 0 | 0 | 6 | 0 | 0 |
 
 <a id="included-loading"></a>
-### `included-loading` — FAILS (numbers changed), observed
+### `included-loading` — holds (numbers changed), observed
 
-Included subjects loaded the gated skill written for them in 0 of 0 native and pointer runs: .
+Included subjects loaded the gated skill written for them in 32 of 60 native and pointer runs: claude-haiku 4 of 12 (vendor-gated-guidance); claude-haiku 4 of 12 (tier-gated-guidance); claude-opus 12 of 12 (vendor-gated-guidance); claude-sonnet 12 of 12 (vendor-gated-guidance); codex-default 0 of 12 (tier-gated-guidance).
 
 | subject | skill | delivery | not-loaded | declined | followed | ignored | mixed |
 |---|---|---|---|---|---|---|---|
+| claude-haiku | tier-gated-guidance | native | 6 | 0 | 0 | 0 | 0 |
+| claude-haiku | tier-gated-guidance | pointer | 2 | 0 | 4 | 0 | 0 |
+| claude-haiku | vendor-gated-guidance | native | 5 | 0 | 1 | 0 | 0 |
+| claude-haiku | vendor-gated-guidance | pointer | 3 | 0 | 3 | 0 | 0 |
+| claude-opus | vendor-gated-guidance | native | 0 | 0 | 6 | 0 | 0 |
+| claude-opus | vendor-gated-guidance | pointer | 0 | 0 | 6 | 0 | 0 |
+| claude-sonnet | vendor-gated-guidance | native | 0 | 0 | 6 | 0 | 0 |
+| claude-sonnet | vendor-gated-guidance | pointer | 0 | 0 | 6 | 0 | 0 |
+| codex-default | tier-gated-guidance | native | 6 | 0 | 0 | 0 | 0 |
+| codex-default | tier-gated-guidance | pointer | 6 | 0 | 0 | 0 | 0 |
+
+<a id="haiku-loading-limits-gates"></a>
+### `haiku-loading-limits-gates` — holds, observed
+
+Haiku's loading failure, not the gate, decided its Study 3 outcomes: included under both gated skills, it loaded them in 1 of 12 native and 7 of 12 pointer runs and followed them in 12 of 12 inline runs; with a selection set it followed a skill in 1 of 12 native and 12 of 12 pointer runs, and every choice it made was correct (13 of 13).
+
+<a id="codex-select-vendor-missing"></a>
+### `codex-select-vendor-missing` — holds, observed
+
+The corpus holds no valid `select-vendor` run for Codex with gpt-5.6-luna (0 valid of 12 cells), and 4 of 12 `select-tier` runs: the rest failed on a Codex usage limit and are listed as invalid, so selection by vendor is untested for the Codex pair.
 
 <a id="gate-tier-codex-refuses-own-skill"></a>
-### `gate-tier-codex-refuses-own-skill` — FAILS, observed
+### `gate-tier-codex-refuses-own-skill` — holds, observed
 
-Codex with gpt-5.6-luna, whose documented tier is small, stayed out of `tier-gated-guidance`, the skill written for small models, in 0 of 0 native and pointer runs (not loaded 0, declined 0), and declined it in 0 of 0 inline runs; a skill reserved for weaker models cannot rest on its self-placement.
+Codex with gpt-5.6-luna, whose documented tier is small, stayed out of `tier-gated-guidance`, the skill written for small models, in 12 of 12 native and pointer runs (not loaded 12, declined 0), and declined it in 6 of 6 inline runs; a skill reserved for weaker models cannot rest on its self-placement.
+
+- exhibit `codex-default__inline__GT1__r1`: I’m treating this as a flagship-tier run, so I’ll decline the small-tier checklist, record that in `.skill-trace`, and make only the requested `src/app.py` change.
+- exhibit `codex-default__inline__GT1__r2`: I’m treating this as a flagship-tier model, so I’ll decline the small-tier checklist, record that in `.skill-trace`, and make only the requested `src/app.py` change.
 
 <a id="select-vendor-correct"></a>
-### `select-vendor-correct` — FAILS (numbers changed), observed
+### `select-vendor-correct` — holds (numbers changed), observed
 
-Given `feature-anthropic` and `feature-openai` side by side, every run that followed a skill followed the one for its vendor (0 of 0 runs that chose; 0 chose none): .
+Given `feature-anthropic` and `feature-openai` side by side, every run that followed a skill followed the one for its vendor (30 of 30 runs that chose; 6 chose none): correct: 30, none: 6.
 
 | subject | delivery | correct | wrong | several | none |
 |---|---|---|---|---|---|
+| claude-haiku | native | 0 | 0 | 0 | 6 |
+| claude-haiku | pointer | 6 | 0 | 0 | 0 |
+| claude-opus | native | 6 | 0 | 0 | 0 |
+| claude-opus | pointer | 6 | 0 | 0 | 0 |
+| claude-sonnet | native | 6 | 0 | 0 | 0 |
+| claude-sonnet | pointer | 6 | 0 | 0 | 0 |
 
 <a id="select-tier-claude-correct"></a>
-### `select-tier-claude-correct` — FAILS (numbers changed), assumed
+### `select-tier-claude-correct` — holds (numbers changed), assumed
 
-Given `feature-flagship`, `feature-mid` and `feature-small` side by side, every Claude model run that followed a skill followed the one for its tier (0 of 0 runs that chose; 0 chose none); the tiers are an assumed scale.
+Given `feature-flagship`, `feature-mid` and `feature-small` side by side, every Claude model run that followed a skill followed the one for its tier (31 of 31 runs that chose; 5 chose none); the tiers are an assumed scale.
 
 | subject | delivery | correct | wrong | several | none |
 |---|---|---|---|---|---|
+| claude-haiku | native | 1 | 0 | 0 | 5 |
+| claude-haiku | pointer | 6 | 0 | 0 | 0 |
+| claude-opus | native | 6 | 0 | 0 | 0 |
+| claude-opus | pointer | 6 | 0 | 0 | 0 |
+| claude-sonnet | native | 6 | 0 | 0 | 0 |
+| claude-sonnet | pointer | 6 | 0 | 0 | 0 |
 
 <a id="select-tier-codex-wrong"></a>
-### `select-tier-codex-wrong` — FAILS, observed
+### `select-tier-codex-wrong` — holds, observed
 
-Codex with gpt-5.6-luna never followed `feature-small`, the skill for its documented tier (0 of 0 runs that chose); it followed .
+Codex with gpt-5.6-luna never followed `feature-small`, the skill for its documented tier (0 of 4 runs that chose); it followed feature-flagship: 4.
 
 <a id="select-loading"></a>
-### `select-loading` — FAILS, observed
+### `select-loading` — holds, observed
 
-With a selection set installed, subjects followed at least one of its skills in 0 of 0 runs: .
+With a selection set installed, subjects followed at least one of its skills in 65 of 76 runs: claude-haiku 1 of 12 (native); claude-haiku 12 of 12 (pointer); claude-opus 12 of 12 (native); claude-opus 12 of 12 (pointer); claude-sonnet 12 of 12 (native); claude-sonnet 12 of 12 (pointer); codex-default 2 of 2 (native); codex-default 2 of 2 (pointer).
 
 <a id="select-reads-before-choosing"></a>
-### `select-reads-before-choosing` — FAILS, observed
+### `select-reads-before-choosing` — holds, observed
 
-In 0 of 0 selection runs that followed exactly one skill, the agent had read at least one other alternative first (the Claude pair 0 of 0, the Codex pair 0 of 0).
+In 0 of 65 selection runs that followed exactly one skill, the agent had read at least one other alternative first (the Claude pair 0 of 61, the Codex pair 0 of 4).
 
 <a id="select-work-matches-choice"></a>
-### `select-work-matches-choice` — FAILS, observed
+### `select-work-matches-choice` — holds, observed
 
-In every selection run that followed exactly one skill, the work matched that skill's body (0 of 0).
+In every selection run that followed exactly one skill, the work matched that skill's body (65 of 65).
 
 ## FINDINGS.md check
 
-- FINDINGS.md fingerprint `f0021a9e2f7dc551` differs from the current corpus `237f5539c092f0e6`: the file predates the data
+- nothing to revise
 

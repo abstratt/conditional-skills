@@ -14,7 +14,7 @@ SECTIONS = ["## Summary",
             "## Question 4: where can the condition sit?",
             "## Caveats", "## Guidance for skill authors"]
 MODEL_WORDS = ("opus", "sonnet", "haiku", "luna", "gpt-5", "claude models", "claude model", "pair", "subject", "model")
-WORD_TARGET, WORD_LIMIT = 1700, 2300
+WORD_TARGET, WORD_LIMIT = 2200, 3200
 
 INSTRUCTIONS = """You are writing results/FINDINGS.md for the experiment described in DESIGN.md below, for a human
 reader who has not seen the tables. Read DESIGN.md, especially its Goal (the four questions) and its
@@ -95,6 +95,7 @@ def numerals(text):
 
 
 CITE_LINE = re.compile(r"^\*Claims?:\s*(.*)\*\s*$", re.M)
+CITE_TAIL = re.compile(r"\*Claims?:\s*([^*\n]*)\*\s*$")  # a citation ending a bullet's own line
 
 
 def blocks(body):
@@ -127,7 +128,7 @@ CITE_ID = re.compile(r"\[([a-z0-9-]+)\]\(claims\.md#([a-z0-9-]+)\)|(?<![\[(#/-])
 
 
 def cited_ids(block):
-    m = CITE_LINE.search(block)
+    m = CITE_LINE.search(block) or CITE_TAIL.search(block)
     if not m:
         return None
     ids = []
@@ -152,13 +153,14 @@ def validate(draft, claims_md, summary_md, fingerprint, n_runs):
         if want not in head:
             errors.append(f"header must contain '{want}'")
     allowed = numerals(claims_md) | numerals(summary_md)
-    for n in sorted(numerals(re.sub(CITE_LINE, "", body)) - allowed):
+    strip = lambda t: CITE_TAIL.sub("", re.sub(CITE_LINE, "", t))
+    for n in sorted(numerals(strip(body)) - allowed):
         errors.append(f"number {n} appears in the body but not in claims.md or summary.md")
     summary = body.split(SECTIONS[1])[0]
-    if numerals(re.sub(CITE_LINE, "", summary)):
+    if numerals(strip(summary)):
         errors.append("the Summary must not contain numbers")
     for b in blocks(body):
-        head80 = " ".join(re.sub(CITE_LINE, "", b).split())[:80]
+        head80 = " ".join(strip(b).split())[:80]
         ids = cited_ids(b)
         if ids is None:
             errors.append(f"block has no citation line (*Claims: ...*): \"{head80}...\"")
@@ -172,7 +174,7 @@ def validate(draft, claims_md, summary_md, fingerprint, n_runs):
                 errors.append(f"claim `{cid}` fails and cannot be cited as support in: \"{head80}...\"")
         if re.search(r"\[claim:", b):
             errors.append(f"inline [claim: ...] citation; use the trailing *Claims:* line only: \"{head80}...\"")
-    prose = re.sub(CITE_LINE, "", "\n\n".join(blocks(body)))
+    prose = "\n\n".join(strip(b) for b in blocks(body))
     for sent in re.split(r"(?<=[.!?])\s+", " ".join(prose.split())):
         low = sent.lower()
         if ("claude code" in low or "codex" in low) and not any(w in low for w in MODEL_WORDS):

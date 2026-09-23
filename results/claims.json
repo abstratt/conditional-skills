@@ -1,11 +1,11 @@
 {
   "bailout-inline": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "placement",
     "values": {
-      "k": 0,
-      "n": 0,
+      "k": 18,
+      "n": 18,
       "rows": [
         [
           "subject",
@@ -15,9 +15,36 @@
           "followed",
           "ignored",
           "mixed"
+        ],
+        [
+          "claude-opus",
+          "tier-gated-guidance",
+          "0",
+          "6",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "claude-sonnet",
+          "tier-gated-guidance",
+          "0",
+          "6",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "codex-default",
+          "vendor-gated-guidance",
+          "0",
+          "6",
+          "0",
+          "0",
+          "0"
         ]
       ],
-      "table": ""
+      "table": "claude-opus 6 of 6; claude-sonnet 6 of 6; codex-default 6 of 6"
     }
   },
   "baseline-default-is-flagship-branch": {
@@ -39,13 +66,13 @@
     }
   },
   "capability-from-knowledge-codex": {
-    "holds": true,
+    "holds": false,
     "kind": "observed",
     "question": "branching",
     "values": {
-      "answers": "no: 8, yes: 4",
-      "k": 4,
-      "n": 12
+      "answers": "",
+      "k": 0,
+      "n": 0
     }
   },
   "capability-from-tools-claude": {
@@ -67,6 +94,14 @@
       "n": 18
     }
   },
+  "codex-harness-stamp-missing": {
+    "holds": true,
+    "kind": "observed",
+    "question": "branching",
+    "values": {
+      "n": 0
+    }
+  },
   "codex-overclaims-under-both-incentives": {
     "holds": true,
     "kind": "observed",
@@ -76,6 +111,15 @@
       "guid": "18 of 18",
       "n": 48,
       "over": 48
+    }
+  },
+  "codex-select-vendor-missing": {
+    "holds": true,
+    "kind": "observed",
+    "question": "placement",
+    "values": {
+      "n": 0,
+      "t": 4
     }
   },
   "delegation-costs-more": {
@@ -130,40 +174,40 @@
     "question": "portability",
     "values": {
       "cell": 6,
-      "maxdiff": 2
+      "maxdiff": 3
     }
   },
   "excluded-never-followed": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "placement",
     "values": {
       "f": 0,
-      "n": 0
+      "n": 54
     }
   },
   "gate-tier-codex-refuses-own-skill": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "placement",
     "values": {
       "d": 0,
-      "ik": 0,
-      "inn": 0,
-      "k": 0,
-      "n": 0,
-      "nl": 0
+      "ik": 6,
+      "inn": 6,
+      "k": 12,
+      "n": 12,
+      "nl": 12
     }
   },
   "gate-tier-keeps-opus-sonnet-out": {
-    "holds": false,
+    "holds": true,
     "kind": "assumed",
     "question": "placement",
     "values": {
       "d": 0,
-      "k": 0,
-      "n": 0,
-      "nl": 0,
+      "k": 24,
+      "n": 24,
+      "nl": 24,
       "rows": [
         [
           "subject",
@@ -173,19 +217,55 @@
           "followed",
           "ignored",
           "mixed"
+        ],
+        [
+          "claude-opus",
+          "native",
+          "6",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "claude-opus",
+          "pointer",
+          "6",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "claude-sonnet",
+          "native",
+          "6",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "claude-sonnet",
+          "pointer",
+          "6",
+          "0",
+          "0",
+          "0",
+          "0"
         ]
       ]
     }
   },
   "gate-vendor-keeps-codex-out": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "placement",
     "values": {
       "d": 0,
-      "k": 0,
-      "n": 0,
-      "nl": 0,
+      "k": 12,
+      "n": 12,
+      "nl": 12,
       "rows": [
         [
           "subject",
@@ -195,18 +275,36 @@
           "followed",
           "ignored",
           "mixed"
+        ],
+        [
+          "codex-default",
+          "native",
+          "6",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "codex-default",
+          "pointer",
+          "6",
+          "0",
+          "0",
+          "0",
+          "0"
         ]
       ]
     }
   },
   "gate-where-it-held": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "placement",
     "values": {
       "d": 0,
-      "n": 0,
-      "nl": 0,
+      "n": 36,
+      "nl": 36,
       "rows": [
         [
           "subject",
@@ -214,9 +312,51 @@
           "delivery",
           "not-loaded",
           "declined"
+        ],
+        [
+          "claude-opus",
+          "tier-gated-guidance",
+          "native",
+          "6",
+          "0"
+        ],
+        [
+          "claude-opus",
+          "tier-gated-guidance",
+          "pointer",
+          "6",
+          "0"
+        ],
+        [
+          "claude-sonnet",
+          "tier-gated-guidance",
+          "native",
+          "6",
+          "0"
+        ],
+        [
+          "claude-sonnet",
+          "tier-gated-guidance",
+          "pointer",
+          "6",
+          "0"
+        ],
+        [
+          "codex-default",
+          "vendor-gated-guidance",
+          "native",
+          "6",
+          "0"
+        ],
+        [
+          "codex-default",
+          "vendor-gated-guidance",
+          "pointer",
+          "6",
+          "0"
         ]
       ],
-      "table": ""
+      "table": "claude-opus not loaded 12, declined 0; claude-sonnet not loaded 12, declined 0; codex-default not loaded 12, declined 0"
     }
   },
   "guidance-skipped-by-codex": {
@@ -237,25 +377,44 @@
       "n": 18
     }
   },
+  "haiku-loading-limits-gates": {
+    "holds": true,
+    "kind": "observed",
+    "question": "placement",
+    "values": {
+      "gi": 12,
+      "gin": 12,
+      "gn": 1,
+      "gnn": 12,
+      "gp": 7,
+      "gpn": 12,
+      "sc": 13,
+      "sch": 13,
+      "sn": 1,
+      "snn": 12,
+      "sp": 12,
+      "spn": 12
+    }
+  },
   "haiku-skips-feature-skills-natively": {
     "holds": true,
     "kind": "observed",
     "question": "branching",
     "values": {
       "n": 12,
-      "others": 180,
-      "othersn": 180,
+      "others": 172,
+      "othersn": 172,
       "p": 10,
       "pn": 12
     }
   },
-  "included-followed-when-loaded": {
-    "holds": false,
+  "included-claude-followed-when-loaded": {
+    "holds": true,
     "kind": "observed",
     "question": "placement",
     "values": {
-      "k": 0,
-      "n": 0,
+      "k": 56,
+      "n": 56,
       "rows": [
         [
           "subject",
@@ -266,18 +425,128 @@
           "followed",
           "ignored",
           "mixed"
+        ],
+        [
+          "claude-haiku",
+          "tier-gated-guidance",
+          "inline",
+          "0",
+          "0",
+          "6",
+          "0",
+          "0"
+        ],
+        [
+          "claude-haiku",
+          "tier-gated-guidance",
+          "pointer",
+          "0",
+          "0",
+          "4",
+          "0",
+          "0"
+        ],
+        [
+          "claude-haiku",
+          "vendor-gated-guidance",
+          "inline",
+          "0",
+          "0",
+          "6",
+          "0",
+          "0"
+        ],
+        [
+          "claude-haiku",
+          "vendor-gated-guidance",
+          "native",
+          "0",
+          "0",
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "claude-haiku",
+          "vendor-gated-guidance",
+          "pointer",
+          "0",
+          "0",
+          "3",
+          "0",
+          "0"
+        ],
+        [
+          "claude-opus",
+          "vendor-gated-guidance",
+          "inline",
+          "0",
+          "0",
+          "6",
+          "0",
+          "0"
+        ],
+        [
+          "claude-opus",
+          "vendor-gated-guidance",
+          "native",
+          "0",
+          "0",
+          "6",
+          "0",
+          "0"
+        ],
+        [
+          "claude-opus",
+          "vendor-gated-guidance",
+          "pointer",
+          "0",
+          "0",
+          "6",
+          "0",
+          "0"
+        ],
+        [
+          "claude-sonnet",
+          "vendor-gated-guidance",
+          "inline",
+          "0",
+          "0",
+          "6",
+          "0",
+          "0"
+        ],
+        [
+          "claude-sonnet",
+          "vendor-gated-guidance",
+          "native",
+          "0",
+          "0",
+          "6",
+          "0",
+          "0"
+        ],
+        [
+          "claude-sonnet",
+          "vendor-gated-guidance",
+          "pointer",
+          "0",
+          "0",
+          "6",
+          "0",
+          "0"
         ]
       ],
-      "table": ""
+      "table": "claude-haiku 20 of 20; claude-opus 18 of 18; claude-sonnet 18 of 18"
     }
   },
   "included-loading": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "placement",
     "values": {
-      "k": 0,
-      "n": 0,
+      "k": 32,
+      "n": 60,
       "rows": [
         [
           "subject",
@@ -288,9 +557,109 @@
           "followed",
           "ignored",
           "mixed"
+        ],
+        [
+          "claude-haiku",
+          "tier-gated-guidance",
+          "native",
+          "6",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "claude-haiku",
+          "tier-gated-guidance",
+          "pointer",
+          "2",
+          "0",
+          "4",
+          "0",
+          "0"
+        ],
+        [
+          "claude-haiku",
+          "vendor-gated-guidance",
+          "native",
+          "5",
+          "0",
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "claude-haiku",
+          "vendor-gated-guidance",
+          "pointer",
+          "3",
+          "0",
+          "3",
+          "0",
+          "0"
+        ],
+        [
+          "claude-opus",
+          "vendor-gated-guidance",
+          "native",
+          "0",
+          "0",
+          "6",
+          "0",
+          "0"
+        ],
+        [
+          "claude-opus",
+          "vendor-gated-guidance",
+          "pointer",
+          "0",
+          "0",
+          "6",
+          "0",
+          "0"
+        ],
+        [
+          "claude-sonnet",
+          "vendor-gated-guidance",
+          "native",
+          "0",
+          "0",
+          "6",
+          "0",
+          "0"
+        ],
+        [
+          "claude-sonnet",
+          "vendor-gated-guidance",
+          "pointer",
+          "0",
+          "0",
+          "6",
+          "0",
+          "0"
+        ],
+        [
+          "codex-default",
+          "tier-gated-guidance",
+          "native",
+          "6",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "codex-default",
+          "tier-gated-guidance",
+          "pointer",
+          "6",
+          "0",
+          "0",
+          "0",
+          "0"
         ]
       ],
-      "table": ""
+      "table": "claude-haiku 4 of 12 (vendor-gated-guidance); claude-haiku 4 of 12 (tier-gated-guidance); claude-opus 12 of 12 (vendor-gated-guidance); claude-sonnet 12 of 12 (vendor-gated-guidance); codex-default 0 of 12 (tier-gated-guidance)"
     }
   },
   "inline-cheapest-delivery": {
@@ -313,24 +682,24 @@
         ],
         [
           "claude-sonnet",
-          "89k",
-          "128k",
-          "139k"
+          "76k",
+          "101k",
+          "112k"
         ],
         [
           "claude-haiku",
           "66k",
-          "84k",
-          "92k"
+          "82k",
+          "90k"
         ],
         [
           "codex-default",
-          "60k",
-          "72k",
-          "63k"
+          "57k",
+          "61k",
+          "58k"
         ]
       ],
-      "table": "claude-opus inline 40k, native 52k, pointer 53k; claude-sonnet inline 89k, native 128k, pointer 139k; claude-haiku inline 66k, native 84k, pointer 92k; codex-default inline 60k, native 72k, pointer 63k"
+      "table": "claude-opus inline 40k, native 52k, pointer 53k; claude-sonnet inline 76k, native 101k, pointer 112k; claude-haiku inline 66k, native 82k, pointer 90k; codex-default inline 57k, native 61k, pointer 58k"
     }
   },
   "inline-removes-haiku-loading-failure": {
@@ -391,36 +760,36 @@
     }
   },
   "not-portable-capability-from-knowledge": {
+    "holds": false,
+    "kind": "observed",
+    "question": "portability",
+    "values": {
+      "ck": 36,
+      "cn": 36,
+      "ok": 0,
+      "on": 0
+    }
+  },
+  "not-portable-gate-tier": {
     "holds": true,
     "kind": "observed",
     "question": "portability",
     "values": {
       "ck": 36,
       "cn": 36,
-      "ok": 4,
+      "ok": 0,
       "on": 12
     }
   },
-  "not-portable-gate-tier": {
-    "holds": false,
-    "kind": "observed",
-    "question": "portability",
-    "values": {
-      "ck": 0,
-      "cn": 0,
-      "ok": 0,
-      "on": 0
-    }
-  },
   "not-portable-selection-tier": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "portability",
     "values": {
-      "ck": 0,
-      "cn": 0,
+      "ck": 31,
+      "cn": 31,
       "ok": 0,
-      "on": 0
+      "on": 4
     }
   },
   "not-portable-tier": {
@@ -459,10 +828,10 @@
     "kind": "observed",
     "question": "portability",
     "values": {
-      "k": 118,
-      "n": 120,
-      "nk": 108,
-      "nn": 120
+      "k": 171,
+      "n": 202,
+      "nk": 144,
+      "nn": 202
     }
   },
   "pointer-vs-native-cost": {
@@ -470,19 +839,19 @@
     "kind": "observed",
     "question": "efficiency",
     "values": {
-      "claude": "claude-opus 53k vs 52k; claude-sonnet 139k vs 128k; claude-haiku 92k vs 84k",
-      "codex": "63k vs 72k"
+      "claude": "claude-opus 53k vs 52k; claude-sonnet 112k vs 101k; claude-haiku 90k vs 82k",
+      "codex": "58k vs 61k"
     }
   },
   "portable-gate-vendor": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "portability",
     "values": {
-      "ck": 0,
-      "cn": 0,
-      "ok": 0,
-      "on": 0
+      "ck": 28,
+      "cn": 28,
+      "ok": 12,
+      "on": 12
     }
   },
   "portable-identity": {
@@ -501,8 +870,8 @@
     "kind": "observed",
     "question": "portability",
     "values": {
-      "ck": 0,
-      "cn": 0,
+      "ck": 30,
+      "cn": 30,
       "ok": 0,
       "on": 0
     }
@@ -516,36 +885,36 @@
     }
   },
   "select-loading": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "placement",
     "values": {
-      "k": 0,
-      "n": 0,
-      "table": ""
+      "k": 65,
+      "n": 76,
+      "table": "claude-haiku 1 of 12 (native); claude-haiku 12 of 12 (pointer); claude-opus 12 of 12 (native); claude-opus 12 of 12 (pointer); claude-sonnet 12 of 12 (native); claude-sonnet 12 of 12 (pointer); codex-default 2 of 2 (native); codex-default 2 of 2 (pointer)"
     }
   },
   "select-reads-before-choosing": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "placement",
     "values": {
       "ck": 0,
-      "cn": 0,
+      "cn": 61,
       "k": 0,
-      "n": 0,
+      "n": 65,
       "ok": 0,
-      "on": 0
+      "on": 4
     }
   },
   "select-tier-claude-correct": {
-    "holds": false,
+    "holds": true,
     "kind": "assumed",
     "question": "placement",
     "values": {
-      "k": 0,
-      "n": 0,
-      "none": 0,
+      "k": 31,
+      "n": 31,
+      "none": 5,
       "rows": [
         [
           "subject",
@@ -554,27 +923,75 @@
           "wrong",
           "several",
           "none"
+        ],
+        [
+          "claude-haiku",
+          "native",
+          "1",
+          "0",
+          "0",
+          "5"
+        ],
+        [
+          "claude-haiku",
+          "pointer",
+          "6",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "claude-opus",
+          "native",
+          "6",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "claude-opus",
+          "pointer",
+          "6",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "claude-sonnet",
+          "native",
+          "6",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "claude-sonnet",
+          "pointer",
+          "6",
+          "0",
+          "0",
+          "0"
         ]
       ]
     }
   },
   "select-tier-codex-wrong": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "placement",
     "values": {
-      "answers": "",
-      "n": 0
+      "answers": "feature-flagship: 4",
+      "n": 4
     }
   },
   "select-vendor-correct": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "placement",
     "values": {
-      "k": 0,
-      "n": 0,
-      "none": 0,
+      "k": 30,
+      "n": 30,
+      "none": 6,
       "rows": [
         [
           "subject",
@@ -583,18 +1000,66 @@
           "wrong",
           "several",
           "none"
+        ],
+        [
+          "claude-haiku",
+          "native",
+          "0",
+          "0",
+          "0",
+          "6"
+        ],
+        [
+          "claude-haiku",
+          "pointer",
+          "6",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "claude-opus",
+          "native",
+          "6",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "claude-opus",
+          "pointer",
+          "6",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "claude-sonnet",
+          "native",
+          "6",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "claude-sonnet",
+          "pointer",
+          "6",
+          "0",
+          "0",
+          "0"
         ]
       ],
-      "table": ""
+      "table": "correct: 30, none: 6"
     }
   },
   "select-work-matches-choice": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "placement",
     "values": {
-      "k": 0,
-      "n": 0
+      "k": 65,
+      "n": 65
     }
   },
   "skill-overhead-tokens": {
@@ -683,7 +1148,7 @@
     }
   },
   "staying-out-costs-baseline": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "efficiency",
     "values": {
@@ -693,9 +1158,27 @@
           "not loaded",
           "declined",
           "no skill"
+        ],
+        [
+          "claude-opus",
+          "55k",
+          "78k",
+          "58k"
+        ],
+        [
+          "claude-sonnet",
+          "49k",
+          "63k",
+          "94k"
+        ],
+        [
+          "codex-default",
+          "68k",
+          "94k",
+          "60k"
         ]
       ],
-      "table": ""
+      "table": "claude-opus not loaded 55k, declined 78k, no skill 58k; claude-sonnet not loaded 49k, declined 63k, no skill 94k; codex-default not loaded 68k, declined 94k, no skill 60k"
     }
   },
   "tier-claude-correct": {
