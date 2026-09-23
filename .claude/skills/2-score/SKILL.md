@@ -41,4 +41,5 @@ grep -l '"valid": false' results/runs/*/score.json
 
 ## Next
 
-If any run is invalid, step 3, `3-rerun-invalid`. Otherwise step 4, `4-judge`.
+If any run is invalid, step 3, `3-rerun-invalid`. Otherwise step 5, `5-report` (step 4, the
+judge, is optional and only run when asked).

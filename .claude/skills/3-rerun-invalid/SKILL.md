@@ -49,4 +49,4 @@ network problem, not a flaky run.
 
 ## Next
 
-Step 4, `4-judge`.
+Step 5, `5-report` (step 4, the judge, is optional and only run when asked).

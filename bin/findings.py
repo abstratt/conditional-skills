@@ -11,12 +11,13 @@ SECTIONS = ["## Summary",
             "## Question 1: can a skill branch on model identity or capability?",
             "## Question 2: is a single skill file portable?",
             "## Question 3: what does a model-conditional skill cost?",
+            "## Question 4: where can the condition sit?",
             "## Caveats", "## Guidance for skill authors"]
 MODEL_WORDS = ("opus", "sonnet", "haiku", "luna", "gpt-5", "claude models", "claude model", "pair", "subject", "model")
-WORD_TARGET, WORD_LIMIT = 1300, 1800
+WORD_TARGET, WORD_LIMIT = 1700, 2300
 
 INSTRUCTIONS = """You are writing results/FINDINGS.md for the experiment described in DESIGN.md below, for a human
-reader who has not seen the tables. Read DESIGN.md, especially its Goal (the three questions) and its
+reader who has not seen the tables. Read DESIGN.md, especially its Goal (the four questions) and its
 Report section, then claims.md (checked verdicts, each with its numbers, evidence kind, and sometimes a
 table or transcript exhibits) and summary.md (tables).
 
@@ -33,21 +34,25 @@ valid runs: {runs}
 ## Question 1: can a skill branch on model identity or capability?
 ## Question 2: is a single skill file portable?
 ## Question 3: what does a model-conditional skill cost?
+## Question 4: where can the condition sit?
 ## Caveats
 ## Guidance for skill authors
 ```
 
 How to write it:
-- Summary: three short paragraphs, one answer per question, no numbers. Define the shorthand here:
+- Summary: four short paragraphs, one answer per question, no numbers. Define the shorthand here:
   "the Claude pair" for Opus, Sonnet and Haiku in Claude Code and "the Codex pair" for Codex with
   gpt-5.6-luna, then use the shorthand everywhere below.
 - Each question section opens with its answer in one or two sentences, then the evidence. Use `###`
   subheadings inside a section when it covers several topics (for example identity, tier, capability,
-  loading under Question 1).
+  loading under Question 1; a gate in the description, selection among alternatives, and a bail-out in
+  the body under Question 4, which also answers whether a skill can be reserved for weaker models).
 - Caveats and Guidance are bullet lists. Each bullet starts with a bold lead ("- **Tier: do not use.**").
   Guidance has one bullet per kind of branch condition (vendor, harness, exact version, tier, capability
-  from knowledge, capability from the session's tools) and one per delivery (native, pointer, inline),
-  each saying use, do not use, or use with a stated caveat, derived only from the cited claims.
+  from knowledge, capability from the session's tools), one per place a condition can sit (a gate in the
+  description, selection among alternatives, a bail-out in the body; each saying for which condition
+  kinds it worked) and one per delivery (native, pointer, inline), each saying use, do not use, or use
+  with a stated caveat, derived only from the cited claims.
 - Citations: every paragraph, every bullet and every table ends with one citation line of its own, in
   italics, listing the claim ids it rests on as links to claims.md, e.g.
   `*Claims: [tier-codex-incorrect](claims.md#tier-codex-incorrect), [guidance-skipped-by-codex](claims.md#guidance-skipped-by-codex)*`

@@ -9,7 +9,7 @@ are answered; this file says how to read the repository and how to run the exper
 1. `DESIGN.md`: the questions, the studies, the measures, run validity, ground-truth provenance and
    the report's trust model. It is the only hand-written source of judgement; the report is built
    from it and from the runs.
-2. `results/FINDINGS.md`: the answers to the three questions, with caveats and guidance. Written by
+2. `results/FINDINGS.md`: the answers to the four questions, with caveats and guidance. Written by
    an LLM from the two files below and `DESIGN.md`, then validated: every paragraph cites the claims
    it rests on, and every number comes from `claims.md` or `summary.md`.
 3. `results/claims.md`: the checkable verdicts, each with its numbers, evidence kind, status and
@@ -25,8 +25,8 @@ Hand-maintained (edit these; they are the inputs):
 | path | what it is |
 |---|---|
 | `DESIGN.md` | the design, and every judgement the report may make |
-| `skills/<name>/SKILL.md` | the six skills under test, unchanged across harnesses |
-| `prompts/branch.jsonl`, `prompts/work.jsonl` | the prompts, one per line, with the skill each pairs with |
+| `skills/<name>/SKILL.md` | the skills under test, unchanged across harnesses: six for Studies 1 and 2, two gated skills and five selection alternatives for Study 3 |
+| `prompts/branch.jsonl`, `prompts/work.jsonl`, `prompts/gate.jsonl` | the prompts, one per line, with the skill (or skill set) each pairs with |
 | `ground_truth.json` | the values stamps and branches are scored against, with each value's source |
 | `seed/`, `seed-2/` | the workspaces each run starts from |
 | `bin/*.py` | the pipeline scripts |
@@ -69,7 +69,7 @@ skips the ones with nothing to do. Or ask for one step at a time:
 | 1 | `/1-run` | run the matrix, or a subset (a study, a subject, a delivery, some prompts); previews the cells first |
 | 2 | `/2-score` | score every run deterministically; flags invalid runs |
 | 3 | `/3-rerun-invalid` | redo the runs that failed for infrastructure reasons, then score again; skipped when there are none |
-| 4 | `/4-judge` | LLM judge (Fable 5.1) for adherence; skips runs already judged |
+| 4 | `/4-judge` | optional: LLM judge (Fable 5.1) for adherence; no claim uses it, so a refresh skips it unless asked |
 | 5 | `/5-report` | `summary.md`, `runs.csv`, `claims.md`, `claims.json` |
 | 6 | `/6-findings` | `FINDINGS.md`, written by an LLM (Fable 5.1) and validated; skipped when the existing file still validates |
 
@@ -93,7 +93,7 @@ python3 bin/run.py                  # 1. run the matrix; results/runs/<run_id>/ 
 python3 bin/score.py                # 2. score every run; writes score.json, flags invalid runs
 python3 bin/run.py --rerun-invalid  # 3. redo runs that failed for infrastructure reasons...
 python3 bin/score.py                #    ...and score again
-python3 bin/judge.py                # 4. LLM judge (Fable 5.1); writes judge.json, skips runs already judged
+python3 bin/judge.py                # 4. optional: LLM judge (Fable 5.1); no claim uses it; skips runs already judged
 python3 bin/report.py               # 5. summary.md, runs.csv, claims.md, claims.json
 python3 bin/findings.py             # 6. FINDINGS.md, written by an LLM (Fable 5.1) and validated; fails rather than write a bad draft
 ```
@@ -129,13 +129,14 @@ Subsets:
 ```
 python3 bin/run.py --study branch                      # Study 1: vendor-stamp, harness-stamp, tier-stamp
 python3 bin/run.py --study work                        # Study 2: tiered-feature, tiered-guidance, tool-gated-review, baselines
+python3 bin/run.py --study gate                        # Study 3: gated skills (GV, GT) and selection sets (SV, ST); no inline cells for sets
 python3 bin/run.py --delivery inline                   # the inline-instructions control only
 python3 bin/run.py --prompts G1 G2 G3                  # one skill (prompt ids are in prompts/*.jsonl)
 python3 bin/run.py --prompts B1 B2 B3 BR1 BR2 BR3      # the no-skill baselines
 python3 bin/run.py --subjects claude-haiku --reps 1    # one subject, one rep
 ```
 
-The full matrix is 408 runs (see `DESIGN.md`, Scale). Claude runs cost about USD 0.03 to 0.25 each
+The full matrix is 648 runs (see `DESIGN.md`, Scale). Claude runs cost about USD 0.03 to 0.25 each
 depending on the model, Codex reports no cost, and judging costs about USD 0.10 to 0.22 per run.
 Codex runs are the slowest at one to two minutes each; with the default parallelism of 3, budget
 an hour or more for the whole matrix.

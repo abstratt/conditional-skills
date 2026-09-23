@@ -1,4 +1,25 @@
 {
+  "bailout-inline": {
+    "holds": false,
+    "kind": "observed",
+    "question": "placement",
+    "values": {
+      "k": 0,
+      "n": 0,
+      "rows": [
+        [
+          "subject",
+          "skill",
+          "not-loaded",
+          "declined",
+          "followed",
+          "ignored",
+          "mixed"
+        ]
+      ],
+      "table": ""
+    }
+  },
   "baseline-default-is-flagship-branch": {
     "holds": true,
     "kind": "observed",
@@ -22,8 +43,9 @@
     "kind": "observed",
     "question": "branching",
     "values": {
-      "n": 12,
-      "patterns": 4
+      "answers": "no: 8, yes: 4",
+      "k": 4,
+      "n": 12
     }
   },
   "capability-from-tools-claude": {
@@ -111,6 +133,92 @@
       "maxdiff": 2
     }
   },
+  "excluded-never-followed": {
+    "holds": false,
+    "kind": "observed",
+    "question": "placement",
+    "values": {
+      "f": 0,
+      "n": 0
+    }
+  },
+  "gate-tier-codex-refuses-own-skill": {
+    "holds": false,
+    "kind": "observed",
+    "question": "placement",
+    "values": {
+      "d": 0,
+      "ik": 0,
+      "inn": 0,
+      "k": 0,
+      "n": 0,
+      "nl": 0
+    }
+  },
+  "gate-tier-keeps-opus-sonnet-out": {
+    "holds": false,
+    "kind": "assumed",
+    "question": "placement",
+    "values": {
+      "d": 0,
+      "k": 0,
+      "n": 0,
+      "nl": 0,
+      "rows": [
+        [
+          "subject",
+          "delivery",
+          "not-loaded",
+          "declined",
+          "followed",
+          "ignored",
+          "mixed"
+        ]
+      ]
+    }
+  },
+  "gate-vendor-keeps-codex-out": {
+    "holds": false,
+    "kind": "observed",
+    "question": "placement",
+    "values": {
+      "d": 0,
+      "k": 0,
+      "n": 0,
+      "nl": 0,
+      "rows": [
+        [
+          "subject",
+          "delivery",
+          "not-loaded",
+          "declined",
+          "followed",
+          "ignored",
+          "mixed"
+        ]
+      ]
+    }
+  },
+  "gate-where-it-held": {
+    "holds": false,
+    "kind": "observed",
+    "question": "placement",
+    "values": {
+      "d": 0,
+      "n": 0,
+      "nl": 0,
+      "rows": [
+        [
+          "subject",
+          "skill",
+          "delivery",
+          "not-loaded",
+          "declined"
+        ]
+      ],
+      "table": ""
+    }
+  },
   "guidance-skipped-by-codex": {
     "holds": true,
     "kind": "observed",
@@ -139,6 +247,50 @@
       "othersn": 180,
       "p": 10,
       "pn": 12
+    }
+  },
+  "included-followed-when-loaded": {
+    "holds": false,
+    "kind": "observed",
+    "question": "placement",
+    "values": {
+      "k": 0,
+      "n": 0,
+      "rows": [
+        [
+          "subject",
+          "skill",
+          "delivery",
+          "not-loaded",
+          "declined",
+          "followed",
+          "ignored",
+          "mixed"
+        ]
+      ],
+      "table": ""
+    }
+  },
+  "included-loading": {
+    "holds": false,
+    "kind": "observed",
+    "question": "placement",
+    "values": {
+      "k": 0,
+      "n": 0,
+      "rows": [
+        [
+          "subject",
+          "skill",
+          "delivery",
+          "not-loaded",
+          "declined",
+          "followed",
+          "ignored",
+          "mixed"
+        ]
+      ],
+      "table": ""
     }
   },
   "inline-cheapest-delivery": {
@@ -245,7 +397,30 @@
     "values": {
       "ck": 36,
       "cn": 36,
+      "ok": 4,
       "on": 12
+    }
+  },
+  "not-portable-gate-tier": {
+    "holds": false,
+    "kind": "observed",
+    "question": "portability",
+    "values": {
+      "ck": 0,
+      "cn": 0,
+      "ok": 0,
+      "on": 0
+    }
+  },
+  "not-portable-selection-tier": {
+    "holds": false,
+    "kind": "observed",
+    "question": "portability",
+    "values": {
+      "ck": 0,
+      "cn": 0,
+      "ok": 0,
+      "on": 0
     }
   },
   "not-portable-tier": {
@@ -299,6 +474,17 @@
       "codex": "63k vs 72k"
     }
   },
+  "portable-gate-vendor": {
+    "holds": false,
+    "kind": "observed",
+    "question": "portability",
+    "values": {
+      "ck": 0,
+      "cn": 0,
+      "ok": 0,
+      "on": 0
+    }
+  },
   "portable-identity": {
     "holds": true,
     "kind": "observed",
@@ -310,12 +496,105 @@
       "on": 12
     }
   },
+  "portable-selection-vendor": {
+    "holds": false,
+    "kind": "observed",
+    "question": "portability",
+    "values": {
+      "ck": 0,
+      "cn": 0,
+      "ok": 0,
+      "on": 0
+    }
+  },
   "review-baseline-no-delegation": {
     "holds": true,
     "kind": "observed",
     "question": "branching",
     "values": {
       "n": 24
+    }
+  },
+  "select-loading": {
+    "holds": false,
+    "kind": "observed",
+    "question": "placement",
+    "values": {
+      "k": 0,
+      "n": 0,
+      "table": ""
+    }
+  },
+  "select-reads-before-choosing": {
+    "holds": false,
+    "kind": "observed",
+    "question": "placement",
+    "values": {
+      "ck": 0,
+      "cn": 0,
+      "k": 0,
+      "n": 0,
+      "ok": 0,
+      "on": 0
+    }
+  },
+  "select-tier-claude-correct": {
+    "holds": false,
+    "kind": "assumed",
+    "question": "placement",
+    "values": {
+      "k": 0,
+      "n": 0,
+      "none": 0,
+      "rows": [
+        [
+          "subject",
+          "delivery",
+          "correct",
+          "wrong",
+          "several",
+          "none"
+        ]
+      ]
+    }
+  },
+  "select-tier-codex-wrong": {
+    "holds": false,
+    "kind": "observed",
+    "question": "placement",
+    "values": {
+      "answers": "",
+      "n": 0
+    }
+  },
+  "select-vendor-correct": {
+    "holds": false,
+    "kind": "observed",
+    "question": "placement",
+    "values": {
+      "k": 0,
+      "n": 0,
+      "none": 0,
+      "rows": [
+        [
+          "subject",
+          "delivery",
+          "correct",
+          "wrong",
+          "several",
+          "none"
+        ]
+      ],
+      "table": ""
+    }
+  },
+  "select-work-matches-choice": {
+    "holds": false,
+    "kind": "observed",
+    "question": "placement",
+    "values": {
+      "k": 0,
+      "n": 0
     }
   },
   "skill-overhead-tokens": {
@@ -401,6 +680,22 @@
         ]
       ],
       "table": "claude-opus 5.4 vs 2.4 (n=18 vs 12); claude-sonnet 7.9 vs 2.0 (n=18 vs 12); claude-haiku 6.7 vs 3.8 (n=6 vs 6); codex-default 9.2 vs 4.1 (n=18 vs 12)"
+    }
+  },
+  "staying-out-costs-baseline": {
+    "holds": false,
+    "kind": "observed",
+    "question": "efficiency",
+    "values": {
+      "rows": [
+        [
+          "subject",
+          "not loaded",
+          "declined",
+          "no skill"
+        ]
+      ],
+      "table": ""
     }
   },
   "tier-claude-correct": {

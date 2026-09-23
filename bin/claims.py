@@ -19,7 +19,10 @@ TIER_SKILLS = ("tier-stamp", "tiered-feature", "tiered-guidance")
 FEATURE_SKILLS = ("tiered-feature", "tiered-guidance")
 SKILL_DELIVERIES = ("native", "pointer", "inline")
 OUTCOME_FIELDS = ("valid", "triggered", "outcome_ok", "stamp", "fields", "reported_tier", "implied_tier",
-                  "mode", "delegated_call", "findings_ok")
+                  "mode", "delegated_call", "findings_ok", "gate_outcome", "selection_outcome")
+GATED_SKILLS = ("vendor-gated-guidance", "tier-gated-guidance")
+SELECT_SETS = ("select-vendor", "select-tier")
+LOADABLE = ("native", "pointer")  # deliveries where a gate or a selection can hold (DESIGN.md, Delivery conditions)
 
 CLAIMS = []
 
@@ -295,7 +298,7 @@ def _(rows):
 
 
 @claim("capability-from-knowledge-claude", "branching", "observed",
-       "The Claude models answered all three `harness-stamp` capability questions correctly in every run "
+       "The Claude models answered the `harness-stamp` subagents question correctly in every run "
        "({k} of {n}).")
 def _(rows):
     rs = [r for r in skill_runs(rows, skill="harness-stamp") if r["subject"] in CLAUDE]
@@ -304,13 +307,13 @@ def _(rows):
 
 
 @claim("capability-from-knowledge-codex", "branching", "observed",
-       "Codex with gpt-5.6-luna never answered all three `harness-stamp` questions correctly (0 of {n}) and "
-       "gave {patterns} different answer patterns, so a branch on its product knowledge of its harness is unreliable.")
+       "Codex with gpt-5.6-luna answered the `harness-stamp` subagents question correctly in {k} of {n} runs "
+       "(answers: {answers}); its product knowledge of its own harness is not reliable enough to branch on.")
 def _(rows):
     rs = skill_runs(rows, subject=CODEX, skill="harness-stamp")
     k = [r for r in rs if r["all_fields_correct"]]
-    patterns = {tuple(sorted((r["stamp"] or {}).items())) for r in rs}
-    return len(k) == 0 and rs, dict(n=len(rs), patterns=len(patterns))
+    answers = Counter((r["stamp"] or {}).get("subagents") for r in rs)
+    return len(k) < len(rs) and rs, dict(k=len(k), n=len(rs), answers=fmt_counts(answers))
 
 
 @claim("capability-from-tools-claude", "branching", "observed",
@@ -396,12 +399,12 @@ def _(rows):
 
 @claim("not-portable-capability-from-knowledge", "portability", "observed",
        "A capability branch answered from product knowledge worked for the Claude pair ({ck} of {cn}) and "
-       "not for the Codex pair (0 of {on}).")
+       "only sometimes for the Codex pair ({ok} of {on}), whose answer to the same question varied from run to run.")
 def _(rows):
     rs = skill_runs(rows, skill="harness-stamp")
     c = [r for r in rs if r["subject"] in CLAUDE]; o = [r for r in rs if r["subject"] == CODEX]
     ck, ok = sum(r["all_fields_correct"] for r in c), sum(r["all_fields_correct"] for r in o)
-    return ck == len(c) and ok == 0, dict(ck=ck, cn=len(c), on=len(o))
+    return ck == len(c) and ok < len(o) and rs, dict(ck=ck, cn=len(c), ok=ok, on=len(o))
 
 
 @claim("partially-portable-capability-from-tools", "portability", "inferred",
@@ -544,6 +547,246 @@ def _(rows):
         parts.append(f"{s} {d/1000:.0f}k vs {n/1000:.0f}k")
         table.append((s, f"{d/1000:.0f}k", f"{n/1000:.0f}k"))
     return ok, dict(table="; ".join(parts), rows=table)
+
+
+# ---------- Question 4: placement (Study 3) ----------
+
+def gate_runs(rows, skill=None, included=None, delivery=None, subject=None):
+    out = [r for r in rows if r["kind"] == "gated"]
+    if skill: out = [r for r in out if r["skill"] == skill]
+    if included is not None: out = [r for r in out if r["included"] == included]
+    if delivery: out = [r for r in out if r["delivery"] in (delivery if isinstance(delivery, tuple) else (delivery,))]
+    if subject: out = [r for r in out if r["subject"] in (subject if isinstance(subject, tuple) else (subject,))]
+    return out
+
+
+def select_runs(rows, set_=None, subject=None):
+    out = [r for r in rows if r["kind"] == "selection"]
+    if set_: out = [r for r in out if r["skill"] == set_]
+    if subject: out = [r for r in out if r["subject"] in (subject if isinstance(subject, tuple) else (subject,))]
+    return out
+
+
+def outcome_table(rs, key, values, by=("subject", "delivery")):
+    table = [by + values]
+    for k in sorted({tuple(r[b] for b in by) for r in rs}):
+        cell = [r for r in rs if tuple(r[b] for b in by) == k]
+        table.append(k + tuple(str(sum(1 for r in cell if r[key] == v)) for v in values))
+    return table
+
+
+GATE_OUTCOMES = ("not-loaded", "declined", "followed", "ignored", "mixed")
+
+
+@claim("gate-vendor-keeps-codex-out", "placement", "observed",
+       "Under `vendor-gated-guidance` (for Anthropic models only), Codex with gpt-5.6-luna stayed out of the skill "
+       "in every native and pointer run ({k} of {n}: not loaded {nl}, declined {d}); it never followed the checklist.")
+def _(rows):
+    rs = gate_runs(rows, "vendor-gated-guidance", included=False, delivery=LOADABLE, subject=CODEX)
+    k = [r for r in rs if r["gate_correct"]]
+    c = Counter(r["gate_outcome"] for r in rs)
+    return len(k) == len(rs) and rs, dict(k=len(k), n=len(rs), nl=c["not-loaded"], d=c["declined"], rows=outcome_table(rs, "gate_outcome", GATE_OUTCOMES))
+
+
+@claim("gate-tier-keeps-opus-sonnet-out", "placement", "assumed",
+       "Under `tier-gated-guidance` (for small models only), Opus and Sonnet stayed out of the skill in every native "
+       "and pointer run ({k} of {n}: not loaded {nl}, declined {d}); the Anthropic tiers are an assumed scale.")
+def _(rows):
+    rs = gate_runs(rows, "tier-gated-guidance", included=False, delivery=LOADABLE, subject=("claude-opus", "claude-sonnet"))
+    k = [r for r in rs if r["gate_correct"]]
+    c = Counter(r["gate_outcome"] for r in rs)
+    return len(k) == len(rs) and rs, dict(k=len(k), n=len(rs), nl=c["not-loaded"], d=c["declined"], rows=outcome_table(rs, "gate_outcome", GATE_OUTCOMES))
+
+
+@claim("gate-where-it-held", "placement", "observed",
+       "Among the {n} native and pointer runs in which an excluded subject stayed out of a gated skill, the gate held "
+       "at the description (skill never loaded) in {nl} and in the body (loaded, then declined) in {d}: {table}.")
+def _(rows):
+    rs = [r for r in gate_runs(rows, included=False, delivery=LOADABLE) if r["gate_outcome"] in ("not-loaded", "declined")]
+    c = Counter(r["gate_outcome"] for r in rs)
+    parts = []
+    for s in sorted({r["subject"] for r in rs}):
+        cc = Counter(r["gate_outcome"] for r in rs if r["subject"] == s)
+        parts.append(f"{s} not loaded {cc['not-loaded']}, declined {cc['declined']}")
+    return bool(rs), dict(n=len(rs), nl=c["not-loaded"], d=c["declined"], table="; ".join(parts),
+                          rows=outcome_table(rs, "gate_outcome", ("not-loaded", "declined"), by=("subject", "skill", "delivery")))
+
+
+@claim("excluded-never-followed", "placement", "observed",
+       "No excluded subject followed a gated skill's checklist in any run, in any delivery ({f} followed or mixed "
+       "of {n} runs).")
+def _(rows):
+    rs = gate_runs(rows, included=False)
+    f = [r for r in rs if r["gate_outcome"] in ("followed", "mixed")]
+    return len(f) == 0 and rs, dict(f=len(f), n=len(rs))
+
+
+@claim("bailout-inline", "placement", "observed",
+       "With a gated skill's body in the prompt (`inline`), where it cannot be left unloaded, excluded subjects "
+       "declined it in {k} of {n} runs: {table}.")
+def _(rows):
+    rs = gate_runs(rows, included=False, delivery="inline")
+    k = [r for r in rs if r["gate_outcome"] == "declined"]
+    parts = [f"{s} {sum(1 for r in k if r['subject'] == s)} of {sum(1 for r in rs if r['subject'] == s)}" for s in sorted({r["subject"] for r in rs})]
+    return len(k) == len(rs) and rs, dict(k=len(k), n=len(rs), table="; ".join(parts),
+                                          rows=outcome_table(rs, "gate_outcome", GATE_OUTCOMES, by=("subject", "skill")))
+
+
+@claim("included-followed-when-loaded", "placement", "observed",
+       "Every included subject that loaded a gated skill followed its checklist ({k} of {n} loaded runs, all deliveries): {table}.")
+def _(rows):
+    rs = [r for r in gate_runs(rows, included=True) if r["triggered"]]
+    k = [r for r in rs if r["gate_outcome"] == "followed"]
+    parts = [f"{s} {sum(1 for r in k if r['subject'] == s)} of {sum(1 for r in rs if r['subject'] == s)}" for s in sorted({r["subject"] for r in rs})]
+    return len(k) == len(rs) and rs, dict(k=len(k), n=len(rs), table="; ".join(parts),
+                                          rows=outcome_table(rs, "gate_outcome", GATE_OUTCOMES, by=("subject", "skill", "delivery")))
+
+
+@claim("included-loading", "placement", "observed",
+       "Included subjects loaded the gated skill written for them in {k} of {n} native and pointer runs: {table}.")
+def _(rows):
+    rs = gate_runs(rows, included=True, delivery=LOADABLE)
+    k = [r for r in rs if r["triggered"]]
+    parts = [f"{s} {sum(1 for r in k if r['subject'] == s and r['skill'] == sk)} of {sum(1 for r in rs if r['subject'] == s and r['skill'] == sk)} ({sk})"
+             for s in sorted({r["subject"] for r in rs}) for sk in GATED_SKILLS if any(r["subject"] == s and r["skill"] == sk for r in rs)]
+    return bool(rs), dict(k=len(k), n=len(rs), table="; ".join(parts),
+                          rows=outcome_table(rs, "gate_outcome", GATE_OUTCOMES, by=("subject", "skill", "delivery")))
+
+
+@claim("gate-tier-codex-refuses-own-skill", "placement", "observed",
+       "Codex with gpt-5.6-luna, whose documented tier is small, stayed out of `tier-gated-guidance`, the skill written "
+       "for small models, in {k} of {n} native and pointer runs (not loaded {nl}, declined {d}), and declined it in "
+       "{ik} of {inn} inline runs; a skill reserved for weaker models cannot rest on its self-placement.")
+def _(rows):
+    rs = gate_runs(rows, "tier-gated-guidance", delivery=LOADABLE, subject=CODEX)
+    k = [r for r in rs if r["gate_outcome"] in ("not-loaded", "declined")]
+    c = Counter(r["gate_outcome"] for r in rs)
+    inl = gate_runs(rows, "tier-gated-guidance", delivery="inline", subject=CODEX)
+    ik = [r for r in inl if r["gate_outcome"] == "declined"]
+    ex = excerpts(k + ik, r"flagship|not a small|mid-tier|tier", limit=2)
+    return len(k) == len(rs) and rs, dict(k=len(k), n=len(rs), nl=c["not-loaded"], d=c["declined"], ik=len(ik), inn=len(inl)), ex
+
+
+@claim("select-vendor-correct", "placement", "observed",
+       "Given `feature-anthropic` and `feature-openai` side by side, every run that followed a skill followed the one "
+       "for its vendor ({k} of {n} runs that chose; {none} chose none): {table}.")
+def _(rows):
+    rs = select_runs(rows, "select-vendor")
+    chose = [r for r in rs if r["selection_outcome"] != "none"]
+    k = [r for r in chose if r["selection_outcome"] == "correct"]
+    return len(k) == len(chose) and chose, dict(k=len(k), n=len(chose), none=len(rs) - len(chose),
+                                                 table=fmt_counts(Counter(r["selection_outcome"] for r in rs)),
+                                                 rows=outcome_table(rs, "selection_outcome", ("correct", "wrong", "several", "none")))
+
+
+@claim("select-tier-claude-correct", "placement", "assumed",
+       "Given `feature-flagship`, `feature-mid` and `feature-small` side by side, every Claude model run that followed a "
+       "skill followed the one for its tier ({k} of {n} runs that chose; {none} chose none); the tiers are an assumed scale.")
+def _(rows):
+    rs = select_runs(rows, "select-tier", subject=CLAUDE)
+    chose = [r for r in rs if r["selection_outcome"] != "none"]
+    k = [r for r in chose if r["selection_outcome"] == "correct"]
+    return len(k) == len(chose) and chose, dict(k=len(k), n=len(chose), none=len(rs) - len(chose),
+                                                 rows=outcome_table(rs, "selection_outcome", ("correct", "wrong", "several", "none")))
+
+
+@claim("select-tier-codex-wrong", "placement", "observed",
+       "Codex with gpt-5.6-luna never followed `feature-small`, the skill for its documented tier (0 of {n} runs that "
+       "chose); it followed {answers}.")
+def _(rows):
+    rs = select_runs(rows, "select-tier", subject=CODEX)
+    chose = [r for r in rs if r["selection_outcome"] != "none"]
+    small = [r for r in chose if r["chosen_skill"] == "feature-small"]
+    answers = Counter(", ".join(r["skills_followed"]) for r in chose)
+    return len(small) == 0 and chose, dict(n=len(chose), answers=fmt_counts(answers))
+
+
+@claim("select-loading", "placement", "observed",
+       "With a selection set installed, subjects followed at least one of its skills in {k} of {n} runs: {table}.")
+def _(rows):
+    rs = select_runs(rows)
+    k = [r for r in rs if r["selection_outcome"] != "none"]
+    parts = [f"{s} {sum(1 for r in k if r['subject'] == s and r['delivery'] == d)} of {sum(1 for r in rs if r['subject'] == s and r['delivery'] == d)} ({d})"
+             for s in sorted({r["subject"] for r in rs}) for d in LOADABLE if any(r["subject"] == s and r["delivery"] == d for r in rs)]
+    return bool(rs), dict(k=len(k), n=len(rs), table="; ".join(parts))
+
+
+@claim("select-reads-before-choosing", "placement", "observed",
+       "In {k} of {n} selection runs that followed exactly one skill, the agent had read at least one other alternative "
+       "first (the Claude pair {ck} of {cn}, the Codex pair {ok} of {on}).")
+def _(rows):
+    rs = [r for r in select_runs(rows) if r["selection_outcome"] in ("correct", "wrong")]
+    k = [r for r in rs if r["read_only"]]
+    c = [r for r in rs if r["subject"] in CLAUDE]; o = [r for r in rs if r["subject"] == CODEX]
+    return bool(rs), dict(k=len(k), n=len(rs), ck=sum(bool(r["read_only"]) for r in c), cn=len(c),
+                          ok=sum(bool(r["read_only"]) for r in o), on=len(o))
+
+
+@claim("select-work-matches-choice", "placement", "observed",
+       "In every selection run that followed exactly one skill, the work matched that skill's body ({k} of {n}).")
+def _(rows):
+    rs = [r for r in select_runs(rows) if r["selection_outcome"] in ("correct", "wrong")]
+    k = [r for r in rs if r["work_matches_choice"]]
+    return len(k) == len(rs) and rs, dict(k=len(k), n=len(rs))
+
+
+@claim("portable-gate-vendor", "portability", "observed",
+       "A gate on vendor behaved correctly for both pairs in native and pointer runs: the Claude pair, included, followed "
+       "the skill whenever it loaded ({ck} of {cn} loaded runs) and the Codex pair, excluded, stayed out ({ok} of {on}).")
+def _(rows):
+    c = [r for r in gate_runs(rows, "vendor-gated-guidance", delivery=LOADABLE, subject=CLAUDE) if r["triggered"]]
+    o = gate_runs(rows, "vendor-gated-guidance", delivery=LOADABLE, subject=CODEX)
+    ck, ok = sum(r["gate_outcome"] == "followed" for r in c), sum(r["gate_correct"] for r in o)
+    return ck == len(c) and ok == len(o) and c and o, dict(ck=ck, cn=len(c), ok=ok, on=len(o))
+
+
+@claim("not-portable-gate-tier", "portability", "observed",
+       "A gate on tier behaved correctly for the Claude pair ({ck} of {cn} native and pointer runs) and not for the Codex "
+       "pair ({ok} of {on}), which refused the skill written for its documented tier.")
+def _(rows):
+    c = gate_runs(rows, "tier-gated-guidance", delivery=LOADABLE, subject=CLAUDE)
+    o = gate_runs(rows, "tier-gated-guidance", delivery=LOADABLE, subject=CODEX)
+    # Haiku's loading failures are a delivery matter, not a gate failure: credit an included run that loaded and followed, or did not load
+    ck = sum(r["gate_correct"] or (r["included"] and not r["triggered"]) for r in c)
+    ok = sum(r["gate_correct"] for r in o)
+    return ck == len(c) and ok < len(o) and c and o, dict(ck=ck, cn=len(c), ok=ok, on=len(o))
+
+
+@claim("portable-selection-vendor", "portability", "observed",
+       "Selection by vendor worked for both pairs among runs that chose: the Claude pair {ck} of {cn}, the Codex pair {ok} of {on}.")
+def _(rows):
+    c = [r for r in select_runs(rows, "select-vendor", CLAUDE) if r["selection_outcome"] != "none"]
+    o = [r for r in select_runs(rows, "select-vendor", CODEX) if r["selection_outcome"] != "none"]
+    ck, ok = sum(r["selection_outcome"] == "correct" for r in c), sum(r["selection_outcome"] == "correct" for r in o)
+    return ck == len(c) and ok == len(o) and c and o, dict(ck=ck, cn=len(c), ok=ok, on=len(o))
+
+
+@claim("not-portable-selection-tier", "portability", "observed",
+       "Selection by tier worked for the Claude pair ({ck} of {cn} runs that chose) and not for the Codex pair ({ok} of {on}).")
+def _(rows):
+    c = [r for r in select_runs(rows, "select-tier", CLAUDE) if r["selection_outcome"] != "none"]
+    o = [r for r in select_runs(rows, "select-tier", CODEX) if r["selection_outcome"] != "none"]
+    ck, ok = sum(r["selection_outcome"] == "correct" for r in c), sum(r["selection_outcome"] == "correct" for r in o)
+    return ck == len(c) and ok < len(o) and c and o, dict(ck=ck, cn=len(c), ok=ok, on=len(o))
+
+
+@claim("staying-out-costs-baseline", "efficiency", "observed",
+       "A run in which the gate held at the description cost about what the no-skill baseline of the same prompt cost, "
+       "and one that loaded the skill and then declined cost more: {table}. (Input tokens, per subject; excluded subjects only.)")
+def _(rows):
+    parts, ok, table = [], True, [("subject", "not loaded", "declined", "no skill")]
+    for s in CLAUDE + (CODEX,):
+        rs = gate_runs(rows, included=False, subject=s)
+        nl = mean_or_none([r["tokens_in"] for r in rs if r["gate_outcome"] == "not-loaded"])
+        d = mean_or_none([r["tokens_in"] for r in rs if r["gate_outcome"] == "declined"])
+        b = mean_or_none([x["tokens_in"] for r in rs for x in paired_baseline(rows, r)])
+        if b is None or (nl is None and d is None): continue
+        if nl is not None: ok = ok and nl <= 1.25 * b
+        if nl is not None and d is not None: ok = ok and d > nl
+        f = lambda v: f"{v/1000:.0f}k" if v is not None else "-"
+        parts.append(f"{s} not loaded {f(nl)}, declined {f(d)}, no skill {f(b)}")
+        table.append((s, f(nl), f(d), f(b)))
+    return ok and parts, dict(table="; ".join(parts), rows=table)
 
 
 # ---------- evaluation ----------

@@ -318,8 +318,8 @@ codex-default__inline__G2__r2,codex-default,inline,work,G2,tiered-guidance,2,Tru
 codex-default__inline__G3__r1,codex-default,inline,work,G3,tiered-guidance,1,True,False,,60461,1070,4,,31.36,True,2,2,2
 codex-default__inline__G3__r2,codex-default,inline,work,G3,tiered-guidance,2,True,False,,61078,1094,4,,34.86,True,2,2,2
 codex-default__inline__H1__r1,codex-default,inline,branch,H1,harness-stamp,1,True,False,,47743,1047,3,,31.86,True,2,2,2
-codex-default__inline__H1__r2,codex-default,inline,branch,H1,harness-stamp,2,True,False,,89101,1263,3,,34.48,True,2,2,2
-codex-default__inline__H2__r1,codex-default,inline,branch,H2,harness-stamp,1,True,False,,84804,1306,3,,37.28,True,2,2,2
+codex-default__inline__H1__r2,codex-default,inline,branch,H1,harness-stamp,2,True,True,,89101,1263,3,,34.48,True,2,2,2
+codex-default__inline__H2__r1,codex-default,inline,branch,H2,harness-stamp,1,True,True,,84804,1306,3,,37.28,True,2,2,2
 codex-default__inline__H2__r2,codex-default,inline,branch,H2,harness-stamp,2,True,False,,47819,917,3,,25.74,True,2,2,2
 codex-default__inline__R1__r1,codex-default,inline,work,R1,tool-gated-review,1,True,False,,84451,1317,6,,35.91,True,2,2,2
 codex-default__inline__R1__r2,codex-default,inline,work,R1,tool-gated-review,2,True,False,,85896,1536,6,,43.1,True,2,2,2
@@ -349,7 +349,7 @@ codex-default__native__G3__r1,codex-default,native,work,G3,tiered-guidance,1,Tru
 codex-default__native__G3__r2,codex-default,native,work,G3,tiered-guidance,2,True,False,,116125,2076,7,,53.88,True,2,2,2
 codex-default__native__H1__r1,codex-default,native,branch,H1,harness-stamp,1,True,False,,73435,1596,5,,48.58,True,2,2,2
 codex-default__native__H1__r2,codex-default,native,branch,H1,harness-stamp,2,True,False,,59383,993,4,,151.41,True,2,2,2
-codex-default__native__H2__r1,codex-default,native,branch,H2,harness-stamp,1,True,False,,182459,2188,6,,79.72,True,2,2,2
+codex-default__native__H2__r1,codex-default,native,branch,H2,harness-stamp,1,True,True,,182459,2188,6,,79.72,True,2,2,2
 codex-default__native__H2__r2,codex-default,native,branch,H2,harness-stamp,2,True,False,,59988,1189,4,,36.57,True,2,2,2
 codex-default__native__R1__r1,codex-default,native,work,R1,tool-gated-review,1,True,False,,116047,2310,12,,78.57,True,2,2,2
 codex-default__native__R1__r2,codex-default,native,work,R1,tool-gated-review,2,True,False,,161670,3222,15,,86.3,True,2,2,2
@@ -390,7 +390,7 @@ codex-default__pointer__G2__r2,codex-default,pointer,work,G2,tiered-guidance,2,T
 codex-default__pointer__G3__r1,codex-default,pointer,work,G3,tiered-guidance,1,True,False,,74251,1390,5,,35.64,True,2,2,2
 codex-default__pointer__G3__r2,codex-default,pointer,work,G3,tiered-guidance,2,True,False,,116572,2243,7,,52.71,True,2,2,2
 codex-default__pointer__H1__r1,codex-default,pointer,branch,H1,harness-stamp,1,True,False,,73405,1205,5,,46.71,True,2,2,2
-codex-default__pointer__H1__r2,codex-default,pointer,branch,H1,harness-stamp,2,True,False,,102439,1196,4,,51.71,True,2,2,2
+codex-default__pointer__H1__r2,codex-default,pointer,branch,H1,harness-stamp,2,True,True,,102439,1196,4,,51.71,True,2,2,2
 codex-default__pointer__H2__r1,codex-default,pointer,branch,H2,harness-stamp,1,True,False,,59588,814,4,,29.93,True,2,2,2
 codex-default__pointer__H2__r2,codex-default,pointer,branch,H2,harness-stamp,2,True,False,,59505,1003,4,,42.57,True,2,2,2
 codex-default__pointer__R1__r1,codex-default,pointer,work,R1,tool-gated-review,1,True,True,,353514,2675,14,,405.35,True,2,2,2

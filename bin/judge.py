@@ -35,7 +35,7 @@ def judge(run_dir, force=False):
         return None
     if not (s["expect_trigger"] or s["triggered"]) or s.get("valid") is False:
         return None
-    _, skill_text = skill_frontmatter(s["skill"])
+    skill_text = "\n\n".join(skill_frontmatter(k)[1] for k in prompt_skills(load_prompt(s["prompt_id"])))
     packet = (f"{RUBRIC}\n\n## Skill\n{skill_text}\n\n## Delivery\n{s['delivery']}\n\n"
               f"## User prompt\n{s['prompt_id']}: {load_prompt_text(s['prompt_id'])}\n\n"
               f"## Skill expected to apply?\n{s['expect_trigger']}\n\n"
@@ -55,8 +55,12 @@ def judge(run_dir, force=False):
     return verdict
 
 
+def load_prompt(pid):
+    return next(p for p in load_prompts() if p["id"] == pid)
+
+
 def load_prompt_text(pid):
-    return next(p["prompt"] for p in load_prompts() if p["id"] == pid)
+    return load_prompt(pid)["prompt"]
 
 
 if __name__ == "__main__":

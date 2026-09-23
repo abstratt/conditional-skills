@@ -1,9 +1,12 @@
 ---
 name: 4-judge
-description: Pipeline step 4 of 6. Run the LLM judge (bin/judge.py) for adherence on runs where the skill was expected or used, writing judge.json per run. Use when asked to judge runs, grade adherence, rejudge, or judge specific run ids.
+description: Pipeline step 4 of 6, optional. Run the LLM judge (bin/judge.py) for adherence on runs where the skill was expected or used, writing judge.json per run. Use when asked to judge runs, grade adherence, rejudge, or judge specific run ids.
 ---
 
-# Step 4: LLM judge
+# Step 4: LLM judge (optional)
+
+No claim uses adherence scores and a refresh skips this step (`DESIGN.md`, Scope decisions).
+Run it only when asked for adherence scores.
 
 `bin/judge.py` asks a judge model (Fable 5.1, via `claude -p` with no tools) to grade each
 eligible run's adherence to its skill: format adherence, scope discipline and honesty, with a

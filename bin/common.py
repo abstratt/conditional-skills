@@ -16,13 +16,20 @@ DELIVERIES = ["native", "pointer", "inline"]
 
 def load_prompts(study=None):
     out = []
-    for f in ("branch.jsonl", "work.jsonl"):
+    for f in ("branch.jsonl", "work.jsonl", "gate.jsonl"):
         for line in (ROOT / "prompts" / f).read_text().splitlines():
             if line.strip():
                 p = json.loads(line)
                 if study in (None, p["study"]):
                     out.append(p)
     return out
+
+
+def prompt_skills(p):
+    """The skills a prompt installs: one for most prompts, a set for Study 3's selection prompts, none for baselines."""
+    if p.get("skills"):
+        return list(p["skills"])
+    return [p["skill"]] if p.get("skill") else []
 
 
 def skill_frontmatter(name):

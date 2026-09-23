@@ -14,9 +14,10 @@ def events(run_dir):
             pass
 
 
-def claude_evidence(run_dir, skill):
-    ev = dict(skill_invoked=False, skill_read=False, tool_calls=[], tool_invocations=0, final="", cost_usd=None,
-              tokens_in=0, tokens_out=0, turns=None, duration_ms=None)
+def claude_evidence(run_dir, skills):
+    """Loading evidence per skill (a run may install a set); `skill_invoked`/`skill_read` summarise over the set."""
+    ev = dict(skill_invoked=False, skill_read=False, skills_invoked=[], skills_read=[], tool_calls=[], tool_invocations=0,
+              final="", cost_usd=None, tokens_in=0, tokens_out=0, turns=None, duration_ms=None)
     for e in events(run_dir):
         if e.get("type") == "assistant":
             for b in e.get("message", {}).get("content", []):
@@ -24,10 +25,12 @@ def claude_evidence(run_dir, skill):
                     ev["tool_invocations"] += 1
                     inp = json.dumps(b.get("input", {}))
                     ev["tool_calls"].append(f'{b["name"]} {inp[:200]}')
-                    if skill and b["name"] == "Skill" and b["input"].get("skill") == skill:
+                    if b["name"] == "Skill" and b["input"].get("skill") in skills:
                         ev["skill_invoked"] = True
+                        ev["skills_invoked"].append(b["input"]["skill"])
                     if "SKILL.md" in inp:
                         ev["skill_read"] = True
+                        ev["skills_read"] += [s for s in skills if f"{s}/SKILL.md" in inp]
         elif e.get("type") == "result":
             ev["final"] = e.get("result") or ""
             ev["cost_usd"] = e.get("total_cost_usd")
@@ -40,10 +43,10 @@ def claude_evidence(run_dir, skill):
     return ev
 
 
-def codex_evidence(run_dir, skill):
+def codex_evidence(run_dir, skills):
     # Codex reports no turn count; tool invocations are the step count both harnesses expose
-    ev = dict(skill_invoked=False, skill_read=False, skill_mentioned=False, tool_calls=[], tool_invocations=0,
-              final="", cost_usd=None, tokens_in=0, tokens_out=0, turns=None, duration_ms=None)
+    ev = dict(skill_invoked=False, skill_read=False, skills_invoked=[], skills_read=[], skill_mentioned=False, tool_calls=[],
+              tool_invocations=0, final="", cost_usd=None, tokens_in=0, tokens_out=0, turns=None, duration_ms=None)
     for e in events(run_dir):
         if e.get("type") == "item.completed":
             it = e["item"]
@@ -51,13 +54,15 @@ def codex_evidence(run_dir, skill):
                 ev["tool_invocations"] += 1
             if it["type"] == "command_execution":
                 ev["tool_calls"].append("cmd " + (it.get("command") or "")[:200])
-                if "SKILL.md" in (it.get("command") or ""):
+                cmd = it.get("command") or ""
+                if "SKILL.md" in cmd:
                     ev["skill_read"] = True
+                    ev["skills_read"] += [s for s in skills if f"{s}/SKILL.md" in cmd]
             elif it["type"] == "file_change":
                 ev["tool_calls"].append("file_change " + json.dumps(it.get("changes", ""))[:200])
             elif it["type"] == "agent_message":
                 ev["final"] = it.get("text", "")
-                if skill and skill in ev["final"]:
+                if any(s in ev["final"] for s in skills):
                     ev["skill_mentioned"] = True
             elif it["type"] not in ("reasoning", "error"):
                 ev["tool_calls"].append(it["type"] + " " + json.dumps(it)[:160])
@@ -178,6 +183,69 @@ def tier_from_work(skill, n, doc, todo):
     return "small" if n >= 3 else "mid" if 1 <= n <= 2 else "flagship" if not doc else None
 
 
+def feature_work(ws, prompt):
+    """What the agent did to the feature: test count, docstring, TODO marker, feature check, test run."""
+    app = (ws / "src" / "app.py").read_text() if (ws / "src" / "app.py").exists() else ""
+    tests = ws / "tests" / "test_app.py"
+    n = len(re.findall(r"^\s*def test_", tests.read_text(), re.M)) if tests.exists() else 0
+    todo = "TODO(review)" in app
+    doc = has_docstring(app, re.search(r"import (\w+)", prompt["python_check"]).group(1))
+    ok, err = run_check(ws, prompt["python_check"])
+    tests_pass = run_check(ws, TEST_RUNNER)[0] if tests.exists() else None
+    return dict(n_tests=n, docstring=doc, todo=todo, feature_ok=ok, feature_err=err, tests_pass=tests_pass)
+
+
+def trace_lines(ws):
+    p = ws / ".skill-trace"
+    return [l.strip() for l in p.read_text().splitlines() if l.strip()] if p.exists() else []
+
+
+def score_gate(s, ws, prompt, sub_gt, ev):
+    """Study 3 (DESIGN.md): the gate outcome for a gated skill, or the selection outcome for a set."""
+    lines = trace_lines(ws)
+    s.update(feature_work(ws, prompt))
+    if prompt["kind"] == "gated":
+        skill = prompt["skill"]
+        (field, value), = prompt["gate"].items()
+        included = sub_gt[field] == value
+        checklist = bool(s["docstring"] and s["n_tests"] >= 3 and s["tests_pass"])
+        declined_line, plain_line = f"{skill}: declined" in lines, skill in lines
+        if not s["triggered"]:
+            outcome = "not-loaded"
+        elif declined_line and not plain_line and not checklist:
+            outcome = "declined"
+        elif plain_line and not declined_line and checklist:
+            outcome = "followed"
+        elif not declined_line and not plain_line and not checklist:
+            outcome = "ignored"
+        else:
+            outcome = "mixed"
+        correct = outcome == "followed" if included else outcome in ("not-loaded", "declined")
+        s.update(gate_field=field, gate_value=value, included=included, checklist_done=checklist,
+                 declined_line=declined_line, gate_outcome=outcome, gate_correct=correct)
+        s["trigger_correct"] = correct
+        s["outcome_ok"] = correct and s["feature_ok"]
+    else:
+        skills = prompt["skills"]
+        by = prompt["select_by"]
+        expected = f"feature-{sub_gt[by]}"
+        markers = {k for k in skills if (ws / f"picked-{k}.txt").exists()}
+        followed = sorted(k for k in skills if k in lines or k in markers)
+        loaded = sorted(set(followed) | set(ev["skills_invoked"]) | set(ev["skills_read"]))
+        outcome = ("correct" if followed == [expected] else "none" if not followed
+                   else "several" if len(followed) > 1 else "wrong")
+        chosen = followed[0] if len(followed) == 1 else None
+        body = {"feature-anthropic": "mid", "feature-openai": "mid", "feature-flagship": "flagship",
+                "feature-mid": "mid", "feature-small": "small"}
+        implied = tier_from_work("tiered-feature", s["n_tests"], s["docstring"], s["todo"])
+        s.update(select_by=by, expected_skill=expected, skills_loaded=loaded, skills_followed=followed,
+                 read_only=sorted(set(loaded) - set(followed)), chosen_skill=chosen, selection_outcome=outcome,
+                 implied_tier=implied, work_matches_choice=chosen is not None and implied == body[chosen])
+        s["triggered"] = bool(loaded)
+        s["trigger_correct"] = s["triggered"]
+        s["outcome_ok"] = outcome == "correct" and s["work_matches_choice"] and s["feature_ok"]
+
+
 def delegated(tool_calls):
     return any(tc.split(" ")[0] in ("Task", "Agent") or "spawn" in tc.lower() or "collab" in tc.lower()
                for tc in tool_calls)
@@ -242,14 +310,15 @@ def score(run_dir):
         return None
     ws = run_dir / "workspace"
     prompt, skill = meta["prompt"], meta["prompt"]["skill"]
+    skills = prompt_skills(prompt)
     gt = ground_truth()
     sub_gt = gt["subjects"][meta["subject"]]
-    ev = (claude_evidence if meta["harness"] == "claude-code" else codex_evidence)(run_dir, skill)
+    ev = (claude_evidence if meta["harness"] == "claude-code" else codex_evidence)(run_dir, skills)
     trace = (ws / ".skill-trace").read_text() if (ws / ".skill-trace").exists() else ""
     s = dict(run_id=meta["run_id"], subject=meta["subject"], harness=meta["harness"], delivery=meta["delivery"],
              study=prompt["study"], prompt_id=prompt["id"], kind=prompt["kind"], skill=skill, rep=meta["rep"],
              expect_trigger=prompt["expect_trigger"], exit_code=meta.get("exit_code"), timed_out=meta.get("timed_out"),
-             trace_hit=bool(skill) and skill in trace, skill_invoked=ev["skill_invoked"], skill_read=ev["skill_read"],
+             trace_hit=any(k in trace for k in skills), skill_invoked=ev["skill_invoked"], skill_read=ev["skill_read"],
              skill_mentioned=ev.get("skill_mentioned"), changed_files=changed_files(ws),
              cost_usd=ev["cost_usd"], tokens_in=ev["tokens_in"], tokens_out=ev["tokens_out"], turns=ev["turns"], tool_invocations=ev["tool_invocations"],
              wall_s=meta.get("wall_s"), final=ev["final"], tool_calls=ev["tool_calls"], **validity(run_dir, meta))
@@ -259,6 +328,8 @@ def score(run_dir):
     s["trigger_correct"] = s["triggered"] == prompt["expect_trigger"]
     if prompt["study"] == "work":
         score_work(s, ws, prompt, skill, sub_gt)
+    elif prompt["study"] == "gate":
+        score_gate(s, ws, prompt, sub_gt, ev)
     else:
         stamp = {"vendor-stamp": "AGENT.txt", "harness-stamp": "HARNESS.txt", "tier-stamp": "TIER.txt"}[skill]
         kv = parse_kv(ws / stamp)
@@ -270,8 +341,7 @@ def score(run_dir):
             fields["model"] = any(t in kv.get("model", "") for t in sub_gt["model_tokens"])
             key, reported = "vendor", kv.get("vendor")
         elif skill == "harness-stamp":
-            for f in ("hooks", "subagents", "image_generation"):
-                fields[f] = kv.get(f) == sub_gt[f]
+            fields["subagents"] = kv.get("subagents") == sub_gt["subagents"]  # hooks and image generation were dropped (DESIGN.md, Scope decisions)
             key, reported = "subagents", kv.get("subagents")
         else:
             fields["tier"] = kv.get("tier") == sub_gt["tier"]

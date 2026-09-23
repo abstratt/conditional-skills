@@ -21,11 +21,11 @@ def seed_workspace(ws, seed="seed"):
                     "commit", "-q", "-m", "seed files"], cwd=ws, check=True)
 
 
-def pointer_block(skill):
-    fm, _ = skill_frontmatter(skill)
+def pointer_block(skills):
+    lines = [f"- `{s}`: {skill_frontmatter(s)[0]['description']} File: `skills/{s}/SKILL.md`" for s in skills]
     return (f"# Project instructions\n\n## Skills\n\nThis project ships skills as files. "
             f"Before acting on a request that a skill covers, read its SKILL.md and follow it.\n\n"
-            f"- `{skill}`: {fm['description']} File: `skills/{skill}/SKILL.md`\n")
+            + "\n".join(lines) + "\n")
 
 
 def inline_prompt(skill, request):
@@ -36,17 +36,20 @@ def inline_prompt(skill, request):
             f"Request: {request}")
 
 
-def install_skill(ws, codex_home, harness, delivery, skill):
-    src = ROOT / "skills" / skill
-    if delivery == "native":
-        if harness == "claude-code":
-            shutil.copytree(src, ws / ".claude" / "skills" / skill)
+def install_skills(ws, codex_home, harness, delivery, skills):
+    """Install one skill, or a selection set of several, natively or behind a pointer file."""
+    for skill in skills:
+        src = ROOT / "skills" / skill
+        if delivery == "native":
+            if harness == "claude-code":
+                shutil.copytree(src, ws / ".claude" / "skills" / skill)
+            else:
+                shutil.copytree(src, codex_home / "skills" / skill)
         else:
-            shutil.copytree(src, codex_home / "skills" / skill)
-    else:
-        shutil.copytree(src, ws / "skills" / skill)
+            shutil.copytree(src, ws / "skills" / skill)
+    if delivery == "pointer":
         name = "CLAUDE.md" if harness == "claude-code" else "AGENTS.md"
-        (ws / name).write_text(pointer_block(skill))
+        (ws / name).write_text(pointer_block(skills))
     # commit the installed files so scoring can diff against them
     subprocess.run(["git", "add", "-A"], cwd=ws, check=True)
     subprocess.run(["git", "-c", "user.name=exp", "-c", "user.email=exp@example.com",
@@ -102,8 +105,8 @@ def do_run(cell, args):
     text = prompt["prompt"]
     if delivery == "inline":
         text = inline_prompt(prompt["skill"], text)
-    elif prompt["skill"]:  # baseline prompts run with no skill installed
-        install_skill(ws, codex_home, sub["harness"], delivery, prompt["skill"])
+    elif prompt_skills(prompt):  # baseline prompts run with no skill installed
+        install_skills(ws, codex_home, sub["harness"], delivery, prompt_skills(prompt))
     env = {k: v for k, v in os.environ.items() if not k.startswith("CLAUDE")}
     env["CODEX_HOME"] = str(codex_home)
     if sub["harness"] == "claude-code":
@@ -138,7 +141,7 @@ def main():
     ap.add_argument("--subjects", nargs="+", default=list(SUBJECTS))
     ap.add_argument("--delivery", nargs="+", default=DELIVERIES)
     ap.add_argument("--prompts", nargs="+", help="prompt ids; default all")
-    ap.add_argument("--study", choices=["branch", "work"])
+    ap.add_argument("--study", choices=["branch", "work", "gate"])
     ap.add_argument("--reps", type=int, default=2)
     ap.add_argument("--parallel", type=int, default=3)
     ap.add_argument("--timeout", type=int, default=600)
@@ -148,9 +151,13 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
     prompts = [p for p in load_prompts(args.study) if not args.prompts or p["id"] in args.prompts]
-    # delivery is meaningless without a skill, so baseline prompts get a single "none" cell
+    # delivery is meaningless without a skill, so baseline prompts get a single "none" cell;
+    # a selection set cannot be delivered inline (DESIGN.md, Delivery conditions), so those cells are dropped
+    def deliveries(p):
+        if not prompt_skills(p): return ["none"]
+        return [d for d in args.delivery if not (p["kind"] == "selection" and d == "inline")]
     cells = [(s, d, p, r) for s in args.subjects for p in prompts
-             for d in (args.delivery if p["skill"] else ["none"]) for r in range(1, args.reps + 1)]
+             for d in deliveries(p) for r in range(1, args.reps + 1)]
     print(f"{len(cells)} cells", file=sys.stderr)
     RUNS.mkdir(parents=True, exist_ok=True)
     with ThreadPoolExecutor(max_workers=args.parallel) as ex:

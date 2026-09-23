@@ -14,7 +14,7 @@ and idempotent, so the pipeline can be stopped at any point and continued.
 | 1 | `1-run` | `python3 bin/run.py [subset]` | `results/runs/<run_id>/` | agent runs; slow |
 | 2 | `2-score` | `python3 bin/score.py` | `score.json` per run | free |
 | 3 | `3-rerun-invalid` | `python3 bin/run.py --rerun-invalid` then `python3 bin/score.py` | replaced runs | agent runs |
-| 4 | `4-judge` | `python3 bin/judge.py` | `judge.json` per eligible run | USD 0.10 to 0.22 per run |
+| 4 | `4-judge` | `python3 bin/judge.py` | `judge.json` per eligible run | optional; USD 0.10 to 0.22 per run |
 | 5 | `5-report` | `python3 bin/report.py` | `summary.md`, `runs.csv`, `claims.md`, `claims.json` | free |
 | 6 | `6-findings` | `python3 bin/findings.py` | `FINDINGS.md` | one to three model calls |
 
@@ -34,7 +34,7 @@ to verify.
 python3 bin/run.py 2>&1 | tee -a results/run.log
 python3 bin/score.py
 python3 bin/run.py --rerun-invalid 2>&1 | tee -a results/run.log && python3 bin/score.py
-python3 bin/judge.py 2>&1 | tee -a results/judge.log
+python3 bin/judge.py 2>&1 | tee -a results/judge.log    # optional; only when asked for adherence scores
 python3 bin/report.py
 python3 bin/findings.py
 ```
@@ -47,7 +47,8 @@ Decide from the state of `results/`:
    data at all (it is gitignored), so regenerating the reports means rerunning the experiment.
 2. Run directories without `score.json`, or any `run.py` invocation since the last scoring: step 2.
 3. `grep -l '"valid": false' results/runs/*/score.json` prints anything: step 3.
-4. Valid, judge-eligible runs without `judge.json`: step 4. Plain `judge.py` finds them itself.
+4. Step 4 only when the user asks for adherence scores; no claim uses them (`DESIGN.md`, Scope
+   decisions). Plain `judge.py` finds the unjudged runs itself.
 5. Anything changed since `summary.md` was written, including edits to `bin/claims.py`: step 5.
 6. `python3 bin/findings.py --dry-run` fails: step 6.
 
@@ -55,7 +56,7 @@ Decide from the state of `results/`:
 
 - Steps 2 and 5 are free; never skip them, just rerun.
 - Step 3 is skipped when step 2 flags no invalid runs.
-- Step 4 skips already-judged runs on its own; skip it entirely only if no run changed.
+- Step 4 is optional and skipped by default; when run, it skips already-judged runs on its own.
 - Step 6 is skipped when `--dry-run` passes.
 - Step 1 is skipped when the corpus is complete; `run.py` with no flags reports every cell as
   `skipped (exists)` in that case, which is a cheap way to confirm.

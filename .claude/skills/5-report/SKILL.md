@@ -19,7 +19,7 @@ listed too.
 
 ## Preconditions
 
-Steps 2 and 4 have run. Missing `judge.json` files do not fail the report; the adherence columns
+Step 2 has run. Step 4 is optional; missing `judge.json` files do not fail the report; the adherence columns
 are just empty for those runs.
 
 ## Command

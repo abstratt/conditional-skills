@@ -10,7 +10,7 @@ Checkable statements about the runs, re-evaluated on every refresh (see DESIGN.m
 - invalid runs (excluded): none
 - incomplete run directories: none
 - timing-invalid runs (kept, excluded from wall-time means): `claude-haiku__native__G3__r2`, `claude-sonnet__pointer__G2__r2`, `claude-sonnet__pointer__G3__r1`, `codex-default__native__G1__r1`, `codex-default__native__G1__r2`, `codex-default__native__G2__r1`
-- fingerprint: `f0021a9e2f7dc551`
+- fingerprint: `237f5539c092f0e6`
 
 ## Question 1: can a skill branch on model identity or capability?
 
@@ -99,12 +99,12 @@ With the same instructions in the prompt (`inline`), Haiku followed both feature
 <a id="capability-from-knowledge-claude"></a>
 ### `capability-from-knowledge-claude` — holds, observed
 
-The Claude models answered all three `harness-stamp` capability questions correctly in every run (36 of 36).
+The Claude models answered the `harness-stamp` subagents question correctly in every run (36 of 36).
 
 <a id="capability-from-knowledge-codex"></a>
 ### `capability-from-knowledge-codex` — holds, observed
 
-Codex with gpt-5.6-luna never answered all three `harness-stamp` questions correctly (0 of 12) and gave 4 different answer patterns, so a branch on its product knowledge of its harness is unreliable.
+Codex with gpt-5.6-luna answered the `harness-stamp` subagents question correctly in 4 of 12 runs (answers: no: 8, yes: 4); its product knowledge of its own harness is not reliable enough to branch on.
 
 <a id="capability-from-tools-claude"></a>
 ### `capability-from-tools-claude` — holds, observed
@@ -151,7 +151,7 @@ Branching on tier worked for the Claude pair (130 of 130 loaded tier answers cor
 <a id="not-portable-capability-from-knowledge"></a>
 ### `not-portable-capability-from-knowledge` — holds, observed
 
-A capability branch answered from product knowledge worked for the Claude pair (36 of 36) and not for the Codex pair (0 of 12).
+A capability branch answered from product knowledge worked for the Claude pair (36 of 36) and only sometimes for the Codex pair (4 of 12), whose answer to the same question varied from run to run.
 
 <a id="partially-portable-capability-from-tools"></a>
 ### `partially-portable-capability-from-tools` — holds, inferred
@@ -167,6 +167,26 @@ Among runs where the skill loaded, no subject-and-skill cell had a whole-cell ou
 ### `pointer-delivery-portable` — holds, observed
 
 Pointer delivery (a `CLAUDE.md` / `AGENTS.md` entry) loaded the skill in 118 of 120 pointer runs across both pairs, against 108 of 120 native runs.
+
+<a id="portable-gate-vendor"></a>
+### `portable-gate-vendor` — FAILS, observed
+
+A gate on vendor behaved correctly for both pairs in native and pointer runs: the Claude pair, included, followed the skill whenever it loaded (0 of 0 loaded runs) and the Codex pair, excluded, stayed out (0 of 0).
+
+<a id="not-portable-gate-tier"></a>
+### `not-portable-gate-tier` — FAILS, observed
+
+A gate on tier behaved correctly for the Claude pair (0 of 0 native and pointer runs) and not for the Codex pair (0 of 0), which refused the skill written for its documented tier.
+
+<a id="portable-selection-vendor"></a>
+### `portable-selection-vendor` — FAILS, observed
+
+Selection by vendor worked for both pairs among runs that chose: the Claude pair 0 of 0, the Codex pair 0 of 0.
+
+<a id="not-portable-selection-tier"></a>
+### `not-portable-selection-tier` — FAILS, observed
+
+Selection by tier worked for the Claude pair (0 of 0 runs that chose) and not for the Codex pair (0 of 0).
 
 ## Question 3: what does a model-conditional skill cost?
 
@@ -234,7 +254,111 @@ Delegating a review cost more input tokens than reviewing without delegating, wi
 | claude-haiku | 123k | 57k |
 | codex-default | 199k | 79k |
 
+<a id="staying-out-costs-baseline"></a>
+### `staying-out-costs-baseline` — FAILS (numbers changed), observed
+
+A run in which the gate held at the description cost about what the no-skill baseline of the same prompt cost, and one that loaded the skill and then declined cost more: . (Input tokens, per subject; excluded subjects only.)
+
+| subject | not loaded | declined | no skill |
+|---|---|---|---|
+
+## Question 4: where can the condition sit?
+
+<a id="gate-vendor-keeps-codex-out"></a>
+### `gate-vendor-keeps-codex-out` — FAILS (numbers changed), observed
+
+Under `vendor-gated-guidance` (for Anthropic models only), Codex with gpt-5.6-luna stayed out of the skill in every native and pointer run (0 of 0: not loaded 0, declined 0); it never followed the checklist.
+
+| subject | delivery | not-loaded | declined | followed | ignored | mixed |
+|---|---|---|---|---|---|---|
+
+<a id="gate-tier-keeps-opus-sonnet-out"></a>
+### `gate-tier-keeps-opus-sonnet-out` — FAILS (numbers changed), assumed
+
+Under `tier-gated-guidance` (for small models only), Opus and Sonnet stayed out of the skill in every native and pointer run (0 of 0: not loaded 0, declined 0); the Anthropic tiers are an assumed scale.
+
+| subject | delivery | not-loaded | declined | followed | ignored | mixed |
+|---|---|---|---|---|---|---|
+
+<a id="gate-where-it-held"></a>
+### `gate-where-it-held` — FAILS (numbers changed), observed
+
+Among the 0 native and pointer runs in which an excluded subject stayed out of a gated skill, the gate held at the description (skill never loaded) in 0 and in the body (loaded, then declined) in 0: .
+
+| subject | skill | delivery | not-loaded | declined |
+|---|---|---|---|---|
+
+<a id="excluded-never-followed"></a>
+### `excluded-never-followed` — FAILS, observed
+
+No excluded subject followed a gated skill's checklist in any run, in any delivery (0 followed or mixed of 0 runs).
+
+<a id="bailout-inline"></a>
+### `bailout-inline` — FAILS (numbers changed), observed
+
+With a gated skill's body in the prompt (`inline`), where it cannot be left unloaded, excluded subjects declined it in 0 of 0 runs: .
+
+| subject | skill | not-loaded | declined | followed | ignored | mixed |
+|---|---|---|---|---|---|---|
+
+<a id="included-followed-when-loaded"></a>
+### `included-followed-when-loaded` — FAILS (numbers changed), observed
+
+Every included subject that loaded a gated skill followed its checklist (0 of 0 loaded runs, all deliveries): .
+
+| subject | skill | delivery | not-loaded | declined | followed | ignored | mixed |
+|---|---|---|---|---|---|---|---|
+
+<a id="included-loading"></a>
+### `included-loading` — FAILS (numbers changed), observed
+
+Included subjects loaded the gated skill written for them in 0 of 0 native and pointer runs: .
+
+| subject | skill | delivery | not-loaded | declined | followed | ignored | mixed |
+|---|---|---|---|---|---|---|---|
+
+<a id="gate-tier-codex-refuses-own-skill"></a>
+### `gate-tier-codex-refuses-own-skill` — FAILS, observed
+
+Codex with gpt-5.6-luna, whose documented tier is small, stayed out of `tier-gated-guidance`, the skill written for small models, in 0 of 0 native and pointer runs (not loaded 0, declined 0), and declined it in 0 of 0 inline runs; a skill reserved for weaker models cannot rest on its self-placement.
+
+<a id="select-vendor-correct"></a>
+### `select-vendor-correct` — FAILS (numbers changed), observed
+
+Given `feature-anthropic` and `feature-openai` side by side, every run that followed a skill followed the one for its vendor (0 of 0 runs that chose; 0 chose none): .
+
+| subject | delivery | correct | wrong | several | none |
+|---|---|---|---|---|---|
+
+<a id="select-tier-claude-correct"></a>
+### `select-tier-claude-correct` — FAILS (numbers changed), assumed
+
+Given `feature-flagship`, `feature-mid` and `feature-small` side by side, every Claude model run that followed a skill followed the one for its tier (0 of 0 runs that chose; 0 chose none); the tiers are an assumed scale.
+
+| subject | delivery | correct | wrong | several | none |
+|---|---|---|---|---|---|
+
+<a id="select-tier-codex-wrong"></a>
+### `select-tier-codex-wrong` — FAILS, observed
+
+Codex with gpt-5.6-luna never followed `feature-small`, the skill for its documented tier (0 of 0 runs that chose); it followed .
+
+<a id="select-loading"></a>
+### `select-loading` — FAILS, observed
+
+With a selection set installed, subjects followed at least one of its skills in 0 of 0 runs: .
+
+<a id="select-reads-before-choosing"></a>
+### `select-reads-before-choosing` — FAILS, observed
+
+In 0 of 0 selection runs that followed exactly one skill, the agent had read at least one other alternative first (the Claude pair 0 of 0, the Codex pair 0 of 0).
+
+<a id="select-work-matches-choice"></a>
+### `select-work-matches-choice` — FAILS, observed
+
+In every selection run that followed exactly one skill, the work matched that skill's body (0 of 0).
+
 ## FINDINGS.md check
 
-- nothing to revise
+- FINDINGS.md fingerprint `f0021a9e2f7dc551` differs from the current corpus `237f5539c092f0e6`: the file predates the data
 

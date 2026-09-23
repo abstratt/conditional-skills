@@ -6,60 +6,62 @@
 
 A branch can only run if the skill was loaded. Loading rate per subject and delivery, over model-conditional prompts only. `inline` puts the instructions in the prompt, so it cannot fail to load; its column only shows whether the trace line was written:
 
-| subject | delivery | loaded, Study 1 | loaded, Study 2 |
-|---|---|---|---|
-| claude-haiku | inline | 100% (n=12) | 100% (n=18) |
-| claude-haiku | native | 100% (n=12) | 33% (n=18) |
-| claude-haiku | pointer | 100% (n=12) | 89% (n=18) |
-| claude-opus | inline | 100% (n=12) | 100% (n=18) |
-| claude-opus | native | 100% (n=12) | 100% (n=18) |
-| claude-opus | pointer | 100% (n=12) | 100% (n=18) |
-| claude-sonnet | inline | 100% (n=12) | 100% (n=18) |
-| claude-sonnet | native | 100% (n=12) | 100% (n=18) |
-| claude-sonnet | pointer | 100% (n=12) | 100% (n=18) |
-| codex-default | inline | 100% (n=12) | 100% (n=18) |
-| codex-default | native | 100% (n=12) | 100% (n=18) |
-| codex-default | pointer | 100% (n=12) | 100% (n=18) |
+In Study 3 loading is also an outcome, so its column counts only included subjects and selection sets (see the Study 3 tables).
+
+| subject | delivery | loaded, Study 1 | loaded, Study 2 | loaded, Study 3 (included and sets) |
+|---|---|---|---|---|
+| claude-haiku | inline | 100% (n=12) | 100% (n=18) | - |
+| claude-haiku | native | 100% (n=12) | 33% (n=18) | - |
+| claude-haiku | pointer | 100% (n=12) | 89% (n=18) | - |
+| claude-opus | inline | 100% (n=12) | 100% (n=18) | - |
+| claude-opus | native | 100% (n=12) | 100% (n=18) | - |
+| claude-opus | pointer | 100% (n=12) | 100% (n=18) | - |
+| claude-sonnet | inline | 100% (n=12) | 100% (n=18) | - |
+| claude-sonnet | native | 100% (n=12) | 100% (n=18) | - |
+| claude-sonnet | pointer | 100% (n=12) | 100% (n=18) | - |
+| codex-default | inline | 100% (n=12) | 100% (n=18) | - |
+| codex-default | native | 100% (n=12) | 100% (n=18) | - |
+| codex-default | pointer | 100% (n=12) | 100% (n=18) | - |
 
 ## Study 1: branch selection
 
 | subject | delivery | skill | stamp present | fields correct | all fields | branch matches truth | branch consistent | outcome ok |
 |---|---|---|---|---|---|---|---|---|
 | claude-haiku | inline | vendor-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
-| claude-haiku | inline | harness-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
+| claude-haiku | inline | harness-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-haiku | inline | tier-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-haiku | native | vendor-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
-| claude-haiku | native | harness-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
+| claude-haiku | native | harness-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-haiku | native | tier-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-haiku | pointer | vendor-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
-| claude-haiku | pointer | harness-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
+| claude-haiku | pointer | harness-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-haiku | pointer | tier-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-opus | inline | vendor-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
-| claude-opus | inline | harness-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
+| claude-opus | inline | harness-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-opus | inline | tier-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-opus | native | vendor-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
-| claude-opus | native | harness-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
+| claude-opus | native | harness-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-opus | native | tier-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-opus | pointer | vendor-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
-| claude-opus | pointer | harness-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
+| claude-opus | pointer | harness-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-opus | pointer | tier-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-sonnet | inline | vendor-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
-| claude-sonnet | inline | harness-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
+| claude-sonnet | inline | harness-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-sonnet | inline | tier-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-sonnet | native | vendor-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
-| claude-sonnet | native | harness-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
+| claude-sonnet | native | harness-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-sonnet | native | tier-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-sonnet | pointer | vendor-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
-| claude-sonnet | pointer | harness-stamp | 100% (n=4) | 12/12 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
+| claude-sonnet | pointer | harness-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-sonnet | pointer | tier-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | codex-default | inline | vendor-stamp | 100% (n=4) | 8/12 | 0% (n=4) | 100% (n=4) | 100% (n=4) | 0% (n=4) |
-| codex-default | inline | harness-stamp | 100% (n=4) | 4/12 | 0% (n=4) | 50% (n=4) | 100% (n=4) | 0% (n=4) |
+| codex-default | inline | harness-stamp | 100% (n=4) | 2/4 | 50% (n=4) | 50% (n=4) | 100% (n=4) | 50% (n=4) |
 | codex-default | inline | tier-stamp | 100% (n=4) | 0/4 | 0% (n=4) | 0% (n=4) | 100% (n=4) | 0% (n=4) |
 | codex-default | native | vendor-stamp | 100% (n=4) | 8/12 | 0% (n=4) | 100% (n=4) | 100% (n=4) | 0% (n=4) |
-| codex-default | native | harness-stamp | 100% (n=4) | 2/12 | 0% (n=4) | 25% (n=4) | 100% (n=4) | 0% (n=4) |
+| codex-default | native | harness-stamp | 100% (n=4) | 1/4 | 25% (n=4) | 25% (n=4) | 100% (n=4) | 25% (n=4) |
 | codex-default | native | tier-stamp | 100% (n=4) | 0/4 | 0% (n=4) | 0% (n=4) | 100% (n=4) | 0% (n=4) |
 | codex-default | pointer | vendor-stamp | 100% (n=4) | 8/12 | 0% (n=4) | 100% (n=4) | 100% (n=4) | 0% (n=4) |
-| codex-default | pointer | harness-stamp | 100% (n=4) | 1/12 | 0% (n=4) | 25% (n=4) | 100% (n=4) | 0% (n=4) |
+| codex-default | pointer | harness-stamp | 100% (n=4) | 1/4 | 25% (n=4) | 25% (n=4) | 100% (n=4) | 25% (n=4) |
 | codex-default | pointer | tier-stamp | 100% (n=4) | 0/4 | 0% (n=4) | 0% (n=4) | 100% (n=4) | 0% (n=4) |
 
 Field-level detail:
@@ -67,85 +69,61 @@ Field-level detail:
 | subject | delivery | field | correct |
 |---|---|---|---|
 | claude-haiku | inline | harness | 100% (n=4) |
-| claude-haiku | inline | hooks | 100% (n=4) |
-| claude-haiku | inline | image_generation | 100% (n=4) |
 | claude-haiku | inline | model | 100% (n=4) |
 | claude-haiku | inline | subagents | 100% (n=4) |
 | claude-haiku | inline | tier | 100% (n=4) |
 | claude-haiku | inline | vendor | 100% (n=4) |
 | claude-haiku | native | harness | 100% (n=4) |
-| claude-haiku | native | hooks | 100% (n=4) |
-| claude-haiku | native | image_generation | 100% (n=4) |
 | claude-haiku | native | model | 100% (n=4) |
 | claude-haiku | native | subagents | 100% (n=4) |
 | claude-haiku | native | tier | 100% (n=4) |
 | claude-haiku | native | vendor | 100% (n=4) |
 | claude-haiku | pointer | harness | 100% (n=4) |
-| claude-haiku | pointer | hooks | 100% (n=4) |
-| claude-haiku | pointer | image_generation | 100% (n=4) |
 | claude-haiku | pointer | model | 100% (n=4) |
 | claude-haiku | pointer | subagents | 100% (n=4) |
 | claude-haiku | pointer | tier | 100% (n=4) |
 | claude-haiku | pointer | vendor | 100% (n=4) |
 | claude-opus | inline | harness | 100% (n=4) |
-| claude-opus | inline | hooks | 100% (n=4) |
-| claude-opus | inline | image_generation | 100% (n=4) |
 | claude-opus | inline | model | 100% (n=4) |
 | claude-opus | inline | subagents | 100% (n=4) |
 | claude-opus | inline | tier | 100% (n=4) |
 | claude-opus | inline | vendor | 100% (n=4) |
 | claude-opus | native | harness | 100% (n=4) |
-| claude-opus | native | hooks | 100% (n=4) |
-| claude-opus | native | image_generation | 100% (n=4) |
 | claude-opus | native | model | 100% (n=4) |
 | claude-opus | native | subagents | 100% (n=4) |
 | claude-opus | native | tier | 100% (n=4) |
 | claude-opus | native | vendor | 100% (n=4) |
 | claude-opus | pointer | harness | 100% (n=4) |
-| claude-opus | pointer | hooks | 100% (n=4) |
-| claude-opus | pointer | image_generation | 100% (n=4) |
 | claude-opus | pointer | model | 100% (n=4) |
 | claude-opus | pointer | subagents | 100% (n=4) |
 | claude-opus | pointer | tier | 100% (n=4) |
 | claude-opus | pointer | vendor | 100% (n=4) |
 | claude-sonnet | inline | harness | 100% (n=4) |
-| claude-sonnet | inline | hooks | 100% (n=4) |
-| claude-sonnet | inline | image_generation | 100% (n=4) |
 | claude-sonnet | inline | model | 100% (n=4) |
 | claude-sonnet | inline | subagents | 100% (n=4) |
 | claude-sonnet | inline | tier | 100% (n=4) |
 | claude-sonnet | inline | vendor | 100% (n=4) |
 | claude-sonnet | native | harness | 100% (n=4) |
-| claude-sonnet | native | hooks | 100% (n=4) |
-| claude-sonnet | native | image_generation | 100% (n=4) |
 | claude-sonnet | native | model | 100% (n=4) |
 | claude-sonnet | native | subagents | 100% (n=4) |
 | claude-sonnet | native | tier | 100% (n=4) |
 | claude-sonnet | native | vendor | 100% (n=4) |
 | claude-sonnet | pointer | harness | 100% (n=4) |
-| claude-sonnet | pointer | hooks | 100% (n=4) |
-| claude-sonnet | pointer | image_generation | 100% (n=4) |
 | claude-sonnet | pointer | model | 100% (n=4) |
 | claude-sonnet | pointer | subagents | 100% (n=4) |
 | claude-sonnet | pointer | tier | 100% (n=4) |
 | claude-sonnet | pointer | vendor | 100% (n=4) |
 | codex-default | inline | harness | 100% (n=4) |
-| codex-default | inline | hooks | 25% (n=4) |
-| codex-default | inline | image_generation | 25% (n=4) |
 | codex-default | inline | model | 0% (n=4) |
 | codex-default | inline | subagents | 50% (n=4) |
 | codex-default | inline | tier | 0% (n=4) |
 | codex-default | inline | vendor | 100% (n=4) |
 | codex-default | native | harness | 100% (n=4) |
-| codex-default | native | hooks | 0% (n=4) |
-| codex-default | native | image_generation | 25% (n=4) |
 | codex-default | native | model | 0% (n=4) |
 | codex-default | native | subagents | 25% (n=4) |
 | codex-default | native | tier | 0% (n=4) |
 | codex-default | native | vendor | 100% (n=4) |
 | codex-default | pointer | harness | 100% (n=4) |
-| codex-default | pointer | hooks | 0% (n=4) |
-| codex-default | pointer | image_generation | 0% (n=4) |
 | codex-default | pointer | model | 0% (n=4) |
 | codex-default | pointer | subagents | 25% (n=4) |
 | codex-default | pointer | tier | 0% (n=4) |
@@ -316,8 +294,6 @@ Codex does not report USD cost or turns; tool invocations are the step count bot
 - `codex-default__inline__G3__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'TIER.txt', 'src/app.py'], reported=flagship implied=flagship feature_ok=True
 - `codex-default__inline__G3__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'TIER.txt', 'src/app.py'], reported=flagship implied=flagship feature_ok=True
 - `codex-default__inline__H1__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'hooks': 'yes', 'subagents': 'no', 'image_generation': 'yes'}
-- `codex-default__inline__H1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'delegates.txt'], stamp={'hooks': 'no', 'subagents': 'yes', 'image_generation': 'no'}
-- `codex-default__inline__H2__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'delegates.txt'], stamp={'hooks': 'no', 'subagents': 'yes', 'image_generation': 'no'}
 - `codex-default__inline__H2__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'hooks': 'no', 'subagents': 'no', 'image_generation': 'no'}
 - `codex-default__inline__R1__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'REVIEW.md'], mode=inline call=False findings=True
 - `codex-default__inline__R1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'REVIEW.md'], mode=inline call=False findings=True
@@ -345,7 +321,6 @@ Codex does not report USD cost or turns; tool invocations are the step count bot
 - `codex-default__native__G3__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'TIER.txt', 'src/app.py'], reported=flagship implied=flagship feature_ok=True
 - `codex-default__native__H1__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'hooks': 'no', 'subagents': 'no', 'image_generation': 'no'}
 - `codex-default__native__H1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'hooks': 'no', 'subagents': 'no', 'image_generation': 'no'}
-- `codex-default__native__H2__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'delegates.txt'], stamp={'hooks': 'no', 'subagents': 'yes', 'image_generation': 'yes'}
 - `codex-default__native__H2__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'hooks': 'no', 'subagents': 'no', 'image_generation': 'no'}
 - `codex-default__native__R1__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'REVIEW.md'], mode=inline call=False findings=True
 - `codex-default__native__R1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'REVIEW.md'], mode=inline call=False findings=True
@@ -371,7 +346,6 @@ Codex does not report USD cost or turns; tool invocations are the step count bot
 - `codex-default__pointer__G3__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'TIER.txt', 'src/app.py'], reported=flagship implied=flagship feature_ok=True
 - `codex-default__pointer__G3__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'TIER.txt', 'src/app.py'], reported=flagship implied=flagship feature_ok=True
 - `codex-default__pointer__H1__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'hooks': 'no', 'subagents': 'no', 'image_generation': 'no'}
-- `codex-default__pointer__H1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'delegates.txt'], stamp={'hooks': 'no', 'subagents': 'yes', 'image_generation': 'no'}
 - `codex-default__pointer__H2__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'hooks': 'no', 'subagents': 'no', 'image_generation': 'no'}
 - `codex-default__pointer__H2__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'hooks': 'no', 'subagents': 'no', 'image_generation': 'no'}
 - `codex-default__pointer__R1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'REVIEW.md'], mode=inline call=False findings=True

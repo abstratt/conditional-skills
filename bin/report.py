@@ -55,11 +55,13 @@ def main():
     out += ["## Skill loading precondition", "",
             "A branch can only run if the skill was loaded. Loading rate per subject and delivery, over model-conditional prompts only. "
             "`inline` puts the instructions in the prompt, so it cannot fail to load; its column only shows whether the trace line was written:", "",
-            "| subject | delivery | loaded, Study 1 | loaded, Study 2 |", "|---|---|---|---|"]
+            "In Study 3 loading is also an outcome, so its column counts only included subjects and selection sets (see the Study 3 tables).", "",
+            "| subject | delivery | loaded, Study 1 | loaded, Study 2 | loaded, Study 3 (included and sets) |", "|---|---|---|---|---|"]
     for (sub, dl), rs in sorted(groups.items()):
         if dl == "none": continue
         out.append(f"| {sub} | {dl} | {pct([r['triggered'] for r in rs if r['study'] == 'branch'])} | "
-                   f"{pct([r['triggered'] for r in rs if r['study'] == 'work'])} |")
+                   f"{pct([r['triggered'] for r in rs if r['study'] == 'work'])} | "
+                   f"{pct([r['triggered'] for r in rs if r['study'] == 'gate' and (r['kind'] == 'selection' or r.get('included'))])} |")
     out += [""]
     out += ["## Study 1: branch selection", "",
             "| subject | delivery | skill | stamp present | fields correct | all fields | branch matches truth | branch consistent | outcome ok |",
@@ -134,6 +136,47 @@ def main():
                        f"{pct([r['mode_matches_truth'] for r in t])} | {pct([r['mode_consistent'] for r in t])} | "
                        f"{pct([r['findings_ok'] for r in t])} | {pct([r['src_untouched'] for r in t])} | {pct([r['outcome_ok'] for r in t])} |")
         out += [""]
+    gate = [r for r in rows if r["study"] == "gate"]
+    if gate:
+        from collections import Counter
+        out += ["## Study 3: conditions before the body", "",
+                "### Gated skills", "",
+                "Gate outcome per run (DESIGN.md, Study 3): `not-loaded`, `declined`, `followed`, `ignored`, `mixed`. "
+                "An included subject is correct when it followed; an excluded one when it stayed out (not loaded, or declined from the body). "
+                "`inline` cannot leave the skill unloaded, so it tests only the bail-out.", "",
+                "| subject | skill | included | delivery | runs | not-loaded | declined | followed | ignored | mixed | gate correct | feature works |",
+                "|---|---|---|---|---|---|---|---|---|---|---|---|"]
+        gr = [r for r in gate if r["kind"] == "gated"]
+        for sub in sorted({r["subject"] for r in gr}):
+            for skill in ("vendor-gated-guidance", "tier-gated-guidance"):
+                for dl in ("native", "pointer", "inline"):
+                    t = [r for r in gr if r["subject"] == sub and r["skill"] == skill and r["delivery"] == dl]
+                    if not t: continue
+                    c = Counter(r["gate_outcome"] for r in t)
+                    out.append(f"| {sub} | {skill} | {'yes' if t[0]['included'] else 'no'} | {dl} | {len(t)} | {c['not-loaded']} | {c['declined']} | "
+                               f"{c['followed']} | {c['ignored']} | {c['mixed']} | {pct([r['gate_correct'] for r in t])} | {pct([r['feature_ok'] for r in t])} |")
+        out += ["", "### Selection sets", "",
+                "Selection outcome per run: `correct` (followed exactly the skill for this subject), `wrong`, `several`, `none`. "
+                "`read only` counts alternatives the agent read without following; `work = choice` says whether the work matched the followed skill's body.", "",
+                "| subject | set | delivery | runs | correct | wrong | several | none | read other alternatives | work = choice | outcome ok |",
+                "|---|---|---|---|---|---|---|---|---|---|---|"]
+        sr = [r for r in gate if r["kind"] == "selection"]
+        for sub in sorted({r["subject"] for r in sr}):
+            for st in ("select-vendor", "select-tier"):
+                for dl in ("native", "pointer"):
+                    t = [r for r in sr if r["subject"] == sub and r["skill"] == st and r["delivery"] == dl]
+                    if not t: continue
+                    c = Counter(r["selection_outcome"] for r in t)
+                    one = [r for r in t if r["selection_outcome"] in ("correct", "wrong")]
+                    out.append(f"| {sub} | {st} | {dl} | {len(t)} | {c['correct']} | {c['wrong']} | {c['several']} | {c['none']} | "
+                               f"{pct([bool(r['read_only']) for r in one])} | {pct([r['work_matches_choice'] for r in one])} | {pct([r['outcome_ok'] for r in t])} |")
+        out += ["", "Which skill each subject followed, over both deliveries:", "",
+                "| subject | set | followed |", "|---|---|---|"]
+        for sub in sorted({r["subject"] for r in sr}):
+            for st in ("select-vendor", "select-tier"):
+                t = [r for r in sr if r["subject"] == sub and r["skill"] == st]
+                if t: out.append(f"| {sub} | {st} | {dict(Counter(', '.join(r['skills_followed']) or 'none' for r in t))} |")
+        out += [""]
     out += ["", "## Adherence (LLM judge, 0-2)", "",
             "| subject | delivery | n judged | format | scope | honesty |", "|---|---|---|---|---|---|"]
     for (sub, dl), rs in sorted(groups.items()):
@@ -157,7 +200,9 @@ def main():
             out.append(f"- `{r['run_id']}`: triggered={r['triggered']} (expected {r['expect_trigger']}), outcome_ok={r.get('outcome_ok')}, "
                        f"changed={r['changed_files']}" + (f", stamp={r['stamp']}" if r.get("stamp") else "")
                        + (f", reported={r.get('reported_tier')} implied={r.get('implied_tier')} feature_ok={r.get('feature_ok')}" if r["skill"] in ("tiered-feature", "tiered-guidance") else "")
-                       + (f", mode={r.get('mode')} call={r.get('delegated_call')} findings={r.get('findings_ok')}" if r["skill"] == "tool-gated-review" else ""))
+                       + (f", mode={r.get('mode')} call={r.get('delegated_call')} findings={r.get('findings_ok')}" if r["skill"] == "tool-gated-review" else "")
+                       + (f", included={r.get('included')} gate={r.get('gate_outcome')} feature_ok={r.get('feature_ok')}" if r["kind"] == "gated" else "")
+                       + (f", selection={r.get('selection_outcome')} followed={r.get('skills_followed')} work_matches={r.get('work_matches_choice')}" if r["kind"] == "selection" else ""))
     (RESULTS / "summary.md").write_text("\n".join(out) + "\n")
     print("\n".join(out))
     write_claims(rows, invalid, incomplete)
@@ -227,8 +272,9 @@ def write_claims(rows, invalid, incomplete):
            "## Corpus", ""] + corpus_header(rows, invalid, incomplete) + [""]
     titles = {"branching": "Question 1: can a skill branch on model identity or capability?",
               "portability": "Question 2: is a single skill file portable?",
-              "efficiency": "Question 3: what does a model-conditional skill cost?"}
-    for q in ("branching", "portability", "efficiency"):
+              "efficiency": "Question 3: what does a model-conditional skill cost?",
+              "placement": "Question 4: where can the condition sit?"}
+    for q in ("branching", "portability", "efficiency", "placement"):
         out += [f"## {titles[q]}", ""]
         for c in results:
             if c["question"] != q: continue

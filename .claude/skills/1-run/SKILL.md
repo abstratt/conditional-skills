@@ -28,7 +28,7 @@ Subset flags (combine freely):
 
 | flag | meaning |
 |---|---|
-| `--study branch` / `--study work` | Study 1 (vendor-stamp, harness-stamp, tier-stamp) or Study 2 (tiered-feature, tiered-guidance, tool-gated-review, baselines) |
+| `--study branch` / `--study work` / `--study gate` | Study 1 (vendor-stamp, harness-stamp, tier-stamp), Study 2 (tiered-feature, tiered-guidance, tool-gated-review, baselines) or Study 3 (gated skills GV/GT, selection sets SV/ST; sets have no inline cells) |
 | `--subjects claude-opus claude-sonnet claude-haiku codex-default` | one or more subjects |
 | `--delivery native pointer inline` | one or more delivery conditions |
 | `--prompts G1 G2 G3` | prompt ids, listed in `prompts/branch.jsonl` and `prompts/work.jsonl` |
@@ -52,7 +52,7 @@ regardless of `--delivery`.
 
 ## Cost and time
 
-The full matrix is 408 runs. Claude runs cost about USD 0.03 to 0.25 each depending on the model;
+The full matrix is 648 runs. Claude runs cost about USD 0.03 to 0.25 each depending on the model;
 Codex reports no cost. Codex runs take one to two minutes each; budget an hour or more for the whole
 matrix at the default parallelism. State the cell count from `--dry-run` before starting a large run.
 
