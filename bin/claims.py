@@ -672,24 +672,6 @@ def _(rows):
     return ok, dict(gn=gn, gnn=gnn, gp=gp, gpn=gpn, gi=gi, gin=gin, sn=sn, snn=snn, sp=sp, spn=spn, sc=sc, sch=len(chose))
 
 
-@claim("codex-harness-stamp-missing", "branching", "observed",
-       "The corpus holds no valid `harness-stamp` run for Codex with gpt-5.6-luna ({n} valid of 12 cells): the reruns with "
-       "the one-question skill failed on a Codex usage limit and are listed as invalid; its capability-from-knowledge "
-       "result waits for the rerun.")
-def _(rows):
-    rs = skill_runs(rows, subject=CODEX, skill="harness-stamp")
-    return len(rs) == 0, dict(n=len(rs))
-
-
-@claim("codex-select-vendor-missing", "placement", "observed",
-       "The corpus holds no valid `select-vendor` run for Codex with gpt-5.6-luna ({n} valid of 12 cells), and {t} of 12 "
-       "`select-tier` runs: the rest failed on a Codex usage limit and are listed as invalid, so selection by vendor is "
-       "untested for the Codex pair.")
-def _(rows):
-    v = select_runs(rows, "select-vendor", CODEX); t = select_runs(rows, "select-tier", CODEX)
-    return len(v) == 0, dict(n=len(v), t=len(t))
-
-
 @claim("gate-tier-codex-refuses-own-skill", "placement", "observed",
        "Codex with gpt-5.6-luna, whose documented tier is small, stayed out of `tier-gated-guidance`, the skill written "
        "for small models, in {k} of {n} native and pointer runs (not loaded {nl}, declined {d}), and declined it in "

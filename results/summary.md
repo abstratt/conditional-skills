@@ -1,43 +1,6 @@
 # Results summary
 
-616 valid scored runs.
-
-## Excluded runs
-
-Invalid runs failed for infrastructure reasons and are left out of every table below. Rerun them with `bin/run.py --rerun-invalid`; incomplete runs are redone by a plain rerun.
-
-- `codex-default__inline__H1__r1`: invalid, turn failed
-- `codex-default__inline__H1__r2`: invalid, turn failed
-- `codex-default__inline__H2__r1`: invalid, turn failed
-- `codex-default__inline__H2__r2`: invalid, turn failed
-- `codex-default__native__H1__r1`: invalid, turn failed
-- `codex-default__native__H1__r2`: invalid, turn failed
-- `codex-default__native__H2__r1`: invalid, turn failed
-- `codex-default__native__H2__r2`: invalid, turn failed
-- `codex-default__native__ST2__r1`: invalid, turn failed
-- `codex-default__native__ST2__r2`: invalid, turn failed
-- `codex-default__native__ST3__r1`: invalid, turn failed
-- `codex-default__native__ST3__r2`: invalid, turn failed
-- `codex-default__native__SV1__r1`: invalid, turn failed
-- `codex-default__native__SV1__r2`: invalid, turn failed
-- `codex-default__native__SV2__r1`: invalid, turn failed
-- `codex-default__native__SV2__r2`: invalid, turn failed
-- `codex-default__native__SV3__r1`: invalid, turn failed
-- `codex-default__native__SV3__r2`: invalid, turn failed
-- `codex-default__pointer__H1__r1`: invalid, turn failed
-- `codex-default__pointer__H1__r2`: invalid, turn failed
-- `codex-default__pointer__H2__r1`: invalid, turn failed
-- `codex-default__pointer__H2__r2`: invalid, turn failed
-- `codex-default__pointer__ST2__r1`: invalid, turn failed
-- `codex-default__pointer__ST2__r2`: invalid, turn failed
-- `codex-default__pointer__ST3__r1`: invalid, turn failed
-- `codex-default__pointer__ST3__r2`: invalid, turn failed
-- `codex-default__pointer__SV1__r1`: invalid, turn failed
-- `codex-default__pointer__SV1__r2`: invalid, turn failed
-- `codex-default__pointer__SV2__r1`: invalid, turn failed
-- `codex-default__pointer__SV2__r2`: invalid, turn failed
-- `codex-default__pointer__SV3__r1`: invalid, turn failed
-- `codex-default__pointer__SV3__r2`: invalid, turn failed
+648 valid scored runs.
 
 ## Skill loading precondition
 
@@ -56,9 +19,9 @@ In Study 3 loading is also an outcome, so its column counts only included subjec
 | claude-sonnet | inline | 100% (n=12) | 100% (n=18) | 100% (n=6) |
 | claude-sonnet | native | 100% (n=12) | 100% (n=18) | 100% (n=18) |
 | claude-sonnet | pointer | 100% (n=12) | 100% (n=18) | 100% (n=18) |
-| codex-default | inline | 100% (n=8) | 100% (n=18) | 100% (n=6) |
-| codex-default | native | 100% (n=8) | 100% (n=18) | 25% (n=8) |
-| codex-default | pointer | 100% (n=8) | 100% (n=18) | 25% (n=8) |
+| codex-default | inline | 100% (n=12) | 100% (n=18) | 100% (n=6) |
+| codex-default | native | 100% (n=12) | 100% (n=18) | 61% (n=18) |
+| codex-default | pointer | 100% (n=12) | 100% (n=18) | 61% (n=18) |
 
 ## Study 1: branch selection
 
@@ -92,10 +55,13 @@ In Study 3 loading is also an outcome, so its column counts only included subjec
 | claude-sonnet | pointer | harness-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | claude-sonnet | pointer | tier-stamp | 100% (n=4) | 4/4 | 100% (n=4) | 100% (n=4) | 100% (n=4) | 100% (n=4) |
 | codex-default | inline | vendor-stamp | 100% (n=4) | 8/12 | 0% (n=4) | 100% (n=4) | 100% (n=4) | 0% (n=4) |
+| codex-default | inline | harness-stamp | 100% (n=4) | 0/4 | 0% (n=4) | 0% (n=4) | 100% (n=4) | 0% (n=4) |
 | codex-default | inline | tier-stamp | 100% (n=4) | 0/4 | 0% (n=4) | 0% (n=4) | 100% (n=4) | 0% (n=4) |
 | codex-default | native | vendor-stamp | 100% (n=4) | 8/12 | 0% (n=4) | 100% (n=4) | 100% (n=4) | 0% (n=4) |
+| codex-default | native | harness-stamp | 100% (n=4) | 0/4 | 0% (n=4) | 0% (n=4) | 100% (n=4) | 0% (n=4) |
 | codex-default | native | tier-stamp | 100% (n=4) | 0/4 | 0% (n=4) | 0% (n=4) | 100% (n=4) | 0% (n=4) |
 | codex-default | pointer | vendor-stamp | 100% (n=4) | 8/12 | 0% (n=4) | 100% (n=4) | 100% (n=4) | 0% (n=4) |
+| codex-default | pointer | harness-stamp | 100% (n=4) | 0/4 | 0% (n=4) | 0% (n=4) | 100% (n=4) | 0% (n=4) |
 | codex-default | pointer | tier-stamp | 100% (n=4) | 0/4 | 0% (n=4) | 0% (n=4) | 100% (n=4) | 0% (n=4) |
 
 Field-level detail:
@@ -149,14 +115,17 @@ Field-level detail:
 | claude-sonnet | pointer | vendor | 100% (n=4) |
 | codex-default | inline | harness | 100% (n=4) |
 | codex-default | inline | model | 0% (n=4) |
+| codex-default | inline | subagents | 0% (n=4) |
 | codex-default | inline | tier | 0% (n=4) |
 | codex-default | inline | vendor | 100% (n=4) |
 | codex-default | native | harness | 100% (n=4) |
 | codex-default | native | model | 0% (n=4) |
+| codex-default | native | subagents | 0% (n=4) |
 | codex-default | native | tier | 0% (n=4) |
 | codex-default | native | vendor | 100% (n=4) |
 | codex-default | pointer | harness | 100% (n=4) |
 | codex-default | pointer | model | 0% (n=4) |
+| codex-default | pointer | subagents | 0% (n=4) |
 | codex-default | pointer | tier | 0% (n=4) |
 | codex-default | pointer | vendor | 100% (n=4) |
 ## Study 2: branches that change the work
@@ -294,8 +263,10 @@ Selection outcome per run: `correct` (followed exactly the skill for this subjec
 | claude-sonnet | select-vendor | pointer | 6 | 6 | 0 | 0 | 0 | 0% (n=6) | 100% (n=6) | 100% (n=6) |
 | claude-sonnet | select-tier | native | 6 | 6 | 0 | 0 | 0 | 0% (n=6) | 100% (n=6) | 100% (n=6) |
 | claude-sonnet | select-tier | pointer | 6 | 6 | 0 | 0 | 0 | 0% (n=6) | 100% (n=6) | 100% (n=6) |
-| codex-default | select-tier | native | 2 | 0 | 2 | 0 | 0 | 0% (n=2) | 100% (n=2) | 0% (n=2) |
-| codex-default | select-tier | pointer | 2 | 0 | 2 | 0 | 0 | 0% (n=2) | 100% (n=2) | 0% (n=2) |
+| codex-default | select-vendor | native | 6 | 5 | 0 | 0 | 1 | 0% (n=5) | 100% (n=5) | 83% (n=6) |
+| codex-default | select-vendor | pointer | 6 | 5 | 0 | 0 | 1 | 0% (n=5) | 100% (n=5) | 83% (n=6) |
+| codex-default | select-tier | native | 6 | 0 | 6 | 0 | 0 | 0% (n=6) | 100% (n=6) | 0% (n=6) |
+| codex-default | select-tier | pointer | 6 | 0 | 6 | 0 | 0 | 0% (n=6) | 100% (n=6) | 0% (n=6) |
 
 Which skill each subject followed, over both deliveries:
 
@@ -307,7 +278,8 @@ Which skill each subject followed, over both deliveries:
 | claude-opus | select-tier | {'feature-flagship': 12} |
 | claude-sonnet | select-vendor | {'feature-anthropic': 12} |
 | claude-sonnet | select-tier | {'feature-mid': 12} |
-| codex-default | select-tier | {'feature-flagship': 4} |
+| codex-default | select-vendor | {'feature-openai': 10, 'none': 2} |
+| codex-default | select-tier | {'feature-flagship': 12} |
 
 
 ## Adherence (LLM judge, 0-2)
@@ -347,10 +319,10 @@ Which skill each subject followed, over both deliveries:
 | claude-sonnet | native | 0.082 | 131999 | 1308 | 6.2 | 7.9 | 19 |
 | claude-sonnet | none | 0.060 | 84949 | 497 | 2.0 | 3.0 | 8 |
 | claude-sonnet | pointer | 0.099 | 140810 | 1474 | 6.9 | 7.4 | 27 |
-| codex-default | inline | - | 84878 | 1649 | 4.9 | - | 47 |
-| codex-default | native | - | 95556 | 1830 | 6.8 | - | 73 |
+| codex-default | inline | - | 81718 | 1561 | 4.7 | - | 44 |
+| codex-default | native | - | 98927 | 1915 | 6.9 | - | 70 |
 | codex-default | none | - | 59772 | 1060 | 4.1 | - | 29 |
-| codex-default | pointer | - | 96396 | 1718 | 5.8 | - | 80 |
+| codex-default | pointer | - | 102038 | 1862 | 6.1 | - | 75 |
 
 Codex does not report USD cost or turns; tool invocations are the step count both harnesses expose. Tokens in include cached input for both harnesses. Wall time leaves out 6 runs whose timing is invalid: `claude-haiku__native__G3__r2`, `claude-sonnet__pointer__G2__r2`, `claude-sonnet__pointer__G3__r1`, `codex-default__native__G1__r1`, `codex-default__native__G1__r2`, `codex-default__native__G2__r1`.
 
@@ -423,6 +395,10 @@ Codex does not report USD cost or turns; tool invocations are the step count bot
 - `codex-default__inline__GT2__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'src/app.py'], included=True gate=declined feature_ok=True
 - `codex-default__inline__GT3__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'src/app.py'], included=True gate=declined feature_ok=True
 - `codex-default__inline__GT3__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'src/app.py'], included=True gate=declined feature_ok=True
+- `codex-default__inline__H1__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'subagents': 'no'}
+- `codex-default__inline__H1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'subagents': 'no'}
+- `codex-default__inline__H2__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'subagents': 'no'}
+- `codex-default__inline__H2__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'subagents': 'no'}
 - `codex-default__inline__R1__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'REVIEW.md'], mode=inline call=False findings=True
 - `codex-default__inline__R1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'REVIEW.md'], mode=inline call=False findings=True
 - `codex-default__inline__R2__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'REVIEW.md'], mode=inline call=False findings=True
@@ -453,11 +429,20 @@ Codex does not report USD cost or turns; tool invocations are the step count bot
 - `codex-default__native__GT2__r2`: triggered=False (expected True), outcome_ok=False, changed=['src/app.py'], included=True gate=not-loaded feature_ok=True
 - `codex-default__native__GT3__r1`: triggered=False (expected True), outcome_ok=False, changed=['src/app.py'], included=True gate=not-loaded feature_ok=True
 - `codex-default__native__GT3__r2`: triggered=False (expected True), outcome_ok=False, changed=['src/app.py'], included=True gate=not-loaded feature_ok=True
+- `codex-default__native__H1__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'subagents': 'no'}
+- `codex-default__native__H1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'subagents': 'no'}
+- `codex-default__native__H2__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'subagents': 'no'}
+- `codex-default__native__H2__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'subagents': 'no'}
 - `codex-default__native__R1__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'REVIEW.md'], mode=inline call=False findings=True
 - `codex-default__native__R1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'REVIEW.md'], mode=inline call=False findings=True
 - `codex-default__native__R2__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'REVIEW.md'], mode=inline call=False findings=True
 - `codex-default__native__ST1__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'picked-feature-flagship.txt', 'src/app.py', 'tests/'], selection=wrong followed=['feature-flagship'] work_matches=True
 - `codex-default__native__ST1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'picked-feature-flagship.txt', 'src/app.py', 'tests/'], selection=wrong followed=['feature-flagship'] work_matches=True
+- `codex-default__native__ST2__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'picked-feature-flagship.txt', 'src/app.py', 'tests/'], selection=wrong followed=['feature-flagship'] work_matches=True
+- `codex-default__native__ST2__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'picked-feature-flagship.txt', 'src/app.py', 'tests/'], selection=wrong followed=['feature-flagship'] work_matches=True
+- `codex-default__native__ST3__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'picked-feature-flagship.txt', 'src/app.py', 'tests/'], selection=wrong followed=['feature-flagship'] work_matches=True
+- `codex-default__native__ST3__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'picked-feature-flagship.txt', 'src/app.py', 'tests/'], selection=wrong followed=['feature-flagship'] work_matches=True
+- `codex-default__native__SV3__r1`: triggered=False (expected True), outcome_ok=False, changed=['src/app.py'], selection=none followed=[] work_matches=False
 - `codex-default__native__T1__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'TIER.txt', 'deep.txt'], stamp={'tier': 'flagship'}
 - `codex-default__native__T1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'TIER.txt', 'deep.txt'], stamp={'tier': 'flagship'}
 - `codex-default__native__T2__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'TIER.txt', 'deep.txt'], stamp={'tier': 'flagship'}
@@ -484,12 +469,21 @@ Codex does not report USD cost or turns; tool invocations are the step count bot
 - `codex-default__pointer__GT2__r2`: triggered=False (expected True), outcome_ok=False, changed=['src/app.py'], included=True gate=not-loaded feature_ok=True
 - `codex-default__pointer__GT3__r1`: triggered=False (expected True), outcome_ok=False, changed=['src/app.py'], included=True gate=not-loaded feature_ok=True
 - `codex-default__pointer__GT3__r2`: triggered=False (expected True), outcome_ok=False, changed=['src/app.py'], included=True gate=not-loaded feature_ok=True
+- `codex-default__pointer__H1__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'subagents': 'no'}
+- `codex-default__pointer__H1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'subagents': 'no'}
+- `codex-default__pointer__H2__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'subagents': 'no'}
+- `codex-default__pointer__H2__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'HARNESS.txt', 'solo.txt'], stamp={'subagents': 'no'}
 - `codex-default__pointer__R1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'REVIEW.md'], mode=inline call=False findings=True
 - `codex-default__pointer__R2__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'REVIEW.md'], mode=inline call=False findings=True
 - `codex-default__pointer__R3__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'REVIEW.md'], mode=inline call=False findings=True
 - `codex-default__pointer__R3__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'REVIEW.md'], mode=inline call=False findings=True
 - `codex-default__pointer__ST1__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'picked-feature-flagship.txt', 'src/app.py', 'tests/'], selection=wrong followed=['feature-flagship'] work_matches=True
 - `codex-default__pointer__ST1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'picked-feature-flagship.txt', 'src/app.py', 'tests/'], selection=wrong followed=['feature-flagship'] work_matches=True
+- `codex-default__pointer__ST2__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'picked-feature-flagship.txt', 'src/app.py', 'tests/'], selection=wrong followed=['feature-flagship'] work_matches=True
+- `codex-default__pointer__ST2__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'picked-feature-flagship.txt', 'src/app.py', 'tests/'], selection=wrong followed=['feature-flagship'] work_matches=True
+- `codex-default__pointer__ST3__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'picked-feature-flagship.txt', 'src/app.py', 'tests/'], selection=wrong followed=['feature-flagship'] work_matches=True
+- `codex-default__pointer__ST3__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'picked-feature-flagship.txt', 'src/app.py', 'tests/'], selection=wrong followed=['feature-flagship'] work_matches=True
+- `codex-default__pointer__SV2__r2`: triggered=False (expected True), outcome_ok=False, changed=['src/app.py'], selection=none followed=[] work_matches=False
 - `codex-default__pointer__T1__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'TIER.txt', 'deep.txt'], stamp={'tier': 'flagship'}
 - `codex-default__pointer__T1__r2`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'TIER.txt', 'deep.txt'], stamp={'tier': 'flagship'}
 - `codex-default__pointer__T2__r1`: triggered=True (expected True), outcome_ok=False, changed=['.skill-trace', 'TIER.txt', 'deep.txt'], stamp={'tier': 'flagship'}

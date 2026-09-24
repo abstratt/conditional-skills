@@ -66,13 +66,13 @@
     }
   },
   "capability-from-knowledge-codex": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "branching",
     "values": {
-      "answers": "",
+      "answers": "no: 12",
       "k": 0,
-      "n": 0
+      "n": 12
     }
   },
   "capability-from-tools-claude": {
@@ -94,14 +94,6 @@
       "n": 18
     }
   },
-  "codex-harness-stamp-missing": {
-    "holds": true,
-    "kind": "observed",
-    "question": "branching",
-    "values": {
-      "n": 0
-    }
-  },
   "codex-overclaims-under-both-incentives": {
     "holds": true,
     "kind": "observed",
@@ -111,15 +103,6 @@
       "guid": "18 of 18",
       "n": 48,
       "over": 48
-    }
-  },
-  "codex-select-vendor-missing": {
-    "holds": true,
-    "kind": "observed",
-    "question": "placement",
-    "values": {
-      "n": 0,
-      "t": 4
     }
   },
   "delegation-costs-more": {
@@ -402,8 +385,8 @@
     "question": "branching",
     "values": {
       "n": 12,
-      "others": 172,
-      "othersn": 172,
+      "others": 180,
+      "othersn": 180,
       "p": 10,
       "pn": 12
     }
@@ -694,12 +677,12 @@
         ],
         [
           "codex-default",
-          "57k",
-          "61k",
-          "58k"
+          "55k",
+          "62k",
+          "59k"
         ]
       ],
-      "table": "claude-opus inline 40k, native 52k, pointer 53k; claude-sonnet inline 76k, native 101k, pointer 112k; claude-haiku inline 66k, native 82k, pointer 90k; codex-default inline 57k, native 61k, pointer 58k"
+      "table": "claude-opus inline 40k, native 52k, pointer 53k; claude-sonnet inline 76k, native 101k, pointer 112k; claude-haiku inline 66k, native 82k, pointer 90k; codex-default inline 55k, native 62k, pointer 59k"
     }
   },
   "inline-removes-haiku-loading-failure": {
@@ -760,14 +743,14 @@
     }
   },
   "not-portable-capability-from-knowledge": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "portability",
     "values": {
       "ck": 36,
       "cn": 36,
       "ok": 0,
-      "on": 0
+      "on": 12
     }
   },
   "not-portable-gate-tier": {
@@ -789,7 +772,7 @@
       "ck": 31,
       "cn": 31,
       "ok": 0,
-      "on": 4
+      "on": 12
     }
   },
   "not-portable-tier": {
@@ -828,10 +811,10 @@
     "kind": "observed",
     "question": "portability",
     "values": {
-      "k": 171,
-      "n": 202,
-      "nk": 144,
-      "nn": 202
+      "k": 184,
+      "n": 216,
+      "nk": 157,
+      "nn": 216
     }
   },
   "pointer-vs-native-cost": {
@@ -840,7 +823,7 @@
     "question": "efficiency",
     "values": {
       "claude": "claude-opus 53k vs 52k; claude-sonnet 112k vs 101k; claude-haiku 90k vs 82k",
-      "codex": "58k vs 61k"
+      "codex": "59k vs 62k"
     }
   },
   "portable-gate-vendor": {
@@ -866,14 +849,14 @@
     }
   },
   "portable-selection-vendor": {
-    "holds": false,
+    "holds": true,
     "kind": "observed",
     "question": "portability",
     "values": {
       "ck": 30,
       "cn": 30,
-      "ok": 0,
-      "on": 0
+      "ok": 10,
+      "on": 10
     }
   },
   "review-baseline-no-delegation": {
@@ -889,9 +872,9 @@
     "kind": "observed",
     "question": "placement",
     "values": {
-      "k": 65,
-      "n": 76,
-      "table": "claude-haiku 1 of 12 (native); claude-haiku 12 of 12 (pointer); claude-opus 12 of 12 (native); claude-opus 12 of 12 (pointer); claude-sonnet 12 of 12 (native); claude-sonnet 12 of 12 (pointer); codex-default 2 of 2 (native); codex-default 2 of 2 (pointer)"
+      "k": 83,
+      "n": 96,
+      "table": "claude-haiku 1 of 12 (native); claude-haiku 12 of 12 (pointer); claude-opus 12 of 12 (native); claude-opus 12 of 12 (pointer); claude-sonnet 12 of 12 (native); claude-sonnet 12 of 12 (pointer); codex-default 11 of 12 (native); codex-default 11 of 12 (pointer)"
     }
   },
   "select-reads-before-choosing": {
@@ -902,9 +885,9 @@
       "ck": 0,
       "cn": 61,
       "k": 0,
-      "n": 65,
+      "n": 83,
       "ok": 0,
-      "on": 4
+      "on": 22
     }
   },
   "select-tier-claude-correct": {
@@ -980,8 +963,8 @@
     "kind": "observed",
     "question": "placement",
     "values": {
-      "answers": "feature-flagship: 4",
-      "n": 4
+      "answers": "feature-flagship: 12",
+      "n": 12
     }
   },
   "select-vendor-correct": {
@@ -989,9 +972,9 @@
     "kind": "observed",
     "question": "placement",
     "values": {
-      "k": 30,
-      "n": 30,
-      "none": 6,
+      "k": 40,
+      "n": 40,
+      "none": 8,
       "rows": [
         [
           "subject",
@@ -1048,9 +1031,25 @@
           "0",
           "0",
           "0"
+        ],
+        [
+          "codex-default",
+          "native",
+          "5",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "codex-default",
+          "pointer",
+          "5",
+          "0",
+          "0",
+          "1"
         ]
       ],
-      "table": "correct: 30, none: 6"
+      "table": "correct: 40, none: 8"
     }
   },
   "select-work-matches-choice": {
@@ -1058,8 +1057,8 @@
     "kind": "observed",
     "question": "placement",
     "values": {
-      "k": 65,
-      "n": 65
+      "k": 83,
+      "n": 83
     }
   },
   "skill-overhead-tokens": {

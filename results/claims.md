@@ -4,13 +4,13 @@ Checkable statements about the runs, re-evaluated on every refresh (see DESIGN.m
 
 ## Corpus
 
-- valid runs: 616 (skill runs 568, baseline runs 48)
-- batches by start date: 2026-09-22: 193, 2026-09-23: 423
-- reruns recorded in meta.json: `claude-haiku__inline__H1__r1` (forced), `claude-haiku__inline__H1__r2` (forced), `claude-haiku__inline__H2__r1` (forced), `claude-haiku__inline__H2__r2` (forced), `claude-haiku__native__H1__r1` (forced), `claude-haiku__native__H1__r2` (forced), `claude-haiku__native__H2__r1` (forced), `claude-haiku__native__H2__r2` (forced), `claude-haiku__pointer__H1__r1` (forced), `claude-haiku__pointer__H1__r2` (forced), `claude-haiku__pointer__H2__r1` (forced), `claude-haiku__pointer__H2__r2` (forced), `claude-opus__inline__H1__r1` (forced), `claude-opus__inline__H1__r2` (forced), `claude-opus__inline__H2__r1` (forced), `claude-opus__inline__H2__r2` (forced), `claude-opus__native__H1__r1` (forced), `claude-opus__native__H1__r2` (forced), `claude-opus__native__H2__r1` (forced), `claude-opus__native__H2__r2` (forced), `claude-opus__pointer__H1__r1` (forced), `claude-opus__pointer__H1__r2` (forced), `claude-opus__pointer__H2__r1` (forced), `claude-opus__pointer__H2__r2` (forced), `claude-sonnet__inline__H1__r1` (forced), `claude-sonnet__inline__H1__r2` (forced), `claude-sonnet__inline__H2__r1` (forced), `claude-sonnet__inline__H2__r2` (forced), `claude-sonnet__native__H1__r1` (forced), `claude-sonnet__native__H1__r2` (forced), `claude-sonnet__native__H2__r1` (forced), `claude-sonnet__native__H2__r2` (forced), `claude-sonnet__pointer__H1__r1` (forced), `claude-sonnet__pointer__H1__r2` (forced), `claude-sonnet__pointer__H2__r1` (forced), `claude-sonnet__pointer__H2__r2` (forced)
-- invalid runs (excluded): `codex-default__inline__H1__r1`, `codex-default__inline__H1__r2`, `codex-default__inline__H2__r1`, `codex-default__inline__H2__r2`, `codex-default__native__H1__r1`, `codex-default__native__H1__r2`, `codex-default__native__H2__r1`, `codex-default__native__H2__r2`, `codex-default__native__ST2__r1`, `codex-default__native__ST2__r2`, `codex-default__native__ST3__r1`, `codex-default__native__ST3__r2`, `codex-default__native__SV1__r1`, `codex-default__native__SV1__r2`, `codex-default__native__SV2__r1`, `codex-default__native__SV2__r2`, `codex-default__native__SV3__r1`, `codex-default__native__SV3__r2`, `codex-default__pointer__H1__r1`, `codex-default__pointer__H1__r2`, `codex-default__pointer__H2__r1`, `codex-default__pointer__H2__r2`, `codex-default__pointer__ST2__r1`, `codex-default__pointer__ST2__r2`, `codex-default__pointer__ST3__r1`, `codex-default__pointer__ST3__r2`, `codex-default__pointer__SV1__r1`, `codex-default__pointer__SV1__r2`, `codex-default__pointer__SV2__r1`, `codex-default__pointer__SV2__r2`, `codex-default__pointer__SV3__r1`, `codex-default__pointer__SV3__r2`
+- valid runs: 648 (skill runs 600, baseline runs 48)
+- batches by start date: 2026-09-22: 193, 2026-09-23: 423, 2026-09-24: 32
+- reruns recorded in meta.json: `claude-haiku__inline__H1__r1` (forced), `claude-haiku__inline__H1__r2` (forced), `claude-haiku__inline__H2__r1` (forced), `claude-haiku__inline__H2__r2` (forced), `claude-haiku__native__H1__r1` (forced), `claude-haiku__native__H1__r2` (forced), `claude-haiku__native__H2__r1` (forced), `claude-haiku__native__H2__r2` (forced), `claude-haiku__pointer__H1__r1` (forced), `claude-haiku__pointer__H1__r2` (forced), `claude-haiku__pointer__H2__r1` (forced), `claude-haiku__pointer__H2__r2` (forced), `claude-opus__inline__H1__r1` (forced), `claude-opus__inline__H1__r2` (forced), `claude-opus__inline__H2__r1` (forced), `claude-opus__inline__H2__r2` (forced), `claude-opus__native__H1__r1` (forced), `claude-opus__native__H1__r2` (forced), `claude-opus__native__H2__r1` (forced), `claude-opus__native__H2__r2` (forced), `claude-opus__pointer__H1__r1` (forced), `claude-opus__pointer__H1__r2` (forced), `claude-opus__pointer__H2__r1` (forced), `claude-opus__pointer__H2__r2` (forced), `claude-sonnet__inline__H1__r1` (forced), `claude-sonnet__inline__H1__r2` (forced), `claude-sonnet__inline__H2__r1` (forced), `claude-sonnet__inline__H2__r2` (forced), `claude-sonnet__native__H1__r1` (forced), `claude-sonnet__native__H1__r2` (forced), `claude-sonnet__native__H2__r1` (forced), `claude-sonnet__native__H2__r2` (forced), `claude-sonnet__pointer__H1__r1` (forced), `claude-sonnet__pointer__H1__r2` (forced), `claude-sonnet__pointer__H2__r1` (forced), `claude-sonnet__pointer__H2__r2` (forced), `codex-default__inline__H1__r1` (turn failed), `codex-default__inline__H1__r2` (turn failed), `codex-default__inline__H2__r1` (turn failed), `codex-default__inline__H2__r2` (turn failed), `codex-default__native__H1__r1` (turn failed), `codex-default__native__H1__r2` (turn failed), `codex-default__native__H2__r1` (turn failed), `codex-default__native__H2__r2` (turn failed), `codex-default__native__ST2__r1` (turn failed), `codex-default__native__ST2__r2` (turn failed), `codex-default__native__ST3__r1` (turn failed), `codex-default__native__ST3__r2` (turn failed), `codex-default__native__SV1__r1` (turn failed), `codex-default__native__SV1__r2` (turn failed), `codex-default__native__SV2__r1` (turn failed), `codex-default__native__SV2__r2` (turn failed), `codex-default__native__SV3__r1` (turn failed), `codex-default__native__SV3__r2` (turn failed), `codex-default__pointer__H1__r1` (turn failed), `codex-default__pointer__H1__r2` (turn failed), `codex-default__pointer__H2__r1` (turn failed), `codex-default__pointer__H2__r2` (turn failed), `codex-default__pointer__ST2__r1` (turn failed), `codex-default__pointer__ST2__r2` (turn failed), `codex-default__pointer__ST3__r1` (turn failed), `codex-default__pointer__ST3__r2` (turn failed), `codex-default__pointer__SV1__r1` (turn failed), `codex-default__pointer__SV1__r2` (turn failed), `codex-default__pointer__SV2__r1` (turn failed), `codex-default__pointer__SV2__r2` (turn failed), `codex-default__pointer__SV3__r1` (turn failed), `codex-default__pointer__SV3__r2` (turn failed)
+- invalid runs (excluded): none
 - incomplete run directories: none
 - timing-invalid runs (kept, excluded from wall-time means): `claude-haiku__native__G3__r2`, `claude-sonnet__pointer__G2__r2`, `claude-sonnet__pointer__G3__r1`, `codex-default__native__G1__r1`, `codex-default__native__G1__r2`, `codex-default__native__G2__r1`
-- fingerprint: `0a2d7fa5e4151e28`
+- fingerprint: `22e47eb09e203c8d`
 
 ## Question 1: can a skill branch on model identity or capability?
 
@@ -89,7 +89,7 @@ Every branch that prescribes tests changed behaviour: in loaded runs of those br
 <a id="haiku-skips-feature-skills-natively"></a>
 ### `haiku-skips-feature-skills-natively` — holds, observed
 
-Haiku loaded neither feature skill in any native run (0 of 12); with a pointer it loaded them in 10 of 12 runs. Every other subject loaded every Study 1 and Study 2 skill in every native and pointer run (172 of 172).
+Haiku loaded neither feature skill in any native run (0 of 12); with a pointer it loaded them in 10 of 12 runs. Every other subject loaded every Study 1 and Study 2 skill in every native and pointer run (180 of 180).
 
 <a id="inline-removes-haiku-loading-failure"></a>
 ### `inline-removes-haiku-loading-failure` — holds, observed
@@ -102,9 +102,9 @@ With the same instructions in the prompt (`inline`), Haiku followed both feature
 The Claude models answered the `harness-stamp` subagents question correctly in every run (36 of 36).
 
 <a id="capability-from-knowledge-codex"></a>
-### `capability-from-knowledge-codex` — FAILS, observed
+### `capability-from-knowledge-codex` — holds, observed
 
-Codex with gpt-5.6-luna answered the `harness-stamp` subagents question correctly in 0 of 0 runs (answers: ); its product knowledge of its own harness is not reliable enough to branch on.
+Codex with gpt-5.6-luna answered the `harness-stamp` subagents question correctly in 0 of 12 runs (answers: no: 12); its product knowledge of its own harness is not reliable enough to branch on.
 
 <a id="capability-from-tools-claude"></a>
 ### `capability-from-tools-claude` — holds, observed
@@ -131,11 +131,6 @@ With no skill, no subject delegated a review in any baseline run (0 of 24), so e
 
 Delegating did not improve the review on this task: Opus, Sonnet and Codex named both planted bugs in 18 of 18 baseline reviews without delegating, and in 53 of 54 skill runs.
 
-<a id="codex-harness-stamp-missing"></a>
-### `codex-harness-stamp-missing` — holds, observed
-
-The corpus holds no valid `harness-stamp` run for Codex with gpt-5.6-luna (0 valid of 12 cells): the reruns with the one-question skill failed on a Codex usage limit and are listed as invalid; its capability-from-knowledge result waits for the rerun.
-
 ## Question 2: is a single skill file portable?
 
 <a id="portable-identity"></a>
@@ -154,9 +149,9 @@ Branching on an exact model version worked only for the Claude pair (36 of 36 co
 Branching on tier worked for the Claude pair (130 of 130 loaded tier answers correct) and failed for the Codex pair (0 of 48); the difference tracks whether the harness hands the model its exact model ID, which is inferred, not observed.
 
 <a id="not-portable-capability-from-knowledge"></a>
-### `not-portable-capability-from-knowledge` — FAILS, observed
+### `not-portable-capability-from-knowledge` — holds, observed
 
-A capability branch answered from product knowledge worked for the Claude pair (36 of 36) and only sometimes for the Codex pair (0 of 0), whose answer to the same question varied from run to run.
+A capability branch answered from product knowledge worked for the Claude pair (36 of 36) and only sometimes for the Codex pair (0 of 12), whose answer to the same question varied from run to run.
 
 <a id="partially-portable-capability-from-tools"></a>
 ### `partially-portable-capability-from-tools` — holds, inferred
@@ -171,7 +166,7 @@ Among runs where the skill loaded, no subject-and-skill cell had a whole-cell ou
 <a id="pointer-delivery-portable"></a>
 ### `pointer-delivery-portable` — holds, observed
 
-Pointer delivery (a `CLAUDE.md` / `AGENTS.md` entry) loaded the skill in 171 of 202 pointer runs across both pairs, against 144 of 202 native runs.
+Pointer delivery (a `CLAUDE.md` / `AGENTS.md` entry) loaded the skill in 184 of 216 pointer runs across both pairs, against 157 of 216 native runs.
 
 <a id="portable-gate-vendor"></a>
 ### `portable-gate-vendor` — holds, observed
@@ -184,14 +179,14 @@ A gate on vendor behaved correctly for both pairs in native and pointer runs: th
 A gate on tier behaved correctly for the Claude pair (36 of 36 native and pointer runs) and not for the Codex pair (0 of 12), which refused the skill written for its documented tier.
 
 <a id="portable-selection-vendor"></a>
-### `portable-selection-vendor` — FAILS, observed
+### `portable-selection-vendor` — holds, observed
 
-Selection by vendor worked for both pairs among runs that chose: the Claude pair 30 of 30, the Codex pair 0 of 0.
+Selection by vendor worked for both pairs among runs that chose: the Claude pair 30 of 30, the Codex pair 10 of 10.
 
 <a id="not-portable-selection-tier"></a>
 ### `not-portable-selection-tier` — holds, observed
 
-Selection by tier worked for the Claude pair (31 of 31 runs that chose) and not for the Codex pair (0 of 4).
+Selection by tier worked for the Claude pair (31 of 31 runs that chose) and not for the Codex pair (0 of 12).
 
 ## Question 3: what does a model-conditional skill cost?
 
@@ -222,19 +217,19 @@ On the same prompts, every subject made more tool invocations with a native skil
 <a id="inline-cheapest-delivery"></a>
 ### `inline-cheapest-delivery` — holds (numbers changed), observed
 
-In Study 1, where every subject loaded every skill, `inline` used fewer input tokens than both `native` and `pointer` for every subject: claude-opus inline 40k, native 52k, pointer 53k; claude-sonnet inline 76k, native 101k, pointer 112k; claude-haiku inline 66k, native 82k, pointer 90k; codex-default inline 57k, native 61k, pointer 58k.
+In Study 1, where every subject loaded every skill, `inline` used fewer input tokens than both `native` and `pointer` for every subject: claude-opus inline 40k, native 52k, pointer 53k; claude-sonnet inline 76k, native 101k, pointer 112k; claude-haiku inline 66k, native 82k, pointer 90k; codex-default inline 55k, native 62k, pointer 59k.
 
 | subject | inline | native | pointer |
 |---|---|---|---|
 | claude-opus | 40k | 52k | 53k |
 | claude-sonnet | 76k | 101k | 112k |
 | claude-haiku | 66k | 82k | 90k |
-| codex-default | 57k | 61k | 58k |
+| codex-default | 55k | 62k | 59k |
 
 <a id="pointer-vs-native-cost"></a>
 ### `pointer-vs-native-cost` — holds, observed
 
-In Study 1, pointer delivery cost more input tokens than native for the Claude models (claude-opus 53k vs 52k; claude-sonnet 112k vs 101k; claude-haiku 90k vs 82k) and less for Codex with gpt-5.6-luna (58k vs 61k); the pointer's extra file read is not the whole story.
+In Study 1, pointer delivery cost more input tokens than native for the Claude models (claude-opus 53k vs 52k; claude-sonnet 112k vs 101k; claude-haiku 90k vs 82k) and less for Codex with gpt-5.6-luna (59k vs 62k); the pointer's extra file read is not the whole story.
 
 <a id="lighter-branch-cheaper"></a>
 ### `lighter-branch-cheaper` — holds (numbers changed), observed
@@ -366,11 +361,6 @@ Included subjects loaded the gated skill written for them in 32 of 60 native and
 
 Haiku's loading failure, not the gate, decided its Study 3 outcomes: included under both gated skills, it loaded them in 1 of 12 native and 7 of 12 pointer runs and followed them in 12 of 12 inline runs; with a selection set it followed a skill in 1 of 12 native and 12 of 12 pointer runs, and every choice it made was correct (13 of 13).
 
-<a id="codex-select-vendor-missing"></a>
-### `codex-select-vendor-missing` — holds, observed
-
-The corpus holds no valid `select-vendor` run for Codex with gpt-5.6-luna (0 valid of 12 cells), and 4 of 12 `select-tier` runs: the rest failed on a Codex usage limit and are listed as invalid, so selection by vendor is untested for the Codex pair.
-
 <a id="gate-tier-codex-refuses-own-skill"></a>
 ### `gate-tier-codex-refuses-own-skill` — holds, observed
 
@@ -382,7 +372,7 @@ Codex with gpt-5.6-luna, whose documented tier is small, stayed out of `tier-gat
 <a id="select-vendor-correct"></a>
 ### `select-vendor-correct` — holds (numbers changed), observed
 
-Given `feature-anthropic` and `feature-openai` side by side, every run that followed a skill followed the one for its vendor (30 of 30 runs that chose; 6 chose none): correct: 30, none: 6.
+Given `feature-anthropic` and `feature-openai` side by side, every run that followed a skill followed the one for its vendor (40 of 40 runs that chose; 8 chose none): correct: 40, none: 8.
 
 | subject | delivery | correct | wrong | several | none |
 |---|---|---|---|---|---|
@@ -392,6 +382,8 @@ Given `feature-anthropic` and `feature-openai` side by side, every run that foll
 | claude-opus | pointer | 6 | 0 | 0 | 0 |
 | claude-sonnet | native | 6 | 0 | 0 | 0 |
 | claude-sonnet | pointer | 6 | 0 | 0 | 0 |
+| codex-default | native | 5 | 0 | 0 | 1 |
+| codex-default | pointer | 5 | 0 | 0 | 1 |
 
 <a id="select-tier-claude-correct"></a>
 ### `select-tier-claude-correct` — holds (numbers changed), assumed
@@ -410,24 +402,24 @@ Given `feature-flagship`, `feature-mid` and `feature-small` side by side, every 
 <a id="select-tier-codex-wrong"></a>
 ### `select-tier-codex-wrong` — holds, observed
 
-Codex with gpt-5.6-luna never followed `feature-small`, the skill for its documented tier (0 of 4 runs that chose); it followed feature-flagship: 4.
+Codex with gpt-5.6-luna never followed `feature-small`, the skill for its documented tier (0 of 12 runs that chose); it followed feature-flagship: 12.
 
 <a id="select-loading"></a>
 ### `select-loading` — holds, observed
 
-With a selection set installed, subjects followed at least one of its skills in 65 of 76 runs: claude-haiku 1 of 12 (native); claude-haiku 12 of 12 (pointer); claude-opus 12 of 12 (native); claude-opus 12 of 12 (pointer); claude-sonnet 12 of 12 (native); claude-sonnet 12 of 12 (pointer); codex-default 2 of 2 (native); codex-default 2 of 2 (pointer).
+With a selection set installed, subjects followed at least one of its skills in 83 of 96 runs: claude-haiku 1 of 12 (native); claude-haiku 12 of 12 (pointer); claude-opus 12 of 12 (native); claude-opus 12 of 12 (pointer); claude-sonnet 12 of 12 (native); claude-sonnet 12 of 12 (pointer); codex-default 11 of 12 (native); codex-default 11 of 12 (pointer).
 
 <a id="select-reads-before-choosing"></a>
 ### `select-reads-before-choosing` — holds, observed
 
-In 0 of 65 selection runs that followed exactly one skill, the agent had read at least one other alternative first (the Claude pair 0 of 61, the Codex pair 0 of 4).
+In 0 of 83 selection runs that followed exactly one skill, the agent had read at least one other alternative first (the Claude pair 0 of 61, the Codex pair 0 of 22).
 
 <a id="select-work-matches-choice"></a>
 ### `select-work-matches-choice` — holds, observed
 
-In every selection run that followed exactly one skill, the work matched that skill's body (65 of 65).
+In every selection run that followed exactly one skill, the work matched that skill's body (83 of 83).
 
 ## FINDINGS.md check
 
-- nothing to revise
+- FINDINGS.md fingerprint `0a2d7fa5e4151e28` differs from the current corpus `22e47eb09e203c8d`: the file predates the data
 
