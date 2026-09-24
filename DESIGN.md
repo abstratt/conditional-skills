@@ -517,8 +517,14 @@ an exhibit.
 
 **Output**: one section per question in the Goal, each answering the question first and then giving
 the evidence; the caveats that bound the answers; and guidance for skill authors. It opens with a
-number-free summary of the four answers, uses subheadings and bullet lists, may carry one small
-table per question copied from a claim, and may quote a claim's exhibits verbatim. Guidance is
+number-free summary of the four answers, followed by a section "Answers to the six questions": a
+table with one row per question in the Goal's six-question table, in that order, giving the
+question, its answer in one or two sentences stated per pair where the pairs differ, and the
+section of the file that carries the evidence. The file's four question sections follow the
+design's mechanisms, not the six use cases, and this table is where a reader who arrived with
+the six questions finds each answer without learning the mapping. It uses subheadings and bullet
+lists, may carry one small table per question copied from a claim, and may quote a claim's
+exhibits verbatim. Guidance is
 derived, not invented: one item per kind of branch condition (vendor, harness, exact version, tier,
 capability from knowledge, capability from the session's tools), one per place a condition can sit
 (a gate in the description, selection among alternatives, a bail-out in the body) and one per
@@ -537,7 +543,7 @@ fingerprint and the generator's model.
   The header (fingerprint, dates, generator model) is exempt and checked separately;
 - every paragraph, bullet and table has a citation line, every cited claim exists, and a claim
   cited as support holds;
-- every section is present, and the summary contains no numbers;
+- every section is present, the summary contains no numbers, and the six-question table has six rows;
 - every passage in quotation marks is a verbatim exhibit from `claims.md`;
 - no harness is named as the subject of a result without its model (see the rules below);
 - the fingerprint matches the current corpus.

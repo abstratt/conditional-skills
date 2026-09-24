@@ -8,6 +8,7 @@ from common import *
 
 MODEL = "claude-fable-5-1"
 SECTIONS = ["## Summary",
+            "## Answers to the six questions",
             "## Question 1: can a skill branch on model identity or capability?",
             "## Question 2: is a single skill file portable?",
             "## Question 3: what does a model-conditional skill cost?",
@@ -31,6 +32,7 @@ fingerprint: {fingerprint}
 valid runs: {runs}
 
 ## Summary
+## Answers to the six questions
 ## Question 1: can a skill branch on model identity or capability?
 ## Question 2: is a single skill file portable?
 ## Question 3: what does a model-conditional skill cost?
@@ -43,6 +45,11 @@ How to write it:
 - Summary: four short paragraphs, one answer per question, no numbers. Define the shorthand here:
   "the Claude pair" for Opus, Sonnet and Haiku in Claude Code and "the Codex pair" for Codex with
   gpt-5.6-luna, then use the shorthand everywhere below.
+- Answers to the six questions: one table, columns "question", "answer", "evidence". One row per question
+  in DESIGN.md's six-question table (Goal), in that order and with that wording. The answer is one or two
+  sentences, stated per pair where the pairs differ, and may carry numbers from claims.md. The evidence
+  column names the section of this file that carries it, for example "Question 4, A gate in the
+  description". The table ends with its own citation line. Nothing else in this section.
 - Each question section opens with its answer in one or two sentences, then the evidence. Use `###`
   subheadings inside a section when it covers several topics (for example identity, tier, capability,
   loading under Question 1; a gate in the description, selection among alternatives, and a bail-out in
@@ -159,6 +166,10 @@ def validate(draft, claims_md, summary_md, fingerprint, n_runs):
     summary = body.split(SECTIONS[1])[0]
     if numerals(strip(summary)):
         errors.append("the Summary must not contain numbers")
+    six = body.split(SECTIONS[1])[-1].split(SECTIONS[2])[0] if SECTIONS[1] in body else ""
+    six_rows = [l for l in six.splitlines() if l.strip().startswith("|") and not re.match(r"^\|[-| ]+\|$", l.strip())]
+    if len(six_rows) - 1 != 6:  # header plus six question rows
+        errors.append(f"the six-question table must have exactly six rows, found {max(len(six_rows) - 1, 0)}")
     for b in blocks(body):
         head80 = " ".join(strip(b).split())[:80]
         ids = cited_ids(b)

@@ -6,91 +6,88 @@ valid runs: 616
 
 ## Summary
 
-A skill can branch on vendor and on harness, and it did so correctly for both pairs of subjects that ran the same skill files: the Claude pair, meaning Opus, Sonnet and Haiku in Claude Code, and the Codex pair, meaning Codex with gpt-5.6-luna. Branching on exact model version or on tier worked only for the Claude pair. The Codex pair placed itself at flagship although its vendor's documentation puts it at the bottom of its family, whether or not the answer saved it work. A capability branch checked against the session's tools ran for the Claude pair every time and for the Codex pair only sometimes. Haiku often left a natively installed skill unloaded, which stops any branch before it starts.
+A skill can branch on vendor and harness for both pairs tested: the Claude pair, meaning Opus, Sonnet and Haiku in Claude Code, and the Codex pair, meaning Codex with gpt-5.6-luna. Only the Claude pair can branch on its exact model version or its tier. The Codex pair reports a family name rather than its model, and places itself at the top of its lineup although its documentation places it at the bottom. A capability branch that checks the session's tools produced a delegation every time for the Claude pair and only sometimes for the Codex pair.
+*Claims: [vendor-harness-correct](claims.md#vendor-harness-correct), [model-version-codex](claims.md#model-version-codex), [tier-codex-incorrect](claims.md#tier-codex-incorrect), [capability-from-tools-codex-partial](claims.md#capability-from-tools-codex-partial)*
 
-*Claims: [vendor-harness-correct](claims.md#vendor-harness-correct), [model-version-codex](claims.md#model-version-codex), [tier-codex-incorrect](claims.md#tier-codex-incorrect), [codex-overclaims-under-both-incentives](claims.md#codex-overclaims-under-both-incentives), [capability-from-tools-claude](claims.md#capability-from-tools-claude), [capability-from-tools-codex-partial](claims.md#capability-from-tools-codex-partial), [haiku-skips-feature-skills-natively](claims.md#haiku-skips-feature-skills-natively)*
+A single skill file is portable when its condition is vendor or harness, and not when it is exact version or tier. A condition read from the session's tools is partially portable. Delivery did not change a branch's outcome once the skill was loaded, but it decides whether Haiku loads a feature skill at all.
+*Claims: [portable-identity](claims.md#portable-identity), [not-portable-tier](claims.md#not-portable-tier), [delivery-no-whole-cell-difference-once-loaded](claims.md#delivery-no-whole-cell-difference-once-loaded), [haiku-skips-feature-skills-natively](claims.md#haiku-skips-feature-skills-natively)*
 
-Vendor and harness conditions are portable across both pairs. Exact version and tier are not, and a capability condition answered from the session's tools is portable only in part. Once a skill loaded, delivery did not change which branch a subject took, but a pointer in the instructions file loaded the skill more often than native installation.
+A model-conditional skill costs more than no skill for every subject, in input tokens and tool invocations. Within a subject the lighter branch is cheaper. Instructions in the prompt are the cheapest delivery. Delegating a review costs more and found no more bugs. A gate that holds at the description costs about what the no-skill baseline costs, while a bail-out from the body pays for the load.
+*Claims: [skill-overhead-tokens](claims.md#skill-overhead-tokens), [lighter-branch-cheaper](claims.md#lighter-branch-cheaper), [inline-cheapest-delivery](claims.md#inline-cheapest-delivery), [delegation-costs-more](claims.md#delegation-costs-more), [staying-out-costs-baseline](claims.md#staying-out-costs-baseline)*
 
-*Claims: [portable-identity](claims.md#portable-identity), [not-portable-version](claims.md#not-portable-version), [not-portable-tier](claims.md#not-portable-tier), [partially-portable-capability-from-tools](claims.md#partially-portable-capability-from-tools), [delivery-no-whole-cell-difference-once-loaded](claims.md#delivery-no-whole-cell-difference-once-loaded), [pointer-delivery-portable](claims.md#pointer-delivery-portable)*
+The condition can sit in the description: every excluded subject in both pairs left a gated skill unloaded. With the body forced into the prompt, every excluded subject bailed out. The Claude pair picked the right skill from alternatives every time it picked one. The Codex pair refused the skill written for its own tier, so a skill reserved for weaker models works for the Claude pair only, and there Haiku's loading limits it more than the gate does.
+*Claims: [gate-where-it-held](claims.md#gate-where-it-held), [bailout-inline](claims.md#bailout-inline), [select-tier-claude-correct](claims.md#select-tier-claude-correct), [gate-tier-codex-refuses-own-skill](claims.md#gate-tier-codex-refuses-own-skill), [haiku-loading-limits-gates](claims.md#haiku-loading-limits-gates)*
 
-A model-conditional skill costs more than the same request with no skill, for every subject, in input tokens and in tool invocations. Instructions placed inline were the cheapest delivery. A lighter branch was cheaper than a heavier one, so a branch that steps back for a strong model does save cost. Delegating a review cost more and found no more bugs. A gate that held at the description cost about what no skill cost, while a bail-out after loading paid for the load.
+## Answers to the six questions
 
-*Claims: [skill-overhead-tokens](claims.md#skill-overhead-tokens), [skill-overhead-tool-invocations](claims.md#skill-overhead-tool-invocations), [inline-cheapest-delivery](claims.md#inline-cheapest-delivery), [lighter-branch-cheaper](claims.md#lighter-branch-cheaper), [delegation-costs-more](claims.md#delegation-costs-more), [delegation-no-quality-gain](claims.md#delegation-no-quality-gain), [staying-out-costs-baseline](claims.md#staying-out-costs-baseline)*
+| question | answer | evidence |
+|---|---|---|
+| Can a model report what model and harness it is running in? | Vendor and harness: yes for both pairs (48 of 48 runs). Exact model: the Claude pair in 36 of 36 runs, the Codex pair never (0 of 12). | Question 1, Identity |
+| Can a model, running a skill, take a different workflow depending on model or capability? | The Claude pair took the correct tier branch in 130 of 130 loaded answers and delegated on seeing the tool in 54 of 54 runs. The Codex pair took a tier above its own in 48 of 48 answers and delegated in 7 of 18 runs. | Question 1, Tier; Question 1, Capability |
+| Can a model tell from the description alone that it should not run the skill, and never call it? | Yes, both pairs: every excluded subject left the gated skill unloaded in native and pointer runs (36 of 36). | Question 4, A gate in the description |
+| Can a model pick one skill from alternatives by model type? | The Claude pair: yes, by vendor in 30 of 30 runs that chose and by tier in 31 of 31. The Codex pair picked the flagship skill over its own in 4 of 4; selection by vendor is untested for it. | Question 4, Selection among alternatives |
+| Can a model bail out of a skill from its body? | Yes, both pairs: with the body in the prompt, excluded subjects declined in 18 of 18 runs. | Question 4, A bail-out in the body |
+| Can a skill be reserved for weaker models and avoided by frontier models? | For the Claude pair: Opus and Sonnet stayed out in 24 of 24 native and pointer runs, and Haiku followed in 20 of 20 runs where it loaded. Not for the Codex pair, which stayed out of the skill written for its tier in 12 of 12 runs. | Question 4, A skill reserved for weaker models |
 
-The condition can sit in the description, and that is where it held: every excluded subject left the gated skill unloaded, and none ever followed its checklist. With the body forced into the prompt, every excluded subject declined from the body. Selection among alternatives was correct in every Claude pair run that chose. A skill reserved for small models kept Opus and Sonnet out and brought Haiku in when Haiku loaded it, but the Codex pair, its intended audience, refused it too, so that case cannot rest on self-placement.
-
-*Claims: [gate-where-it-held](claims.md#gate-where-it-held), [excluded-never-followed](claims.md#excluded-never-followed), [bailout-inline](claims.md#bailout-inline), [select-vendor-correct](claims.md#select-vendor-correct), [select-tier-claude-correct](claims.md#select-tier-claude-correct), [gate-tier-codex-refuses-own-skill](claims.md#gate-tier-codex-refuses-own-skill), [haiku-loading-limits-gates](claims.md#haiku-loading-limits-gates)*
+*Claims: [vendor-harness-correct](claims.md#vendor-harness-correct), [model-version-claude](claims.md#model-version-claude), [model-version-codex](claims.md#model-version-codex), [tier-claude-correct](claims.md#tier-claude-correct), [codex-overclaims-under-both-incentives](claims.md#codex-overclaims-under-both-incentives), [capability-from-tools-claude](claims.md#capability-from-tools-claude), [capability-from-tools-codex-partial](claims.md#capability-from-tools-codex-partial), [gate-where-it-held](claims.md#gate-where-it-held), [select-vendor-correct](claims.md#select-vendor-correct), [select-tier-claude-correct](claims.md#select-tier-claude-correct), [select-tier-codex-wrong](claims.md#select-tier-codex-wrong), [codex-select-vendor-missing](claims.md#codex-select-vendor-missing), [bailout-inline](claims.md#bailout-inline), [gate-tier-keeps-opus-sonnet-out](claims.md#gate-tier-keeps-opus-sonnet-out), [included-claude-followed-when-loaded](claims.md#included-claude-followed-when-loaded), [gate-tier-codex-refuses-own-skill](claims.md#gate-tier-codex-refuses-own-skill)*
 
 ## Question 1: can a skill branch on model identity or capability?
 
-Yes on vendor and harness, for both pairs. Exact version and tier branches were taken correctly only by the Claude pair, and a capability branch checked against the session's tools ran for the Claude pair every time and for the Codex pair some of the time.
-
+A skill can branch on vendor and harness for both pairs, and on exact version, tier and the session's tools for the Claude pair. The Codex pair does not know its version or tier, and reads its own tools differently from run to run.
 *Claims: [vendor-harness-correct](claims.md#vendor-harness-correct), [not-portable-tier](claims.md#not-portable-tier), [capability-from-tools-codex-partial](claims.md#capability-from-tools-codex-partial)*
 
-### Identity: vendor, harness and exact version
+### Identity
 
-Every subject reported its vendor and harness correctly in every `vendor-stamp` run, 48 of 48 across 4 subjects and all deliveries, observed in the stamp files. Exact version splits the pairs. The Claude pair wrote a name containing its exact model token in 36 of 36 runs, and Haiku included the dated ID it was configured with, writing "AGENT.txt model: claude-haiku-4-5-20251001". The Codex pair never did, 0 of 12; it answered gpt-5 in every run, a family name without its model's token.
-
+Every subject reported its vendor and harness correctly in every `vendor-stamp` run (48 of 48, all deliveries), observed in the stamp files. The Claude pair also named its exact model in 36 of 36 runs; Haiku gave the dated ID it was configured with: "AGENT.txt model: claude-haiku-4-5-20251001". The Codex pair never produced a name containing its model token (0 of 12) and wrote `gpt-5` every time.
 *Claims: [vendor-harness-correct](claims.md#vendor-harness-correct), [model-version-claude](claims.md#model-version-claude), [model-version-codex](claims.md#model-version-codex)*
 
 ### Tier
 
-Each Claude model reported its ground-truth tier in 130 of 130 tier answers where the skill loaded, across `tier-stamp`, `tiered-feature` and `tiered-guidance`, and each reported a single tier throughout. That correctness is assumed, not observed: the Anthropic tiers are a scale defined over the subjects.
+Each Claude model reported its ground-truth tier in every loaded tier answer (130 of 130 across `tier-stamp`, `tiered-feature` and `tiered-guidance`) and kept a single tier throughout. Under `tiered-guidance`, where a higher tier saved work, Sonnet and Haiku kept their Study 1 tier in 30 of 30 loaded runs, so no Claude model inflated its tier. The Anthropic tiers are an assumed scale, so this means consistent with the scale, not knows its rank.
+*Claims: [tier-claude-correct](claims.md#tier-claude-correct), [tier-stable-claude](claims.md#tier-stable-claude), [tier-no-inflation-claude](claims.md#tier-no-inflation-claude)*
 
-*Claims: [tier-claude-correct](claims.md#tier-claude-correct), [tier-stable-claude](claims.md#tier-stable-claude)*
+The Codex pair never reported its documented tier of small (0 of 48); it answered flagship in 46 and mid in 2. The mid answers came from runs that searched OpenAI's documentation (3 such runs, all under `inline`), so its own knowledge always gave flagship. The overclaim held whether a higher tier cost extra work (`tiered-feature`, 18 of 18) or saved it (`tiered-guidance`, 18 of 18), so the payoff does not drive it. Its consequence is the failure the motivating case fears: under `tiered-guidance` the Codex pair skipped the checklist written for small models in every loaded run. This is observed against OpenAI's documentation.
+*Claims: [tier-codex-incorrect](claims.md#tier-codex-incorrect), [tier-codex-varies](claims.md#tier-codex-varies), [codex-overclaims-under-both-incentives](claims.md#codex-overclaims-under-both-incentives), [guidance-skipped-by-codex](claims.md#guidance-skipped-by-codex)*
 
-The Codex pair never reported its documented tier, small, in 0 of 48 answers. It reported flagship in 46 and mid in 2, and the mid answers came from runs that searched OpenAI's documentation, 3 such runs, all under `inline` delivery. One announced "I’m using the OpenAI product guidance skill to determine the model tier, then I’ll make only the requested file changes and run the available test command." Even a lookup did not reach small.
-
-*Claims: [tier-codex-incorrect](claims.md#tier-codex-incorrect), [tier-codex-varies](claims.md#tier-codex-varies)*
-
-The incentive moved nobody. Under `tiered-guidance`, where a higher tier saved work, Sonnet and Haiku reported the same tier as in Study 1 in 30 of 30 loaded runs. The Codex pair claimed a tier above its own in 48 of 48 loaded answers, both when that cost extra work under `tiered-feature`, 18 of 18, and when it saved work under `tiered-guidance`, 18 of 18, so it skipped the checklist written for small models in every loaded run.
-
-*Claims: [tier-no-inflation-claude](claims.md#tier-no-inflation-claude), [codex-overclaims-under-both-incentives](claims.md#codex-overclaims-under-both-incentives), [guidance-skipped-by-codex](claims.md#guidance-skipped-by-codex)*
-
-The work matched the reported tier in 130 of 130 loaded runs, but the baseline qualifies that. With no skill, every subject implemented the feature with no docstring and no tests in 24 of 24 baseline runs, which is exactly the `tiered-guidance` flagship branch, so Opus and the Codex pair taking it did what they would have done anyway. The branches that prescribe tests did change behaviour: loaded runs of those branches wrote tests in 84 of 84 runs against 0 of 24 baseline runs.
-
+The work matched the reported tier in every loaded run (130 of 130), so a wrong tier is carried out faithfully. The baseline bounds the credit: with no skill, every subject wrote no docstring and no tests (24 of 24), which is exactly the `tiered-guidance` flagship branch. Opus taking that branch, and the Codex pair taking it wrongly, is indistinguishable in the work from never loading the skill. The branches that prescribe tests did change behaviour: 84 of 84 loaded runs wrote tests, against 0 of 24 baseline runs.
 *Claims: [work-matches-report](claims.md#work-matches-report), [baseline-default-is-flagship-branch](claims.md#baseline-default-is-flagship-branch), [work-adding-branches-changed-behaviour](claims.md#work-adding-branches-changed-behaviour)*
 
 ### Capability
 
-From product knowledge, the Claude pair answered the `harness-stamp` subagents question correctly in 36 of 36 runs. The Codex pair has no valid run for that skill, 0 valid of 12 cells, because the reruns failed on a usage limit.
-
+From product knowledge, the Claude pair answered the `harness-stamp` subagents question correctly in 36 of 36 runs. The corpus holds no valid `harness-stamp` run for the Codex pair (0 valid of 12 cells), because the reruns failed on a usage limit, so its result is untested rather than negative.
 *Claims: [capability-from-knowledge-claude](claims.md#capability-from-knowledge-claude), [codex-harness-stamp-missing](claims.md#codex-harness-stamp-missing)*
 
-From the session's tools, the Claude pair made a real delegation call in 54 of 54 `tool-gated-review` runs, though Haiku wrote `mode: inline` after actually delegating in 2 of 18 runs. The Codex pair delegated in 7 of 18 runs and reviewed inline in the rest, concluding differently about its own tools from run to run; its label matched what it did in 18 of 18. Its session ground truth is inferred from those same transcripts. No subject delegated in 0 of 24 baseline reviews, so every delegation was the skill's doing, and it bought nothing: Opus, Sonnet and the Codex pair named both planted bugs in 18 of 18 baseline reviews and in 53 of 54 skill runs.
-
+From the session's tools, the Claude pair made a real delegation call in every `tool-gated-review` run (54 of 54), though Haiku wrote `mode: inline` after delegating in 2 of 18. The Codex pair delegated in 7 of 18 and reviewed inline in the rest; its label always matched its action. Its session ground truth is inferred from these same transcripts. No subject delegated in any baseline review (0 of 24), so every delegation was the skill's doing. It bought nothing: Opus, Sonnet and the Codex pair named both bugs in 18 of 18 baseline reviews and in 53 of 54 skill runs.
 *Claims: [capability-from-tools-claude](claims.md#capability-from-tools-claude), [haiku-label-contradicts-transcript](claims.md#haiku-label-contradicts-transcript), [capability-from-tools-codex-partial](claims.md#capability-from-tools-codex-partial), [review-baseline-no-delegation](claims.md#review-baseline-no-delegation), [delegation-no-quality-gain](claims.md#delegation-no-quality-gain)*
 
 ### Loading
 
-Haiku loaded neither feature skill in any native run, 0 of 12, and loaded them with a pointer in 10 of 12; every other subject loaded every Study 1 and Study 2 skill in 172 of 172 native and pointer runs. With the same instructions inline, Haiku followed both feature skills in 12 of 12 runs, so its native failures were loading failures, not ambiguity in the request.
-
+Haiku loaded neither feature skill in any native run (0 of 12) and loaded them in 10 of 12 pointer runs; every other subject loaded every Study 1 and Study 2 skill (172 of 172). With the same instructions in the prompt, Haiku followed both skills in 12 of 12 runs, so its failures were loading failures, not ambiguity. Every branch result above is read over runs where loading succeeded.
 *Claims: [haiku-skips-feature-skills-natively](claims.md#haiku-skips-feature-skills-natively), [inline-removes-haiku-loading-failure](claims.md#inline-removes-haiku-loading-failure)*
 
 ## Question 2: is a single skill file portable?
 
-A single skill file is portable when its condition is vendor or harness, not when it is exact version or tier, and only partly when it is a capability checked against the session's tools.
-
+Vendor and harness branches are portable across the two pairs. Version and tier branches are not. A capability branch read from the session's tools is partially portable. Delivery changes loading, not branch outcomes.
 *Claims: [portable-identity](claims.md#portable-identity), [not-portable-version](claims.md#not-portable-version), [not-portable-tier](claims.md#not-portable-tier), [partially-portable-capability-from-tools](claims.md#partially-portable-capability-from-tools)*
 
-Vendor and harness branches behaved correctly for both pairs: 36 of 36 runs for the Claude pair and 12 of 12 for the Codex pair. That holds with the condition moved before the body: a gate on vendor kept the excluded Codex pair out in 12 of 12 native and pointer runs, and the included Claude pair followed it in 28 of 28 loaded runs. Selection by vendor was correct in 30 of 30 runs that chose, all by the Claude pair; the Codex pair has no valid `select-vendor` run, so that is untested for it.
+Vendor and harness branches behaved correctly for both pairs: 36 of 36 runs for the Claude pair and 12 of 12 for the Codex pair. Exact version worked only for the Claude pair (36 of 36) and never for the Codex pair (0 of 12). Tier worked for the Claude pair (130 of 130) and failed for the Codex pair (0 of 48); the claim infers, without observing, that this tracks whether the harness hands the model its model ID. A tools-based capability branch produced a delegation for the Claude pair in 54 of 54 runs and for the Codex pair in 7 of 18. Capability from knowledge cannot be compared, since the Codex pair's cells are invalid.
+*Claims: [portable-identity](claims.md#portable-identity), [not-portable-version](claims.md#not-portable-version), [not-portable-tier](claims.md#not-portable-tier), [partially-portable-capability-from-tools](claims.md#partially-portable-capability-from-tools), [codex-harness-stamp-missing](claims.md#codex-harness-stamp-missing)*
 
-*Claims: [portable-identity](claims.md#portable-identity), [portable-gate-vendor](claims.md#portable-gate-vendor), [select-vendor-correct](claims.md#select-vendor-correct), [codex-select-vendor-missing](claims.md#codex-select-vendor-missing)*
+The same split holds before the body. A vendor gate behaved correctly for both pairs: the Claude pair followed in 28 of 28 loaded runs and the Codex pair stayed out in 12 of 12. A tier gate behaved correctly for the Claude pair (36 of 36) and not for the Codex pair (0 of 12). Tier selection was correct for the Claude pair in 31 of 31 runs that chose and for the Codex pair in 0 of 4. Vendor selection is untested for the Codex pair (0 valid of 12 cells).
+*Claims: [portable-gate-vendor](claims.md#portable-gate-vendor), [not-portable-gate-tier](claims.md#not-portable-gate-tier), [not-portable-selection-tier](claims.md#not-portable-selection-tier), [codex-select-vendor-missing](claims.md#codex-select-vendor-missing)*
 
-Exact version worked only for the Claude pair, 36 of 36 against 0 of 12. Tier worked for the Claude pair in 130 of 130 loaded answers and failed for the Codex pair in 0 of 48; the difference tracks whether the harness hands the model its exact model ID, which is inferred, not observed. A gate on tier was correct for the Claude pair in 36 of 36 native and pointer runs and for the Codex pair in 0 of 12; selection by tier was correct for the Claude pair in 31 of 31 runs that chose and for the Codex pair in 0 of 4.
-
-*Claims: [not-portable-version](claims.md#not-portable-version), [not-portable-tier](claims.md#not-portable-tier), [not-portable-gate-tier](claims.md#not-portable-gate-tier), [not-portable-selection-tier](claims.md#not-portable-selection-tier)*
-
-A capability branch that checks the session's tools produced a delegation for the Claude pair in 54 of 54 runs and for the Codex pair in 7 of 18. Delivery changed loading but not branching: among loaded runs no subject-and-skill cell showed a whole-cell outcome difference between deliveries, the largest being 3 runs in a cell of 6. Pointer delivery loaded the skill in 171 of 202 pointer runs against 144 of 202 native, and the gap is Haiku's.
-
-*Claims: [partially-portable-capability-from-tools](claims.md#partially-portable-capability-from-tools), [delivery-no-whole-cell-difference-once-loaded](claims.md#delivery-no-whole-cell-difference-once-loaded), [pointer-delivery-portable](claims.md#pointer-delivery-portable), [haiku-skips-feature-skills-natively](claims.md#haiku-skips-feature-skills-natively)*
+Once loaded, no subject-and-skill cell showed a whole-cell outcome difference between deliveries (largest difference 3 runs in a cell of 6). Pointer delivery loaded the skill in 171 of 202 runs across both pairs, against 144 of 202 native runs; the gap comes from Haiku.
+*Claims: [delivery-no-whole-cell-difference-once-loaded](claims.md#delivery-no-whole-cell-difference-once-loaded), [pointer-delivery-portable](claims.md#pointer-delivery-portable), [haiku-skips-feature-skills-natively](claims.md#haiku-skips-feature-skills-natively)*
 
 ## Question 3: what does a model-conditional skill cost?
 
-More than the same request with no skill, for every subject, in input tokens and tool invocations. Inline was the cheapest delivery, a lighter branch was cheaper than a heavier one, delegation cost more than reviewing inline, and staying unloaded cost about what no skill cost.
+A skill costs more than no skill for every subject. The lighter branch is cheaper within a subject, inline is the cheapest delivery, delegation costs more than reviewing inline, and a gate held at the description costs about the baseline while a bail-out pays for the load. All comparisons are within a subject, and input tokens include cached input.
+*Claims: [skill-overhead-tokens](claims.md#skill-overhead-tokens), [lighter-branch-cheaper](claims.md#lighter-branch-cheaper), [inline-cheapest-delivery](claims.md#inline-cheapest-delivery), [delegation-costs-more](claims.md#delegation-costs-more), [staying-out-costs-baseline](claims.md#staying-out-costs-baseline)*
 
-*Claims: [skill-overhead-tokens](claims.md#skill-overhead-tokens), [inline-cheapest-delivery](claims.md#inline-cheapest-delivery), [lighter-branch-cheaper](claims.md#lighter-branch-cheaper), [delegation-costs-more](claims.md#delegation-costs-more), [staying-out-costs-baseline](claims.md#staying-out-costs-baseline)*
+### Overhead of the skill
+
+On the same prompts, every subject processed more input tokens with a native skill than with none, pairing loaded Study 2 runs with their baselines.
+*Claims: [skill-overhead-tokens](claims.md#skill-overhead-tokens)*
 
 | subject | with skill (native) | no skill | ratio | runs |
 |---|---|---|---|---|
@@ -101,155 +98,102 @@ More than the same request with no skill, for every subject, in input tokens and
 
 *Claims: [skill-overhead-tokens](claims.md#skill-overhead-tokens)*
 
-Those are input tokens over loaded Study 2 runs against their paired baselines; input includes cached input, so the figure is context processed, not tokens billed. Tool invocations rose the same way: claude-opus 5.4 against 2.4, claude-sonnet 7.9 against 2.0, claude-haiku 6.7 against 3.8, codex-default 9.2 against 4.1.
+Tool invocations rose likewise: 2.4 to 5.4 for Opus, 2.0 to 7.9 for Sonnet, 3.8 to 6.7 for Haiku, 4.1 to 9.2 for the Codex pair. Since the baseline writes no tests, this is the cost of the skill and its prescribed work together, not of the mechanism alone.
+*Claims: [skill-overhead-tool-invocations](claims.md#skill-overhead-tool-invocations), [baseline-default-is-flagship-branch](claims.md#baseline-default-is-flagship-branch)*
 
-*Claims: [skill-overhead-tokens](claims.md#skill-overhead-tokens), [skill-overhead-tool-invocations](claims.md#skill-overhead-tool-invocations)*
+### Cost by branch
 
-In Study 1, where every subject loaded every skill, inline used fewer input tokens than native or pointer for every subject: claude-opus 40k inline, 52k native, 53k pointer; claude-sonnet 76k, 101k, 112k; claude-haiku 66k, 82k, 90k; codex-default 57k, 61k, 58k. Pointer cost more than native for the Claude pair and less for the Codex pair, so the pointer's extra file read is not the whole story.
+Where a subject has a heavy and a light version of its branch, the light one used fewer input tokens: Opus 69k against 125k, the Codex pair 82k against 130k, Haiku 133k against 255k. Sonnet's mid branch is identical in both skills, so it has no comparison. A skill that steps back for strong models does save work, if the branch is taken.
+*Claims: [lighter-branch-cheaper](claims.md#lighter-branch-cheaper)*
 
+Delegating a review cost more input tokens than not delegating, within every subject: Opus 81k against 60k, Sonnet 140k against 75k, Haiku 123k against 57k, the Codex pair 199k against 79k. Since delegation found no more bugs, this is cost without return here.
+*Claims: [delegation-costs-more](claims.md#delegation-costs-more), [delegation-no-quality-gain](claims.md#delegation-no-quality-gain)*
+
+### Cost by delivery
+
+In Study 1, where every subject loaded every skill, `inline` used fewer input tokens than `native` and `pointer` for every subject: Opus 40k against 52k and 53k, Sonnet 76k against 101k and 112k, Haiku 66k against 82k and 90k, the Codex pair 57k against 61k and 58k. Pointer cost more than native for the Claude pair and less for the Codex pair, so the pointer's extra file read is not the whole story.
 *Claims: [inline-cheapest-delivery](claims.md#inline-cheapest-delivery), [pointer-vs-native-cost](claims.md#pointer-vs-native-cost)*
 
-Where a subject had a heavy and a light version of its tier branch, the light one used fewer input tokens: claude-opus 69k against 125k, codex-default 82k against 130k, claude-haiku 133k against 255k. Sonnet has no comparison, since its mid branch is identical in both skills. Delegating a review cost more input tokens than not delegating within every subject: claude-opus 81k against 60k, claude-sonnet 140k against 75k, claude-haiku 123k against 57k, codex-default 199k against 79k, with no more bugs found.
+### Cost of staying out
 
-*Claims: [lighter-branch-cheaper](claims.md#lighter-branch-cheaper), [delegation-costs-more](claims.md#delegation-costs-more), [delegation-no-quality-gain](claims.md#delegation-no-quality-gain)*
-
-For excluded subjects in Study 3, a run in which the gate held at the description cost about the no-skill baseline for Opus and the Codex pair and less for Sonnet: claude-opus 55k not loaded against 58k no skill, claude-sonnet 49k against 94k, codex-default 68k against 60k. A run that loaded and then declined cost more than staying unloaded for every subject: 78k, 63k and 94k.
-
+For excluded subjects, a run in which the gate held at the description cost about what the baseline cost, and a run that loaded then declined cost more: Opus 55k not loaded, 78k declined, 58k no skill; Sonnet 49k, 63k and 94k; the Codex pair 68k, 94k and 60k. Avoiding a skill at the description is close to free; bailing out from the body is not.
 *Claims: [staying-out-costs-baseline](claims.md#staying-out-costs-baseline)*
 
 ## Question 4: where can the condition sit?
 
-In all three places tested. A gate in the description held whenever an excluded subject stayed out, a bail-out in the body held whenever the body was forced in front of an excluded subject, and selection among alternatives was correct in every Claude pair run that chose. A skill reserved for weaker models kept Opus and Sonnet out, but the Codex pair, its intended audience, refused it too.
-
+The condition can sit in the description, which kept every excluded subject in both pairs from loading, or in the body, where every excluded subject bailed out once the body was in the prompt. Selection among alternatives is correct for the Claude pair. A skill reserved for weaker models works for the Claude pair and fails for the Codex pair, which believes it is a flagship.
 *Claims: [gate-where-it-held](claims.md#gate-where-it-held), [bailout-inline](claims.md#bailout-inline), [select-tier-claude-correct](claims.md#select-tier-claude-correct), [gate-tier-codex-refuses-own-skill](claims.md#gate-tier-codex-refuses-own-skill)*
 
 ### A gate in the description
 
-Under `vendor-gated-guidance`, the Codex pair stayed out in 12 of 12 native and pointer runs, all by never loading. Under `tier-gated-guidance`, Opus and Sonnet stayed out in 24 of 24, again by never loading, a result assumed on the Anthropic tier scale. No excluded subject followed a gated checklist in any delivery, 0 followed or mixed of 54 runs. Of the 36 native and pointer runs in which an excluded subject stayed out, the gate held at the description in 36 and in the body in 0, so the bail-out was never reached under those deliveries.
+Under `vendor-gated-guidance`, the Codex pair stayed out in every native and pointer run (12 of 12), all by never loading. Under `tier-gated-guidance`, Opus and Sonnet stayed out in 24 of 24, again all unloaded, on the assumed tier scale. Across the 36 native and pointer runs where an excluded subject stayed out, the gate held at the description in 36 and in the body in 0. No excluded subject followed a gated checklist in any delivery (0 of 54).
+*Claims: [gate-vendor-keeps-codex-out](claims.md#gate-vendor-keeps-codex-out), [gate-tier-keeps-opus-sonnet-out](claims.md#gate-tier-keeps-opus-sonnet-out), [gate-where-it-held](claims.md#gate-where-it-held), [excluded-never-followed](claims.md#excluded-never-followed)*
 
-*Claims: [gate-vendor-keeps-codex-out](claims.md#gate-vendor-keeps-codex-out), [gate-tier-keeps-opus-sonnet-out](claims.md#gate-tier-keeps-opus-sonnet-out), [excluded-never-followed](claims.md#excluded-never-followed), [gate-where-it-held](claims.md#gate-where-it-held)*
-
-| subject | skill | delivery | not-loaded | declined |
-|---|---|---|---|---|
-| claude-opus | tier-gated-guidance | native | 6 | 0 |
-| claude-opus | tier-gated-guidance | pointer | 6 | 0 |
-| claude-sonnet | tier-gated-guidance | native | 6 | 0 |
-| claude-sonnet | tier-gated-guidance | pointer | 6 | 0 |
-| codex-default | vendor-gated-guidance | native | 6 | 0 |
-| codex-default | vendor-gated-guidance | pointer | 6 | 0 |
-
-*Claims: [gate-where-it-held](claims.md#gate-where-it-held)*
-
-The included side is weaker, because of loading. Every Claude model that loaded a gated skill it was included under followed its checklist, 56 of 56 loaded runs. But included subjects loaded the skill in only 32 of 60 native and pointer runs: Opus and Sonnet 12 of 12 each under the vendor gate, Haiku 4 of 12 under each gate, the Codex pair 0 of 12 under the tier gate. Haiku's loading failure, not the gate, decided its outcomes: it loaded the gated skills in 1 of 12 native and 7 of 12 pointer runs and followed them in 12 of 12 inline runs.
-
-*Claims: [included-claude-followed-when-loaded](claims.md#included-claude-followed-when-loaded), [included-loading](claims.md#included-loading), [haiku-loading-limits-gates](claims.md#haiku-loading-limits-gates)*
-
-### A bail-out in the body
-
-With a gated skill's body in the prompt, excluded subjects declined it in 18 of 18 runs: Opus 6 of 6 and Sonnet 6 of 6 under the tier gate, the Codex pair 6 of 6 under the vendor gate. That is the upper bound on bail-out, and it was reached, at the cost of the load.
-
-*Claims: [bailout-inline](claims.md#bailout-inline), [staying-out-costs-baseline](claims.md#staying-out-costs-baseline)*
+The other half is that an included model still comes in. Every Claude model that loaded a gated skill it was included under followed it (56 of 56 loaded runs). But included subjects loaded in only 32 of 60 native and pointer runs: Opus and Sonnet 12 of 12 each, Haiku 4 of 12 under each gated skill, the Codex pair 0 of 12. A description gate holds only as well as the model's loading and self-knowledge do.
+*Claims: [included-claude-followed-when-loaded](claims.md#included-claude-followed-when-loaded), [included-loading](claims.md#included-loading)*
 
 ### Selection among alternatives
 
-Given `feature-anthropic` and `feature-openai` side by side, every run that followed a skill followed the one for its vendor, 30 of 30, and 6 chose none. Given the three tier skills, every Claude model run that chose followed the one for its tier, 31 of 31, with 5 choosing none, on the assumed scale. The Codex pair never followed `feature-small`, the skill for its documented tier, in 0 of 4 runs that chose; it followed `feature-flagship` in all 4.
+Given `feature-anthropic` and `feature-openai`, every run that followed a skill followed the one for its vendor (30 of 30; 6 chose none). Given the three tier skills, every Claude run that chose followed the one for its tier (31 of 31; 5 chose none), on the assumed scale. The Codex pair never followed `feature-small` (0 of 4 runs that chose) and took `feature-flagship` in all 4, the heaviest skill, so the wrong choice saved nothing. Subjects followed a skill in 65 of 76 runs, read another alternative first in 0 of 65, and did the chosen skill's work in 65 of 65.
+*Claims: [select-vendor-correct](claims.md#select-vendor-correct), [select-tier-claude-correct](claims.md#select-tier-claude-correct), [select-tier-codex-wrong](claims.md#select-tier-codex-wrong), [select-loading](claims.md#select-loading), [select-reads-before-choosing](claims.md#select-reads-before-choosing), [select-work-matches-choice](claims.md#select-work-matches-choice)*
 
-*Claims: [select-vendor-correct](claims.md#select-vendor-correct), [select-tier-claude-correct](claims.md#select-tier-claude-correct), [select-tier-codex-wrong](claims.md#select-tier-codex-wrong)*
+### A bail-out in the body
 
-Subjects followed a skill of the set in 65 of 76 runs, in 0 of 65 had they read another alternative first, and the work matched the followed skill's body in 65 of 65. The choice was made from descriptions alone.
+With the body in the prompt, excluded subjects declined in 18 of 18 runs: Opus 6 of 6, Sonnet 6 of 6, the Codex pair 6 of 6. Under native and pointer no excluded subject ever reached the body, so the bail-out is a backstop that was never needed there and costs the load when used.
+*Claims: [bailout-inline](claims.md#bailout-inline), [gate-where-it-held](claims.md#gate-where-it-held), [staying-out-costs-baseline](claims.md#staying-out-costs-baseline)*
 
-*Claims: [select-loading](claims.md#select-loading), [select-reads-before-choosing](claims.md#select-reads-before-choosing), [select-work-matches-choice](claims.md#select-work-matches-choice)*
+### A skill reserved for weaker models
 
-### Can a skill be reserved for weaker models?
+For the Claude pair the case works as far as loading allows. Opus and Sonnet stayed out of `tier-gated-guidance` in 24 of 24 native and pointer runs. Haiku followed it in every run where it loaded, but loaded the gated skills in 1 of 12 native and 7 of 12 pointer runs, against 12 of 12 inline, and every selection it made was correct (13 of 13). Loading, not the gate, decided its outcomes.
+*Claims: [gate-tier-keeps-opus-sonnet-out](claims.md#gate-tier-keeps-opus-sonnet-out), [included-claude-followed-when-loaded](claims.md#included-claude-followed-when-loaded), [haiku-loading-limits-gates](claims.md#haiku-loading-limits-gates)*
 
-For the Claude pair, yes, on the assumed scale: Opus and Sonnet stayed out in 24 of 24 native and pointer runs, and Haiku followed the skill whenever it loaded it, though it loaded it in only 4 of 12. Staying out changed nothing in their work, since every subject implements with no docstring and no tests anyway.
-
-*Claims: [gate-tier-keeps-opus-sonnet-out](claims.md#gate-tier-keeps-opus-sonnet-out), [included-loading](claims.md#included-loading), [baseline-default-is-flagship-branch](claims.md#baseline-default-is-flagship-branch)*
-
-For the Codex pair, no. It stayed out of the skill written for small models in 12 of 12 native and pointer runs and declined it in 6 of 6 inline runs, explaining in one: "I’m treating this as a flagship-tier run, so I’ll decline the small-tier checklist, record that in `.skill-trace`, and make only the requested `src/app.py` change." This matches Study 2, where it skipped the same checklist in 18 of 18 loaded `tiered-guidance` runs. The mechanism worked; the self-placement it depends on did not.
-
-*Claims: [gate-tier-codex-refuses-own-skill](claims.md#gate-tier-codex-refuses-own-skill), [guidance-skipped-by-codex](claims.md#guidance-skipped-by-codex), [tier-codex-incorrect](claims.md#tier-codex-incorrect)*
+For the Codex pair the case fails at self-placement. With a documented tier of small, it stayed out of the skill for small models in 12 of 12 native and pointer runs and declined it in 6 of 6 inline runs, reasoning: "I’m treating this as a flagship-tier run, so I’ll decline the small-tier checklist, record that in `.skill-trace`, and make only the requested `src/app.py` change." This matches Study 2, where it skipped the same checklist in 18 of 18 loaded runs.
+*Claims: [gate-tier-codex-refuses-own-skill](claims.md#gate-tier-codex-refuses-own-skill), [guidance-skipped-by-codex](claims.md#guidance-skipped-by-codex)*
 
 ## Caveats
 
-- **Harness and model are confounded.** Every difference between the pairs may come from the harness, the model, or both; the tier difference is inferred to track whether the harness hands the model its exact model ID.
-
-*Claims: [not-portable-tier](claims.md#not-portable-tier)*
-
-- **Tier is an assumed scale for the Anthropic subjects.** Every tier, tier-gate and tier-selection result for the Claude pair is evidence kind assumed; only the Codex pair's tier is documented.
-
-*Claims: [tier-claude-correct](claims.md#tier-claude-correct), [gate-tier-keeps-opus-sonnet-out](claims.md#gate-tier-keeps-opus-sonnet-out), [select-tier-claude-correct](claims.md#select-tier-claude-correct), [tier-codex-incorrect](claims.md#tier-codex-incorrect)*
-
-- **The Codex pair's delegation ground truth is inferred from the runs it scores.** Its capability-from-tools result is circular until a probe outside the corpus establishes what its sessions expose.
-
-*Claims: [capability-from-tools-codex-partial](claims.md#capability-from-tools-codex-partial)*
-
-- **Two Codex pair cells are missing.** It has no valid `harness-stamp` run and no valid `select-vendor` run, and only 4 of 12 `select-tier` runs; the rest failed on a usage limit.
-
-*Claims: [codex-harness-stamp-missing](claims.md#codex-harness-stamp-missing), [codex-select-vendor-missing](claims.md#codex-select-vendor-missing)*
-
-- **Some branches prescribe the default.** The `tiered-guidance` flagship branch and reviewing without delegation are what every subject does with no skill, so following them proves nothing.
-
-*Claims: [baseline-default-is-flagship-branch](claims.md#baseline-default-is-flagship-branch), [review-baseline-no-delegation](claims.md#review-baseline-no-delegation)*
-
-- **Haiku's loading failure masks its Study 2 and Study 3 results.** Its native outcomes reflect whether the skill loaded, not whether it read a gate or chose among alternatives.
-
-*Claims: [haiku-skips-feature-skills-natively](claims.md#haiku-skips-feature-skills-natively), [haiku-loading-limits-gates](claims.md#haiku-loading-limits-gates)*
-
-- **Web lookups changed some answers.** The Codex pair's non-flagship tier answers came from runs that searched OpenAI's documentation.
-
-*Claims: [tier-codex-varies](claims.md#tier-codex-varies)*
-
-- **Cells are small and tokens include cached input.** With two reps a single run moves a cell by half, and the cost figures measure context processed, not tokens billed.
-
-*Claims: [delivery-no-whole-cell-difference-once-loaded](claims.md#delivery-no-whole-cell-difference-once-loaded), [skill-overhead-tokens](claims.md#skill-overhead-tokens)*
+- **Harness and model are confounded.** Every difference between pairs may come from the harness, the model or both; the tier claim infers, not observes, that the split tracks whether the harness hands over the model ID.
+  *Claims: [not-portable-tier](claims.md#not-portable-tier)*
+- **Two reps per cell.** No difference smaller than a whole cell is reported; the largest delivery difference seen was 3 runs in a cell of 6.
+  *Claims: [delivery-no-whole-cell-difference-once-loaded](claims.md#delivery-no-whole-cell-difference-once-loaded)*
+- **The Anthropic tiers are assumed.** Every tier claim about Opus, Sonnet or Haiku, including the tier gate and tier selection, is evidence kind assumed; only the Codex pair's tier is observed against documentation.
+  *Claims: [tier-claude-correct](claims.md#tier-claude-correct), [gate-tier-keeps-opus-sonnet-out](claims.md#gate-tier-keeps-opus-sonnet-out), [tier-codex-incorrect](claims.md#tier-codex-incorrect)*
+- **The flagship branch is the default.** A run on the `tiered-guidance` flagship branch is indistinguishable in its work from a run that never loaded the skill.
+  *Claims: [baseline-default-is-flagship-branch](claims.md#baseline-default-is-flagship-branch)*
+- **The Codex pair's capability-from-knowledge and vendor-selection results are missing.** Those cells failed on a usage limit, and its tier selection rests on 4 valid runs.
+  *Claims: [codex-harness-stamp-missing](claims.md#codex-harness-stamp-missing), [codex-select-vendor-missing](claims.md#codex-select-vendor-missing)*
+- **The Codex pair's session ground truth is circular.** Whether its sessions expose a delegation tool was inferred from the scored transcripts.
+  *Claims: [capability-from-tools-codex-partial](claims.md#capability-from-tools-codex-partial)*
+- **Haiku's native loading failure limits every Haiku result.** Its gate and selection outcomes reflect loading, not the condition.
+  *Claims: [haiku-skips-feature-skills-natively](claims.md#haiku-skips-feature-skills-natively), [haiku-loading-limits-gates](claims.md#haiku-loading-limits-gates)*
+- **Some of the Codex pair's tier answers came from a web search.** The mid answers were produced by 3 runs that searched OpenAI's documentation, not by self-knowledge.
+  *Claims: [tier-codex-varies](claims.md#tier-codex-varies)*
+- **Delegation labels can lie.** Haiku wrote `mode: inline` after delegating in 2 of 18 runs, so check the transcript, not the label.
+  *Claims: [haiku-label-contradicts-transcript](claims.md#haiku-label-contradicts-transcript)*
 
 ## Guidance for skill authors
 
-- **Vendor: use.** Both pairs reported it correctly in every run, and it worked as a gate and as a selection condition.
-
-*Claims: [vendor-harness-correct](claims.md#vendor-harness-correct), [portable-identity](claims.md#portable-identity), [portable-gate-vendor](claims.md#portable-gate-vendor), [select-vendor-correct](claims.md#select-vendor-correct)*
-
+- **Vendor: use.** Both pairs reported it correctly in every run and a vendor branch behaved correctly for both.
+  *Claims: [vendor-harness-correct](claims.md#vendor-harness-correct), [portable-identity](claims.md#portable-identity)*
 - **Harness: use.** Both pairs reported it correctly in every run.
-
-*Claims: [vendor-harness-correct](claims.md#vendor-harness-correct), [portable-identity](claims.md#portable-identity)*
-
-- **Exact version: use only for the Claude pair.** It reported its exact token in every run; the Codex pair never did.
-
-*Claims: [model-version-claude](claims.md#model-version-claude), [model-version-codex](claims.md#model-version-codex), [not-portable-version](claims.md#not-portable-version)*
-
-- **Tier: do not use.** The Codex pair placed itself above its documented tier in every answer under every incentive, and the Claude pair's correct placement rests on an assumed scale.
-
-*Claims: [tier-codex-incorrect](claims.md#tier-codex-incorrect), [codex-overclaims-under-both-incentives](claims.md#codex-overclaims-under-both-incentives), [tier-claude-correct](claims.md#tier-claude-correct), [not-portable-tier](claims.md#not-portable-tier)*
-
-- **Capability from knowledge: use with a caveat.** The Claude pair answered correctly in every run; the Codex pair is untested in this corpus.
-
-*Claims: [capability-from-knowledge-claude](claims.md#capability-from-knowledge-claude), [codex-harness-stamp-missing](claims.md#codex-harness-stamp-missing)*
-
-- **Capability from the session's tools: use with a caveat.** The Claude pair acted on it every time, though Haiku's label contradicted its transcript in 2 of 18 runs; the Codex pair acted on it in 7 of 18, with its label always matching its action.
-
-*Claims: [capability-from-tools-claude](claims.md#capability-from-tools-claude), [haiku-label-contradicts-transcript](claims.md#haiku-label-contradicts-transcript), [capability-from-tools-codex-partial](claims.md#capability-from-tools-codex-partial), [partially-portable-capability-from-tools](claims.md#partially-portable-capability-from-tools)*
-
-- **A gate in the description: use for vendor; for tier, use only to exclude Opus and Sonnet.** It held at the description for every excluded subject on both conditions, but a tier gate meant to include the Codex pair kept it out, and an included Haiku often failed to load.
-
-*Claims: [gate-vendor-keeps-codex-out](claims.md#gate-vendor-keeps-codex-out), [gate-tier-keeps-opus-sonnet-out](claims.md#gate-tier-keeps-opus-sonnet-out), [gate-where-it-held](claims.md#gate-where-it-held), [gate-tier-codex-refuses-own-skill](claims.md#gate-tier-codex-refuses-own-skill), [included-loading](claims.md#included-loading)*
-
-- **Selection among alternatives: use for vendor, and for tier with the Claude pair only.** Every Claude pair choice was correct and the work matched the chosen skill; the Codex pair chose the flagship skill every time, and vendor selection is untested for it.
-
-*Claims: [select-vendor-correct](claims.md#select-vendor-correct), [select-tier-claude-correct](claims.md#select-tier-claude-correct), [select-tier-codex-wrong](claims.md#select-tier-codex-wrong), [select-work-matches-choice](claims.md#select-work-matches-choice), [codex-select-vendor-missing](claims.md#codex-select-vendor-missing)*
-
-- **A bail-out in the body: use, as a second line behind the gate.** It held for vendor and tier in every inline run, but a declined run costs more than one that never loaded.
-
-*Claims: [bailout-inline](claims.md#bailout-inline), [excluded-never-followed](claims.md#excluded-never-followed), [staying-out-costs-baseline](claims.md#staying-out-costs-baseline)*
-
-- **Native delivery: use with a caveat.** Haiku loaded neither feature skill natively and the gated skills in 1 of 12 native runs; other subjects loaded every skill, at more input tokens than inline.
-
-*Claims: [haiku-skips-feature-skills-natively](claims.md#haiku-skips-feature-skills-natively), [haiku-loading-limits-gates](claims.md#haiku-loading-limits-gates), [inline-cheapest-delivery](claims.md#inline-cheapest-delivery)*
-
-- **Pointer delivery: use.** It loaded the skill more often than native across both pairs, changed no branch outcome once loaded, and cost more input tokens than native for the Claude pair only.
-
-*Claims: [pointer-delivery-portable](claims.md#pointer-delivery-portable), [delivery-no-whole-cell-difference-once-loaded](claims.md#delivery-no-whole-cell-difference-once-loaded), [pointer-vs-native-cost](claims.md#pointer-vs-native-cost)*
-
-- **Inline delivery: use, with the caveat that it cannot gate.** It was the cheapest delivery for every subject and removed Haiku's loading failure, but the body is always in front of the model, so only the bail-out can keep an excluded model out.
-
-*Claims: [inline-cheapest-delivery](claims.md#inline-cheapest-delivery), [inline-removes-haiku-loading-failure](claims.md#inline-removes-haiku-loading-failure), [bailout-inline](claims.md#bailout-inline)*
+  *Claims: [vendor-harness-correct](claims.md#vendor-harness-correct), [portable-identity](claims.md#portable-identity)*
+- **Exact version: do not use in a portable skill.** It worked for the Claude pair and never for the Codex pair, which answers with a family name.
+  *Claims: [model-version-codex](claims.md#model-version-codex), [not-portable-version](claims.md#not-portable-version)*
+- **Tier: do not use.** The Codex pair placed itself above its documented tier in every answer and skipped the guidance written for it; the Claude pair's correctness rests on an assumed scale.
+  *Claims: [tier-codex-incorrect](claims.md#tier-codex-incorrect), [guidance-skipped-by-codex](claims.md#guidance-skipped-by-codex), [tier-claude-correct](claims.md#tier-claude-correct)*
+- **Capability from knowledge: use with a caveat.** The Claude pair answered correctly in every run; the Codex pair is untested, so a portable skill should not rely on it.
+  *Claims: [capability-from-knowledge-claude](claims.md#capability-from-knowledge-claude), [codex-harness-stamp-missing](claims.md#codex-harness-stamp-missing)*
+- **Capability from the session's tools: use with a caveat.** The Claude pair acted on it every time and the Codex pair in 7 of 18; verify the action, not the label.
+  *Claims: [capability-from-tools-claude](claims.md#capability-from-tools-claude), [capability-from-tools-codex-partial](claims.md#capability-from-tools-codex-partial), [haiku-label-contradicts-transcript](claims.md#haiku-label-contradicts-transcript)*
+- **A gate in the description: use for vendor; for tier, use with the Claude pair only.** It kept every excluded subject out under both conditions, but under tier the Codex pair also excluded itself from its own skill, and Haiku often failed to load.
+  *Claims: [gate-vendor-keeps-codex-out](claims.md#gate-vendor-keeps-codex-out), [gate-tier-keeps-opus-sonnet-out](claims.md#gate-tier-keeps-opus-sonnet-out), [gate-tier-codex-refuses-own-skill](claims.md#gate-tier-codex-refuses-own-skill), [included-loading](claims.md#included-loading)*
+- **Selection among alternatives: use for vendor with the Claude pair; for tier, use with the Claude pair only.** The Claude pair chose correctly every time on both conditions; the Codex pair chose the flagship skill over its own on tier, and its vendor selection is untested.
+  *Claims: [select-vendor-correct](claims.md#select-vendor-correct), [select-tier-claude-correct](claims.md#select-tier-claude-correct), [select-tier-codex-wrong](claims.md#select-tier-codex-wrong), [codex-select-vendor-missing](claims.md#codex-select-vendor-missing)*
+- **A bail-out in the body: use, as a backstop.** Every excluded subject declined on both vendor and tier when the body was in the prompt; it was never reached under native or pointer, and it costs the load when it is.
+  *Claims: [bailout-inline](claims.md#bailout-inline), [gate-where-it-held](claims.md#gate-where-it-held), [staying-out-costs-baseline](claims.md#staying-out-costs-baseline)*
+- **Native delivery: use with a caveat.** Outcomes match the other deliveries once loaded, but Haiku never loaded a feature skill this way.
+  *Claims: [delivery-no-whole-cell-difference-once-loaded](claims.md#delivery-no-whole-cell-difference-once-loaded), [haiku-skips-feature-skills-natively](claims.md#haiku-skips-feature-skills-natively)*
+- **Pointer delivery: use.** It loaded the skill more often than native across both pairs, at slightly more input tokens for the Claude pair and slightly fewer for the Codex pair.
+  *Claims: [pointer-delivery-portable](claims.md#pointer-delivery-portable), [pointer-vs-native-cost](claims.md#pointer-vs-native-cost)*
+- **Inline delivery: use when loading must not fail.** It is the cheapest delivery and removed Haiku's loading failure, but it cannot gate at the description, so an excluded model pays for the load before bailing out.
+  *Claims: [inline-cheapest-delivery](claims.md#inline-cheapest-delivery), [inline-removes-haiku-loading-failure](claims.md#inline-removes-haiku-loading-failure), [bailout-inline](claims.md#bailout-inline), [staying-out-costs-baseline](claims.md#staying-out-costs-baseline)*
