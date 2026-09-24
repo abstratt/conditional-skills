@@ -6,7 +6,8 @@ description: Pipeline step 6 of 6. Write results/FINDINGS.md with an LLM from DE
 # Step 6: findings
 
 `bin/findings.py` sends `DESIGN.md`, `results/claims.md` and `results/summary.md` to a model
-(Fable 5.1, via `claude -p`) and asks for a new `results/FINDINGS.md`. The draft is validated:
+(the one configured in the script, via `claude -p`; the file's header records which) and asks
+for a new `results/FINDINGS.md`. The draft is validated:
 every paragraph must cite claims that exist and pass, every number must come from `claims.md` or
 `summary.md`, and the corpus fingerprint and run count must match. It never replaces the previous
 file unless the draft passes every check.

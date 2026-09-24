@@ -384,7 +384,7 @@ every tier claim.
    branch file present, feature and tests executed, delegation call seen in the transcript. For
    Study 3, the gate outcome and the selection outcome defined there, and whether the work matches
    the skill that was loaded.
-3. **Adherence (LLM judge), optional**: Fable 5.1 grades a valid skill run on format followed,
+3. **Adherence (LLM judge), optional**: a judge model grades a valid skill run on format followed,
    no unrequested actions, claims match actions, 0 to 2 each. No claim rests on these scores, and
    the findings never cited one, so the judge is not part of a refresh (see Scope decisions). The
    step remains for anyone who wants the scores; `report.py` shows them where a `judge.json`
@@ -605,7 +605,7 @@ and the hand-written one is not kept. A draft that fails every attempt is saved 
 - **Codex isolation**: each run gets its own `CODEX_HOME` with a symlinked `auth.json`, a
   minimal `config.toml` (model, high reasoning, approval never, workspace-write sandbox,
   workspace trusted) and the skill under `skills/`. Your plugins and MCP servers are not loaded.
-- **Judge, if run**: about USD 0.10 to 0.22 per judged run with Fable 5.1, a Claude model grading
+- **Judge, if run**: about USD 0.10 to 0.22 per judged run with the judge model configured in `bin/judge.py`, a Claude model grading
   Claude models alongside Codex, never checked against human grading. Its scores are evidence of
   adherence to the skill text, not of correctness, and a vendor bias in either direction cannot be
   ruled out. The findings generator is a Claude model too (its model is named in the `FINDINGS.md`

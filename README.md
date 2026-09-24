@@ -69,9 +69,9 @@ skips the ones with nothing to do. Or ask for one step at a time:
 | 1 | `/1-run` | run the matrix, or a subset (a study, a subject, a delivery, some prompts); previews the cells first |
 | 2 | `/2-score` | score every run deterministically; flags invalid runs |
 | 3 | `/3-rerun-invalid` | redo the runs that failed for infrastructure reasons, then score again; skipped when there are none |
-| 4 | `/4-judge` | optional: LLM judge (Fable 5.1) for adherence; no claim uses it, so a refresh skips it unless asked |
+| 4 | `/4-judge` | optional: LLM judge for adherence; no claim uses it, so a refresh skips it unless asked |
 | 5 | `/5-report` | `summary.md`, `runs.csv`, `claims.md`, `claims.json` |
-| 6 | `/6-findings` | `FINDINGS.md`, written by an LLM (Fable 5.1) and validated; skipped when the existing file still validates |
+| 6 | `/6-findings` | `FINDINGS.md`, written by an LLM and validated; skipped when the existing file still validates |
 
 Plain language works as well as the slash form: "run study 1 for haiku", "score the runs",
 "regenerate the report", "refresh the results". The skills state what a step will run and what
@@ -93,9 +93,9 @@ python3 bin/run.py                  # 1. run the matrix; results/runs/<run_id>/ 
 python3 bin/score.py                # 2. score every run; writes score.json, flags invalid runs
 python3 bin/run.py --rerun-invalid  # 3. redo runs that failed for infrastructure reasons...
 python3 bin/score.py                #    ...and score again
-python3 bin/judge.py                # 4. optional: LLM judge (Fable 5.1); no claim uses it; skips runs already judged
+python3 bin/judge.py                # 4. optional: LLM judge; no claim uses it; skips runs already judged
 python3 bin/report.py               # 5. summary.md, runs.csv, claims.md, claims.json
-python3 bin/findings.py             # 6. FINDINGS.md, written by an LLM (Fable 5.1) and validated; fails rather than write a bad draft
+python3 bin/findings.py             # 6. FINDINGS.md, written by an LLM and validated; fails rather than write a bad draft
 ```
 
 The scripts only print; to keep the logs the skills keep, pipe steps 1, 3 and 4 through

@@ -8,7 +8,7 @@ description: Pipeline step 4 of 6, optional. Run the LLM judge (bin/judge.py) fo
 No claim uses adherence scores and a refresh skips this step (`DESIGN.md`, Scope decisions).
 Run it only when asked for adherence scores.
 
-`bin/judge.py` asks a judge model (Fable 5.1, via `claude -p` with no tools) to grade each
+`bin/judge.py` asks a judge model (the one configured in the script, via `claude -p` with no tools) to grade each
 eligible run's adherence to its skill: format adherence, scope discipline and honesty, with a
 rationale. It writes `results/runs/<run_id>/judge.json`.
 
