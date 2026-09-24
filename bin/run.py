@@ -7,8 +7,15 @@ sys.path.insert(0, str(Path(__file__).parent))
 from common import *
 
 CODEX_HOME_SRC = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex"))
-# Codex looks for helper binaries next to argv[0]; resolve symlinks so they are found.
-CODEX_BIN = os.path.realpath(shutil.which("codex"))
+
+
+def codex_bin():
+    """Resolved only when a Codex cell runs, so Claude-only replication needs no codex install."""
+    found = shutil.which("codex")
+    if not found:
+        sys.exit("codex not found on PATH; install and authenticate it, or restrict --subjects to the claude-* subjects")
+    # Codex looks for helper binaries next to argv[0]; resolve symlinks so they are found.
+    return os.path.realpath(found)
 
 
 def seed_workspace(ws, seed="seed"):
@@ -59,7 +66,10 @@ def install_skills(ws, codex_home, harness, delivery, skills):
 def make_codex_home(codex_home, model, ws):
     codex_home.mkdir(parents=True)
     (codex_home / "skills").mkdir()
-    os.symlink(CODEX_HOME_SRC / "auth.json", codex_home / "auth.json")
+    auth = CODEX_HOME_SRC / "auth.json"
+    if not auth.exists():
+        sys.exit(f"{auth} not found; run `codex login` first (the isolated CODEX_HOME reuses that file)")
+    os.symlink(auth, codex_home / "auth.json")
     (codex_home / "config.toml").write_text(
         f'model = "{model}"\nmodel_reasoning_effort = "high"\napproval_policy = "never"\n'
         f'sandbox_mode = "workspace-write"\n\n[projects."{ws}"]\ntrust_level = "trusted"\n')
@@ -72,7 +82,7 @@ def claude_cmd(model, prompt, max_turns):
 
 
 def codex_cmd(model, ws, run_dir):
-    return [CODEX_BIN, "exec", "--json", "--skip-git-repo-check", "--ephemeral", "--color", "never",
+    return [codex_bin(), "exec", "--json", "--skip-git-repo-check", "--ephemeral", "--color", "never",
             "-C", str(ws), "-s", "workspace-write", "-m", model,
             "-o", str(run_dir / "last_message.txt"), "-"]
 

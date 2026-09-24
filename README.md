@@ -48,8 +48,14 @@ can say which claims changed.
 
 ## Running the experiment
 
-Requirements: `claude` and `codex` on PATH and authenticated, Python 3, git. Keep the machine
-awake and the lid open: a run interrupted by sleep is detected and marked, but must be redone.
+Requirements: `claude` and `codex` on PATH and authenticated, Python 3, git. Codex is needed
+only for the `codex-default` subject; the Claude subjects run without it. Codex must be logged in
+with `codex login`, because each run gets an isolated `CODEX_HOME` that links to the
+`auth.json` in your real one (`$CODEX_HOME`, default `~/.codex`); an API key set only in the
+environment is not enough. Nothing else is machine-specific: all paths are resolved relative to
+this directory, and the run workspaces live under `results/runs/`, which is not committed. Keep
+the machine awake and the lid open: a run interrupted by sleep is detected and marked, but must
+be redone.
 
 ### With the skills (preferred)
 
