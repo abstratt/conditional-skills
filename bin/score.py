@@ -341,7 +341,7 @@ def score(run_dir):
             fields["model"] = any(t in kv.get("model", "") for t in sub_gt["model_tokens"])
             key, reported = "vendor", kv.get("vendor")
         elif skill == "harness-stamp":
-            fields["subagents"] = kv.get("subagents") == sub_gt["subagents"]  # hooks and image generation were dropped (DESIGN.md, Scope decisions)
+            fields["subagents"] = kv.get("subagents") == sub_gt["subagents"]
             key, reported = "subagents", kv.get("subagents")
         else:
             fields["tier"] = kv.get("tier") == sub_gt["tier"]

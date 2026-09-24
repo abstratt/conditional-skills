@@ -5,9 +5,7 @@
       "model": "claude-opus-5",
       "vendor": "anthropic",
       "tier": "flagship",
-      "hooks": "yes",
       "subagents": "yes",
-      "image_generation": "no",
       "model_tokens": [
         "opus"
       ],
@@ -18,9 +16,7 @@
       "model": "claude-sonnet-5",
       "vendor": "anthropic",
       "tier": "mid",
-      "hooks": "yes",
       "subagents": "yes",
-      "image_generation": "no",
       "model_tokens": [
         "sonnet"
       ],
@@ -31,9 +27,7 @@
       "model": "claude-haiku-4-5-20251001",
       "vendor": "anthropic",
       "tier": "small",
-      "hooks": "yes",
       "subagents": "yes",
-      "image_generation": "no",
       "model_tokens": [
         "haiku"
       ],
@@ -44,9 +38,7 @@
       "model": "gpt-5.6-luna",
       "vendor": "openai",
       "tier": "small",
-      "hooks": "yes",
       "subagents": "yes",
-      "image_generation": "yes",
       "model_tokens": [
         "luna"
       ],
@@ -100,16 +92,8 @@
         "https://openai.com/index/gpt-5-6/"
       ]
     },
-    "hooks": {
-      "source": "product documentation for Claude Code; `codex features list` for Codex",
-      "from_runs": false
-    },
     "subagents": {
       "source": "Claude Code session init tool list (Agent/Task); `codex features list` multi_agent for Codex",
-      "from_runs": false
-    },
-    "image_generation": {
-      "source": "Claude Code session init tool list (no image tool); `codex features list` for Codex",
       "from_runs": false
     },
     "subagents_session": {

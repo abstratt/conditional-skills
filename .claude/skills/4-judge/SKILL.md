@@ -5,7 +5,7 @@ description: Pipeline step 4 of 6, optional. Run the LLM judge (bin/judge.py) fo
 
 # Step 4: LLM judge (optional)
 
-No claim uses adherence scores and a refresh skips this step (`DESIGN.md`, Scope decisions).
+No claim uses adherence scores and a refresh skips this step (`DESIGN.md`, Measures).
 Run it only when asked for adherence scores.
 
 `bin/judge.py` asks a judge model (the one configured in the script, via `claude -p` with no tools) to grade each

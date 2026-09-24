@@ -1,6 +1,6 @@
 # Claims
 
-Checkable statements about the runs, re-evaluated on every refresh (see DESIGN.md, Report). Status is holds or fails; a claim is marked *status changed* or *numbers changed* against the last committed refresh.
+Checkable statements about the runs, re-evaluated on every refresh (see DESIGN.md, Report). Status is holds or fails; a claim is marked *status changed* or *numbers changed* against the previous refresh (the `claims.json` it wrote).
 
 ## Corpus
 
@@ -191,7 +191,7 @@ Selection by tier worked for the Claude pair (31 of 31 runs that chose) and not 
 ## Question 3: what does a model-conditional skill cost?
 
 <a id="skill-overhead-tokens"></a>
-### `skill-overhead-tokens` — holds (numbers changed), observed
+### `skill-overhead-tokens` — holds, observed
 
 On the same prompts, every subject processed more input tokens with a native skill than with none: claude-opus 92k vs 59k (1.6x, n=18 vs 12); claude-sonnet 215k vs 85k (2.5x, n=18 vs 12); claude-haiku 127k vs 57k (2.2x, n=6 vs 6); codex-default 129k vs 60k (2.2x, n=18 vs 12). (Loaded Study 2 runs against their paired baselines; input tokens include cached input.)
 
@@ -203,7 +203,7 @@ On the same prompts, every subject processed more input tokens with a native ski
 | codex-default | 129k | 60k | 2.2x | 18 vs 12 |
 
 <a id="skill-overhead-tool-invocations"></a>
-### `skill-overhead-tool-invocations` — holds (numbers changed), observed
+### `skill-overhead-tool-invocations` — holds, observed
 
 On the same prompts, every subject made more tool invocations with a native skill than with none: claude-opus 5.4 vs 2.4 (n=18 vs 12); claude-sonnet 7.9 vs 2.0 (n=18 vs 12); claude-haiku 6.7 vs 3.8 (n=6 vs 6); codex-default 9.2 vs 4.1 (n=18 vs 12).
 
@@ -215,7 +215,7 @@ On the same prompts, every subject made more tool invocations with a native skil
 | codex-default | 9.2 | 4.1 | 18 vs 12 |
 
 <a id="inline-cheapest-delivery"></a>
-### `inline-cheapest-delivery` — holds (numbers changed), observed
+### `inline-cheapest-delivery` — holds, observed
 
 In Study 1, where every subject loaded every skill, `inline` used fewer input tokens than both `native` and `pointer` for every subject: claude-opus inline 40k, native 52k, pointer 53k; claude-sonnet inline 76k, native 101k, pointer 112k; claude-haiku inline 66k, native 82k, pointer 90k; codex-default inline 55k, native 62k, pointer 59k.
 
@@ -232,7 +232,7 @@ In Study 1, where every subject loaded every skill, `inline` used fewer input to
 In Study 1, pointer delivery cost more input tokens than native for the Claude models (claude-opus 53k vs 52k; claude-sonnet 112k vs 101k; claude-haiku 90k vs 82k) and less for Codex with gpt-5.6-luna (59k vs 62k); the pointer's extra file read is not the whole story.
 
 <a id="lighter-branch-cheaper"></a>
-### `lighter-branch-cheaper` — holds (numbers changed), observed
+### `lighter-branch-cheaper` — holds, observed
 
 Where a subject has a heavy and a light version of its tier branch on the same prompts, the light version used fewer input tokens: claude-opus light 69k vs heavy 125k; codex-default light 82k vs heavy 130k; claude-haiku light 133k vs heavy 255k. (Loaded runs, all deliveries; Sonnet's mid branch is identical in both skills.)
 
@@ -243,7 +243,7 @@ Where a subject has a heavy and a light version of its tier branch on the same p
 | claude-haiku | 133k (tiered-feature) | 255k (tiered-guidance) |
 
 <a id="delegation-costs-more"></a>
-### `delegation-costs-more` — holds (numbers changed), observed
+### `delegation-costs-more` — holds, observed
 
 Delegating a review cost more input tokens than reviewing without delegating, within every subject: claude-opus 81k vs 60k; claude-sonnet 140k vs 75k; claude-haiku 123k vs 57k; codex-default 199k vs 79k. (Delegated skill runs against the same subject's non-delegated runs: its baseline, and for Codex its skill runs that stayed inline.)
 
@@ -255,7 +255,7 @@ Delegating a review cost more input tokens than reviewing without delegating, wi
 | codex-default | 199k | 79k |
 
 <a id="staying-out-costs-baseline"></a>
-### `staying-out-costs-baseline` — holds (numbers changed), observed
+### `staying-out-costs-baseline` — holds, observed
 
 A run in which the gate held at the description cost about what the no-skill baseline of the same prompt cost, and one that loaded the skill and then declined cost more: claude-opus not loaded 55k, declined 78k, no skill 58k; claude-sonnet not loaded 49k, declined 63k, no skill 94k; codex-default not loaded 68k, declined 94k, no skill 60k. (Input tokens, per subject; excluded subjects only.)
 
@@ -268,7 +268,7 @@ A run in which the gate held at the description cost about what the no-skill bas
 ## Question 4: where can the condition sit?
 
 <a id="gate-vendor-keeps-codex-out"></a>
-### `gate-vendor-keeps-codex-out` — holds (numbers changed), observed
+### `gate-vendor-keeps-codex-out` — holds, observed
 
 Under `vendor-gated-guidance` (for Anthropic models only), Codex with gpt-5.6-luna stayed out of the skill in every native and pointer run (12 of 12: not loaded 12, declined 0); it never followed the checklist.
 
@@ -278,7 +278,7 @@ Under `vendor-gated-guidance` (for Anthropic models only), Codex with gpt-5.6-lu
 | codex-default | pointer | 6 | 0 | 0 | 0 | 0 |
 
 <a id="gate-tier-keeps-opus-sonnet-out"></a>
-### `gate-tier-keeps-opus-sonnet-out` — holds (numbers changed), assumed
+### `gate-tier-keeps-opus-sonnet-out` — holds, assumed
 
 Under `tier-gated-guidance` (for small models only), Opus and Sonnet stayed out of the skill in every native and pointer run (24 of 24: not loaded 24, declined 0); the Anthropic tiers are an assumed scale.
 
@@ -290,7 +290,7 @@ Under `tier-gated-guidance` (for small models only), Opus and Sonnet stayed out 
 | claude-sonnet | pointer | 6 | 0 | 0 | 0 | 0 |
 
 <a id="gate-where-it-held"></a>
-### `gate-where-it-held` — holds (numbers changed), observed
+### `gate-where-it-held` — holds, observed
 
 Among the 36 native and pointer runs in which an excluded subject stayed out of a gated skill, the gate held at the description (skill never loaded) in 36 and in the body (loaded, then declined) in 0: claude-opus not loaded 12, declined 0; claude-sonnet not loaded 12, declined 0; codex-default not loaded 12, declined 0.
 
@@ -309,7 +309,7 @@ Among the 36 native and pointer runs in which an excluded subject stayed out of 
 No excluded subject followed a gated skill's checklist in any run, in any delivery (0 followed or mixed of 54 runs).
 
 <a id="bailout-inline"></a>
-### `bailout-inline` — holds (numbers changed), observed
+### `bailout-inline` — holds, observed
 
 With a gated skill's body in the prompt (`inline`), where it cannot be left unloaded, excluded subjects declined it in 18 of 18 runs: claude-opus 6 of 6; claude-sonnet 6 of 6; codex-default 6 of 6.
 
@@ -320,7 +320,7 @@ With a gated skill's body in the prompt (`inline`), where it cannot be left unlo
 | codex-default | vendor-gated-guidance | 0 | 6 | 0 | 0 | 0 |
 
 <a id="included-claude-followed-when-loaded"></a>
-### `included-claude-followed-when-loaded` — holds (numbers changed), observed
+### `included-claude-followed-when-loaded` — holds, observed
 
 Every Claude model that loaded a gated skill it was included under followed its checklist (56 of 56 loaded runs, all deliveries): claude-haiku 20 of 20; claude-opus 18 of 18; claude-sonnet 18 of 18. The Codex pair's included runs are covered by `gate-tier-codex-refuses-own-skill`.
 
@@ -339,7 +339,7 @@ Every Claude model that loaded a gated skill it was included under followed its 
 | claude-sonnet | vendor-gated-guidance | pointer | 0 | 0 | 6 | 0 | 0 |
 
 <a id="included-loading"></a>
-### `included-loading` — holds (numbers changed), observed
+### `included-loading` — holds, observed
 
 Included subjects loaded the gated skill written for them in 32 of 60 native and pointer runs: claude-haiku 4 of 12 (vendor-gated-guidance); claude-haiku 4 of 12 (tier-gated-guidance); claude-opus 12 of 12 (vendor-gated-guidance); claude-sonnet 12 of 12 (vendor-gated-guidance); codex-default 0 of 12 (tier-gated-guidance).
 
@@ -370,7 +370,7 @@ Codex with gpt-5.6-luna, whose documented tier is small, stayed out of `tier-gat
 - exhibit `codex-default__inline__GT1__r2`: I’m treating this as a flagship-tier model, so I’ll decline the small-tier checklist, record that in `.skill-trace`, and make only the requested `src/app.py` change.
 
 <a id="select-vendor-correct"></a>
-### `select-vendor-correct` — holds (numbers changed), observed
+### `select-vendor-correct` — holds, observed
 
 Given `feature-anthropic` and `feature-openai` side by side, every run that followed a skill followed the one for its vendor (40 of 40 runs that chose; 8 chose none): correct: 40, none: 8.
 
@@ -386,7 +386,7 @@ Given `feature-anthropic` and `feature-openai` side by side, every run that foll
 | codex-default | pointer | 5 | 0 | 0 | 1 |
 
 <a id="select-tier-claude-correct"></a>
-### `select-tier-claude-correct` — holds (numbers changed), assumed
+### `select-tier-claude-correct` — holds, assumed
 
 Given `feature-flagship`, `feature-mid` and `feature-small` side by side, every Claude model run that followed a skill followed the one for its tier (31 of 31 runs that chose; 5 chose none); the tiers are an assumed scale.
 
@@ -421,5 +421,5 @@ In every selection run that followed exactly one skill, the work matched that sk
 
 ## FINDINGS.md check
 
-- FINDINGS.md fingerprint `0a2d7fa5e4151e28` differs from the current corpus `22e47eb09e203c8d`: the file predates the data
+- nothing to revise
 

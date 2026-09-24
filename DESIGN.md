@@ -140,12 +140,6 @@ values depend on the agent, then to apply a branch whose visible effect is a dif
 Two prompts per skill (`prompts/branch.jsonl`). Ground truth per subject is in
 `ground_truth.json` and is editable.
 
-`harness-stamp` asked three questions in the first corpus: hooks, subagents and image
-generation. The first and last were dropped in September 2026 (see Scope decisions): neither is
-observable from inside a session, no branch depended on them, and their only effect on the
-measure was to dilute the all-correct rate with answers the runs could not verify. The `harness-stamp`
-cells are rerun with the one-question skill in the same batch as Study 3.
-
 ## Study 2: branches that change the work (skills `tiered-feature`, `tiered-guidance`, `tool-gated-review`)
 
 ### Why a second study
@@ -360,7 +354,7 @@ more than one is not, and the report gives the read-only rate beside the outcome
 a `sources` map saying where each value comes from. A source must be independent of the runs it
 scores: experiment configuration (harness, model, vendor), a harness's own feature listing
 (`codex features list`), the tool list a harness prints when a session starts (Claude Code's
-init event), product documentation (hooks; the OpenAI model's tier), or a stated assumption (the
+init event), product documentation (the OpenAI model's tier), or a stated assumption (the
 Anthropic models' tiers). A value that could only be established from the scored
 runs themselves is marked `from_runs: true`, and every claim that scores against it is evidence
 kind *inferred* with the circularity named: the runs are being checked against a fact learned
@@ -385,11 +379,11 @@ every tier claim.
    Study 3, the gate outcome and the selection outcome defined there, and whether the work matches
    the skill that was loaded.
 3. **Adherence (LLM judge), optional**: a judge model grades a valid skill run on format followed,
-   no unrequested actions, claims match actions, 0 to 2 each. No claim rests on these scores, and
-   the findings never cited one, so the judge is not part of a refresh (see Scope decisions). The
-   step remains for anyone who wants the scores; `report.py` shows them where a `judge.json`
-   exists and leaves the columns empty otherwise. Baseline runs are never judged, since there is
-   no skill to grade against.
+   no unrequested actions, claims match actions, 0 to 2 each. No claim rests on these scores and
+   the findings cite none, and the judge is the most expensive step per run after the runs
+   themselves, so it is not part of a refresh. The step remains for anyone who wants the scores;
+   `report.py` shows them where a `judge.json` exists and leaves the columns empty otherwise.
+   Baseline runs are never judged, since there is no skill to grade against.
 4. **Efficiency**, per run:
    - **Tool invocations**: every tool call the agent makes. In Claude Code, each `tool_use` block
      (Bash, Read, Write, Edit, Skill, Agent, WebSearch, ...). In Codex, every transcript item
@@ -498,8 +492,13 @@ On every refresh `bin/report.py` evaluates all claims and writes:
   *status changed* (holds became fails or the reverse) and *numbers changed* (the same status with
   different values, which happens to nearly every claim when runs are added). Only a status change
   flags a `FINDINGS.md` paragraph;
-- `results/claims.json`, the claim values from this refresh, committed so the next refresh can tell
-  what changed.
+- `results/claims.json`, a map from claim ID to that claim's result in this refresh: `holds`,
+  `question`, `kind` and `values`, the placeholder fills of its statement, including any table as
+  `rows`. Statements and exhibits are not stored; they are regenerated. The next refresh reads this
+  file to set the change marks, comparing each claim's `holds` and `values` with what it finds
+  here, so the marks describe the change since the previous report run, and match the change
+  since the last commit only when every report run is committed. The file is committed for that
+  reason.
 
 `claims.md` opens with the corpus it was computed from: the number of valid runs, the dates of each
 batch, reruns, the invalid and timing-invalid runs, and a fingerprint: a hash over the valid runs'
@@ -556,9 +555,8 @@ regeneration is reviewed as a diff. Validation limits what the model can get wro
 numbers and verdicts cannot drift. Because the writer is a Claude model reporting on Claude models,
 the generator's model is named in the file header.
 
-`FINDINGS.md` was written by hand before this mechanism existed; the generated version replaced it,
-and the hand-written one is not kept. A draft that fails every attempt is saved as
-`results/FINDINGS.rejected.md` (gitignored) for inspection.
+A draft that fails every attempt is saved as `results/FINDINGS.rejected.md` (gitignored) for
+inspection.
 
 ### Rules for claims and findings
 
@@ -635,15 +633,13 @@ and the hand-written one is not kept. A draft that fails every attempt is saved 
   by construction, and a tier result means "consistent with the chosen scale", not "knows its
   rank". The OpenAI subject's tier comes from OpenAI's model documentation, which places
   gpt-5.6-luna at the bottom of its family, so for that pair the scale and the vendor's lineup
-  agree and the tier is documented rather than assumed; it was recorded as an assumption of
-  "flagship" until checked. Tier-correctness claims about the Anthropic subjects are evidence kind
+  agree and the tier is documented rather than assumed. Tier-correctness claims about the Anthropic subjects are evidence kind
   *assumed*; about the OpenAI subject, *observed* against documentation (see Rules for claims and
   findings). With Fable added as a subject the scale needs a fourth label or Opus moves to mid.
 - **Product-level vs session-level ground truth** for `harness-stamp`. The ground truth encodes
   the product feature (`codex features list`: multi_agent enabled), which need not match what a
   given session exposes. The session-level value for subagents has a different provenance per
-  pair; see Ground truth. The hooks and image-generation values stay in `ground_truth.json` for
-  the first corpus's record but are no longer asked or scored.
+  pair; see Ground truth.
 - **Judge input excludes bytecode caches,** if the judge is run. The scorer imports `src.app` and
   runs the agent's tests, which creates `__pycache__` directories in the workspace before the
   judge sees it, so the judge's diff excludes them; otherwise scope discipline would be docked for
@@ -651,19 +647,14 @@ and the hand-written one is not kept. A draft that fails every attempt is saved 
 
 ## Scope decisions
 
-Parts of the design that were cut or narrowed after the first corpus (408 runs, September 2026),
-with the reason, so a reader of an older `FINDINGS.md` can see what changed and why.
+Parts of the design that are narrower than they could be, or that answer no question of their
+own but stay, with the reason.
 
-- **The LLM judge is optional (September 2026).** Every claim in the first corpus was
-  deterministic; none used an adherence score and the findings cited none, so the judge was the
-  most expensive step per run after the runs themselves with no bearing on the answers. It stays
-  in `bin/` and in the report's columns, and is left out of a refresh.
-- **`harness-stamp` asks only about subagents (September 2026).** Hooks and image generation
-  cannot be observed from inside a session, no branch depended on them, and the review skill tests
-  the subagents capability better, from the session's tools. The two questions were dropped and
-  the cells rerun with the one-question skill, so the first corpus's three-question answers are
-  replaced rather than compared.
-- **Kept, deliberately.** `tiered-feature` tests the pull opposite to the motivating case and found
-  nothing moved; it stays for the incentive contrast and the light-versus-heavy cost comparison,
-  but is not extended. `tool-gated-review` answers a capability question the placement questions
-  do not ask; it stays for its guidance item and its delegation cost comparison.
+- `tiered-feature` tests the pull opposite to the motivating case and found nothing moved; it
+  stays for the incentive contrast and the light-versus-heavy cost comparison, but is not
+  extended.
+- `tool-gated-review` answers a capability question the placement questions do not ask; it stays
+  for its guidance item and its delegation cost comparison.
+- `harness-stamp` asks only about subagents. Hooks and image generation cannot be observed from
+  inside a session and no branch depends on them, so they would only dilute the all-correct rate
+  with answers the runs cannot verify.

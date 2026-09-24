@@ -263,12 +263,13 @@ def write_claims(rows, invalid, incomplete):
     prev = read_json(RESULTS / "claims.json", {}) or {}
     for c in results:
         old = prev.get(c["id"])
+        values = json.loads(json.dumps(c["values"]))  # compare as JSON, as the previous values were stored (tuples became lists)
         c["status_changed"] = bool(old) and old["holds"] != c["holds"]
-        c["numbers_changed"] = bool(old) and old["holds"] == c["holds"] and old["values"] != c["values"]
+        c["numbers_changed"] = bool(old) and old["holds"] == c["holds"] and old["values"] != values
         c["new"] = not old
     fp = claims_mod.fingerprint(rows)
     out = ["# Claims", "", "Checkable statements about the runs, re-evaluated on every refresh (see DESIGN.md, Report). "
-           "Status is holds or fails; a claim is marked *status changed* or *numbers changed* against the last committed refresh.", "",
+           "Status is holds or fails; a claim is marked *status changed* or *numbers changed* against the previous refresh (the `claims.json` it wrote).", "",
            "## Corpus", ""] + corpus_header(rows, invalid, incomplete) + [""]
     titles = {"branching": "Question 1: can a skill branch on model identity or capability?",
               "portability": "Question 2: is a single skill file portable?",
